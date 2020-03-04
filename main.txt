@@ -1,0 +1,293 @@
+#include<iostream>
+using namespace std;
+//GRAPH DOMASHNO
+const int n = 15;
+struct link
+{
+    char key;
+    link* next;
+}
+*graph[n];
+void init(link* graph[n]);
+int search_node(link* graph[n], char c);
+int search_arc(link* graph[n], char c1, char c2);
+void add_node(link* graph[n], char c);
+void add_arc(link* graph[n], char c1, char c2);
+void del_node(link* graph[n], char c);
+void del_arc(link* graph[n], char c1, char c2);
+void list_node(link* graph[n]);
+void find_and_delete_node_with_most_exit_arcs(link* graph[n]);
+int find_nodes_count(link* graph[n]);
+int main()
+{
+    char node, secondNode;
+    int menu;
+    do
+    {
+        cout << "Menu\n";
+        cout << "1.Init\n";
+        cout << "2.Add node\n";
+        cout << "3.Add arc\n";
+        cout << "4.Del node\n";
+        cout << "5.Del arc\n";
+        cout << "6.Search node\n";
+        cout << "7.Search arc\n";
+        cout << "8.Print All\n";
+        cout << "9.Print the node with the mose exits\n";
+        cout << "10.Exit\n";
+        cin >> menu;
+        switch (menu)
+        {
+        case 1:
+            init(graph);
+            break;
+        case 2:
+            cout << "Enter node: ";
+            cin >> node;
+            add_node(graph, node);
+            break;
+        case 3:
+            cout << "Enter first node: ";
+            cin >> node;
+            cout << "Enter second node: ";
+            cin >> secondNode;
+            add_arc(graph, node, secondNode);
+            break;
+        case 4:
+            cout << "Enter node: ";
+            cin >> node;
+            del_node(graph, node);
+            break;
+        case 5:
+            cout << "Enter first node: ";
+            cin >> node;
+            cout << "Enter second node: ";
+            cin >> secondNode;
+            del_arc(graph, node, secondNode);
+            break;
+        case 6:
+            cout << "Enter node: ";
+            cin >> secondNode;
+            if (search_node(graph, secondNode))
+                cout << "Search result : OK \n";
+            else
+                cout << "Search result: NO \n";
+            break;
+        case 7:
+            cout << "Enter first node: ";
+            cin >> node;
+            cout << "Enter second node: ";
+            cin >> secondNode;
+            if (search_arc(graph, node, secondNode))
+                cout << "Search result : OK\n";
+            else
+                cout << "Search result : NO\n";
+            break;
+        case 8:
+            list_node(graph);
+            break;
+        case 9:
+            find_and_delete_node_with_most_exit_arcs(graph);
+            break;
+        default:
+            cout << "Invalid number. Try with numbers [1-10]!";
+            break;
+        }
+    } while (menu != 10);
+    cout << endl;
+    system("pause");
+    return 0;
+}
+int search_node(link* graph[n], char node)
+{
+    int flag = 0;
+    for (int i = 0; i < n; i++) {
+        if (graph[i]) {
+            if (graph[i]->key == node) {
+                flag = 1;
+            }
+        }
+    }
+    return flag;
+}
+int search_arc(link* graph[n], char node, char secondNode)
+{
+    int flag = 0;
+    if (search_node(graph, node) && search_node(graph, secondNode))
+    {
+        int i = 0;
+        while (graph[i]->key != node)
+            i++;
+        link* p = graph[i];
+        while (p->key != secondNode && p->next != NULL)
+            p = p->next;
+        if (p->key == secondNode) {
+            flag = 1;
+        }
+    }
+    return flag;
+}
+void add_node(link* graph[n], char node)
+{
+    if (search_node(graph, node))
+        cout << "\n Existing node \n";
+    else
+    {
+        int j = 0;
+        while (graph[j] && j < n) 
+            j++;
+        if (graph[j] == NULL)
+        {
+            graph[j] = new link;
+            graph[j]->key = node;
+            graph[j]->next = NULL;
+        }
+        else {
+            cout << "\n Overflow \n";
+        }
+    }
+}
+void add_arc(link* graph[n], char node, char secondNode)
+{
+    if (search_arc(graph, node, secondNode))
+        cout << "\n Existing arc \n";
+    else
+    {
+        if (!search_node(graph, node)){ 
+            add_node(graph, node); 
+        }
+        if (!search_node(graph, secondNode)) {
+            add_node(graph, secondNode);
+        }
+
+        int i = 0;
+        link* p;
+        while (graph[i]->key != node)
+            i++;
+        p = new link; 
+        p->key = secondNode;
+        p->next = graph[i]->next; 
+        graph[i]->next = p;
+    }
+}
+void list_node(link* graph[n])
+{
+    for (int i = 0; i < n; i++)
+        if (graph[i])
+            cout << graph[i]->key;
+    cout << endl;
+}
+void init(link* graph[n])
+{
+    for (int i = 0; i < n; i++)
+    {
+        graph[i] = NULL;
+    }
+}
+void del_node(link* graph[n], char c)
+{
+    if (search_node(graph, c))
+    {
+        int i = 0; 
+        link* p = NULL, * q = NULL;
+        while (graph[i]->key != c)
+            i++;
+        while (graph[i] != NULL)
+        {
+            p = graph[i];
+            graph[i] = graph[i]->next;
+            delete p;
+        }
+        for (i = 0; i < n; i++)
+            if (graph[i])
+            {
+                p = graph[i];
+                while (p->key != c && p->next != NULL)
+                {
+                    q = p;
+                    p = p->next;
+                }
+                if (p->key == c)
+                {
+                    q->next = p->next;
+                    delete p;
+                }
+            }
+    }
+    else
+        cout << "The mode is not in the graph";
+    cout << endl;
+}
+void del_arc(link* graph[n], char c1, char c2)
+{
+    int i = 0; link* p = NULL, * q = NULL;
+    if (search_arc(graph, c1, c2))
+    {
+        while (graph[i]->key != c1)
+            i++;
+        p = graph[i];
+        while (p->key != c2)
+        {
+            q = p;
+            p = p->next;
+        }
+        q->next = p->next;
+        delete p;
+    }
+    else
+        cout << "The arc is not in the graph";
+    cout << endl;
+}
+void find_and_delete_node_with_most_exit_arcs(link* graph[n])
+{
+    int exit_arcs_per_node[n];
+    int nodes_count = find_nodes_count(graph);
+    int max = -1, index_of_max = 0;
+
+    for (int i = 0; i < nodes_count; i++)
+    {
+        int current_node_arcs = 0;
+        for (int j = 0; j < n; j++)
+        {
+            if (graph[j] != NULL && j != i)
+            {
+                if (search_arc(graph, graph[i]->key, graph[j]->key) == 1)
+                {
+                    current_node_arcs++;
+                }
+            }
+        }
+        exit_arcs_per_node[i] = current_node_arcs;
+    }
+
+    if (nodes_count == 0) {
+        cout << "Could not find any arcs." << endl;
+        return;
+    }
+    for (int i = nodes_count; i>=0; i--)
+    {
+        if (exit_arcs_per_node[i] > max)
+        {
+            max = exit_arcs_per_node[i];
+            index_of_max = i;
+        }
+
+    }
+
+    cout << "The node with the most exit arcs is: "<<graph[index_of_max]->key <<" with "<<max<<" exit arc(s).\nNode: " << graph[index_of_max]->key << " been deleted\n";
+    while (graph[index_of_max]->next != NULL) {
+        graph[index_of_max]->next = NULL;
+    }
+    del_node(graph, graph[index_of_max]->key);
+}
+int find_nodes_count(link* graph[n]) {
+    int i = 0;
+    while (true) {
+        if (graph[i] == NULL)
+        {
+            break;
+        }
+        i++;
+    }
+    return i;
+}
