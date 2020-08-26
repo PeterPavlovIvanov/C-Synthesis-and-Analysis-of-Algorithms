@@ -1,0 +1,55 @@
+#include <iostream>
+
+using namespace std;
+
+class Shape {
+private:
+    double width;
+    double height;
+public:
+    void set_width(double size) {
+        width = size;
+    }
+    void set_height(double size) {
+        height = size;
+    }
+    double get_width() {
+        return width;
+    }
+    double get_height() {
+        return height;
+    }
+    virtual double findArea() = 0;
+};
+
+class Rectangle : public Shape {
+public:
+    double findArea() {
+        return get_width() * get_height();
+    }
+    Rectangle(double widthSize, double heightSize) {
+        set_width(widthSize);
+        set_height(heightSize);
+    }
+};
+
+class Triangle : public Shape {
+public:
+    double findArea() {
+        return get_width() * get_height() / 2;
+    }
+    Triangle(double widthSize, double heightSize) {
+        set_width(widthSize);
+        set_height(heightSize);
+    }
+};
+
+int main() {
+
+    Rectangle rectangle(12.3, 23.2);
+    Triangle triangle(12.3, 23.2);
+
+    cout << rectangle.findArea() << endl << triangle.findArea() << endl;
+    system("pause");
+    return 0;
+}
