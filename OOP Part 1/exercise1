@@ -1,0 +1,41 @@
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <list>
+
+using namespace std;
+
+class ParentC {
+private :
+    int a;
+public:
+    int get_a() {
+        return a;
+    }
+    void set_a(int a1) {
+        a = a1;
+    }
+};
+
+class ChildC : public ParentC {
+private:
+    int b;
+public:
+    void set_b(int b1) {
+        b = b1;
+    }
+    int doMagic() {
+        return b * get_a();
+    }
+};
+
+int main(){
+
+    ChildC childC;
+    childC.set_a(23);
+    childC.set_b(32);
+    cout << childC.doMagic();
+
+    return 0;
+}
