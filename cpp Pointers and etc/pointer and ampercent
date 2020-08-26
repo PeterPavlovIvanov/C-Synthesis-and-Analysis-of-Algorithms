@@ -18,9 +18,9 @@ int main(){
     cout << "&a: " << &a << endl << endl; // adress 123d2sd
 
     pointerFunction(a);
-    cout << "pointerFunction(a): " << a  << endl;
+    cout << "pointerFunction(a): " << a  << endl; // a = a + 5
     pointerFunction(*pointA);
-    cout << "pointerFunction(*pointA): " << a << endl;
+    cout << "pointerFunction(*pointA): " << a << endl; // a = a + 5
 
     return 0;
 }
