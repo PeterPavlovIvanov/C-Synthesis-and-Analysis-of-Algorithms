@@ -1,0 +1,61 @@
+#include <iostream>
+using namespace std;
+#define SIZE 10
+class MyStack {
+private:
+	char items[SIZE];
+	int position;
+public:
+	char pop() {
+		if (position == 0) {
+			cout << "Stack empty" << endl;
+			return 0;
+		}
+		else {
+			char c = items[position];
+			cout << "Pop: " << items[position-1] << endl;
+
+			position--;
+			items[position + 1] = 0;
+			return c;
+		}
+	}
+	void push1(char c) {
+		if (position >= 9) {
+			cout << "Stack full" << endl;
+		}
+		else {
+			cout << "Push: " << c << endl;
+			items[position] = c;
+			position++;
+		}
+	}
+	MyStack() {
+		position = 0;
+	}
+};
+
+int main()
+{
+	MyStack myStack;
+	myStack.pop();
+	myStack.push1('a');
+	myStack.pop();
+	myStack.push1('b');
+	myStack.pop();
+	myStack.push1('c');
+	myStack.push1('d');
+	myStack.push1('e');
+	myStack.push1('f');
+	myStack.push1('g');
+	myStack.push1('h');
+	myStack.push1('i');
+	myStack.push1('g');
+	myStack.push1('k');
+	myStack.push1('l');
+	for (int i = 10; i > 0; i--) {
+		myStack.pop();
+	}
+
+	return 0;
+}
