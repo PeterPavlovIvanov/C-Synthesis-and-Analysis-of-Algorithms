@@ -1,0 +1,26 @@
+#include <iostream>
+
+using namespace std;
+
+void pointerFunction(double &here) {
+    here = here + 5;
+}
+
+int main(){
+
+    double a;
+    cin >> a;
+    double* pointA = &a;
+    
+    cout << "pointA: " << pointA << endl; // adress 123d2sd
+    cout << "*pointA: " << *pointA << endl; //value of a
+    cout << "a: " << a << endl; //value of a
+    cout << "&a: " << &a << endl << endl; // adress 123d2sd
+
+    pointerFunction(a);
+    cout << "pointerFunction(a): " << a  << endl;
+    pointerFunction(*pointA);
+    cout << "pointerFunction(*pointA): " << a << endl;
+
+    return 0;
+}
