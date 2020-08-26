@@ -1,0 +1,59 @@
+#include <iostream>
+using namespace std;
+class myclass {
+private:
+	int a, b;
+public:
+	void set_a(int x);
+	void set_b(int y);
+	int get_a();
+	int get_b();
+	myclass();
+	myclass(int x, int y);
+	myclass(const myclass& ob);
+};
+void myclass::set_a(int x){
+	a = x;
+}
+int myclass::get_a(){
+	return a;
+}
+void myclass::set_b(int x) {
+	b = x;
+}
+int myclass::get_b(){
+	return b;
+}
+myclass::myclass(){
+	a = 0; 
+	b = 0;
+}
+myclass::myclass(int x, int y) {
+	a = x;
+	b = y;
+}
+myclass::myclass(const myclass& ob){
+	a = ob.a;
+	b = ob.b;
+}
+
+int main()
+{
+	myclass ob1;
+	myclass ob2(20, 30);
+	myclass ob3(ob2);
+	ob1.set_a(10); 
+	ob2.set_a(20);
+	//cout << ob1.a; 
+	cout << "ob1:";
+	cout << endl << ob1.get_a();
+	cout << endl << ob1.get_b() << endl;
+	cout << endl << "ob2:";
+	cout << endl << ob2.get_a();
+	cout << endl << ob2.get_b() << endl;
+	cout << endl << "ob3:";
+	cout << endl << ob3.get_a();
+	cout << endl << ob3.get_b()<<endl;
+	system("pause");
+	return 0;
+}
