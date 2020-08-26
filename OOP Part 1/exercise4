@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+
+class Box {
+private:
+	double a, b, c;
+public:
+	double get_a() {
+		return a;
+	}
+	double get_b() {
+		return b;
+	}
+	double get_c() {
+		return c;
+	}
+	Box(double a1, double b1, double c1) {
+		a = a1;
+		b = b1;
+		c = c1;
+	}
+	double volume() {
+		return a * b * c;
+	}
+};
+
+int main()
+{
+	double a, b, c;
+	cin >> a >> b >> c;
+	Box box(a, b, c);
+	cout << box.volume() << endl;
+
+	return 0;
+}
