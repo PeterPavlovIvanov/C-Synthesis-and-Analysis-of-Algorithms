@@ -1,0 +1,66 @@
+// Pr1.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+class Student {
+private:
+	string name;
+	double average;
+public:
+	string	get_name() {
+		return name;
+	}
+	double	get_average() {
+		return average;
+	}
+	Student() {
+		name = "";
+		average = 0.0;
+	}
+	Student(string name1, double average1) {
+		name = name1;
+		average = average1;
+	}
+	Student(const Student& s) {
+		name = s.name;
+		average = s.average;
+	}
+	void show() {
+		cout << "Name: " << name << endl;
+		cout << "Average: " << average << endl << endl;
+	}
+	friend ostream& operator << (ostream& printStream, const Student student);
+
+};
+
+ostream& operator << (ostream& printStream, const Student student) {
+	return printStream << "Name: " << student.name << endl << "Average: " << student.average << endl << endl;
+}
+
+int main()
+{
+	Student s1("misho",5), s2("pesho", 3), s3("gosho", 4);
+
+	fstream myFile;
+	myFile.open("data.txt");// in the folder where the cpp file is
+	myFile << s1;
+	myFile << s2;
+	myFile << s3;
+	
+	myFile.close();
+	return 0;
+}
+
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
+
+// Tips for Getting Started: 
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
