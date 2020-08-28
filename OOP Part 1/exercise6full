@@ -1,0 +1,69 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+class Student {
+private:
+	string name;
+	double average;
+public:
+	string	get_name() {
+		return name;
+	}
+	double	get_average() {
+		return average;
+	}
+	void set_average(double average1) {
+		average = average1;
+	}
+	void set_name(string name1) {
+		name = name1;
+	}
+	Student() {
+		name = "";
+		average = 0.0;
+	}
+	Student(string name1, double average1) {
+		name = name1;
+		average = average1;
+	}
+	Student(const Student& s) {
+		name = s.name;
+		average = s.average;
+	}
+	void show() {
+		cout << "Name: " << name << endl;
+		cout << "Average: " << average << endl << endl;
+	}
+};
+
+int main()
+{
+	Student studentDefault;
+	studentDefault.set_name("default constr");
+	studentDefault.set_average(4.23);
+
+	Student studentParam("Param constr", 5.12);
+
+	Student copyConstr(studentParam);
+
+	cout << "Default: " << studentDefault.get_name() << " " << studentDefault.get_average() << endl << endl;
+	cout << "Param: " << studentParam.get_name() << " " << studentParam.get_average() << endl << endl;
+	cout << "Copy:" << studentDefault.get_name() << " " << copyConstr.get_average() << endl << endl;
+
+
+	cout << endl << "From file:" << endl;
+	fstream myFile;
+	myFile.open("data.txt");// in the folder where the cpp file is
+	for (int i = 0; i < 4; i++) {
+		string name;
+		double average;
+		myFile >> name;
+		myFile >> average;
+		Student s1(name, average);
+		s1.show();
+	}
+	myFile.close();
+	return 0;
+}
