@@ -1,0 +1,59 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+class Student {
+private:
+	string name;
+	double average;
+public:
+	string	get_name() {
+		return name;
+	}
+	double	get_average() {
+		return average;
+	}
+	void set_average(double average1) {
+		average = average1;
+	}
+	void set_name(string name1) {
+		name = name1;
+	}
+	Student() {
+		name = "";
+		average = 0.0;
+	}
+	Student(string name1, double average1) {
+		name = name1;
+		average = average1;
+	}
+	Student(const Student& s) {
+		name = s.name;
+		average = s.average;
+	}
+	void show() {
+		cout << "Name: " << name << endl;
+		cout << "Average: " << average << endl << endl;
+	}
+	friend ostream& operator << (ostream& printStream, const Student student);
+};
+
+ostream& operator << (ostream& printStream, const Student student) {
+	return printStream << "Name: " << student.name << endl << "Average: " << student.average << endl << endl;
+}
+
+int main()
+{
+	Student studentDefault;
+	studentDefault.set_name("default constr");
+	studentDefault.set_average(4.23);
+
+	Student studentParam("Param constr", 5.12);
+
+	Student copyConstr(studentParam);
+
+	cout << studentDefault;
+	cout << studentParam;
+	cout << copyConstr;
+}
