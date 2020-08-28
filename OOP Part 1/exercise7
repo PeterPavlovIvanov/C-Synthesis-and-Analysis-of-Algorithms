@@ -1,0 +1,66 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+class Truck;
+
+class Car {
+private:
+	int	passengers;
+	int	speed;
+public:
+	Car(int speed, int passengers) {
+		this->passengers = passengers;
+		this->speed = speed;
+	}
+	int get_speed() {
+		return speed;
+	}
+	friend bool operator1(Car car, Truck truck);
+};
+
+class Truck {
+private:
+	int	speed;
+	int weight;
+public:
+	Truck(int speed, int weight) {
+		this->weight = weight;
+		this->speed = speed;
+	}
+	int get_speed() {
+		return speed;
+	}
+	friend bool operator1(Car car, Truck truck);
+};
+
+bool operator1(Car car, Truck truck) {
+	if (car.speed > truck.speed) {
+		return true;
+	}
+	return false;
+}
+
+int main()
+{
+	Car car1(100, 4);
+	Truck truck1(110, 1532);
+	if (operator1(car1, truck1)) {
+		cout << "car1" << endl;
+	}
+	else {
+		cout << "truck1" << endl;
+	}
+
+	Car car2(120, 4);
+	Truck truck2(110, 1532);
+	if (operator1(car2, truck2)) {
+		cout << "car2" << endl;
+	}
+	else {
+		cout << "truck2" << endl;
+	}
+
+	return 0;
+}
