@@ -1,0 +1,40 @@
+#include <iostream>
+using namespace std;
+
+class Dist {
+    double distance;
+public:
+    Dist(double distance) {
+        this->distance = distance;
+    }
+    double get_distance() {
+        return distance;
+    }
+
+    virtual void travTime(){
+        cout << "m system: " << (distance / 80.00)  << endl;
+    }
+};
+
+class Metric : public Dist{
+public:
+    Metric(double distance) : Dist(distance) {}
+    
+    void travTime() {
+        cout << "km system: " << (get_distance() / 100.00) << endl;
+    }
+};
+
+int main() {
+    Dist* p;
+
+    Dist d(30);
+    p = &d;
+    (*p).travTime();
+
+    Metric m(30.00);
+    p = &m;
+    (*p).travTime();
+
+    return 0;
+}
