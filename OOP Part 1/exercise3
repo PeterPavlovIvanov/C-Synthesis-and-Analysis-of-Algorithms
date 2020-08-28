@@ -1,7 +1,7 @@
-
 #include <iostream>
 using namespace std;
 
+class Laptop;
 class Computer {
 private:
     float speed;
@@ -34,6 +34,7 @@ public:
     void show() {
         cout << "Computer:" << endl << "Speed: " << speed << endl << "RAM: " << ram << endl << "HDD: " << hdd << endl << endl;
     }
+    friend void checkSpeed(Laptop laptop, Computer computer);
 };
 
 class Laptop : public Computer {
@@ -54,23 +55,37 @@ public:
         weight = weight1;
     }
 
-    Laptop(float speed, int ram, int hdd, int batteryTime1, float weight1) : Computer(speed, ram, hdd){
+    Laptop(float speed, int ram, int hdd, int batteryTime1, float weight1) : Computer(speed, ram, hdd) {
         batteryTime = batteryTime1;
         weight = weight1;
     }
 
     void show() {
-        cout << "Laptop:" << endl << "Speed: " << get_speed() << endl << "RAM: " << get_ram() << endl << "HDD: " << get_hdd() << endl;
+        cout << "Laptop:" << endl << "Speed: " << get_speed() << endl << "RAM: " << get_ram() << endl;
+        cout << "HDD: " << get_hdd() << endl;
         cout << "Battery time: " << get_batteryTime() << endl << "Weight: " << get_weight() << endl << endl;
     }
+    
+    friend void checkSpeed(Laptop laptop, Computer computer);
 };
 
-int main(){
+void checkSpeed(Laptop laptop, Computer computer) {
+    if (laptop.get_speed() > computer.get_speed()) {
+        cout << "The laptop is faster." << endl;
+    }
+    else {
+        cout << "The computer is faster." << endl;
+    }
+}
+
+int main() {
 
     Computer computer(99.93f, 8, 500);
     Laptop laptop(49.32f, 4, 600, 12, 1.5f);
     computer.show();
     laptop.show();
+
+    checkSpeed(laptop, computer);
 
     return 0;
 }
