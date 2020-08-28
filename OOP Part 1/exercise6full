@@ -51,19 +51,5 @@ int main()
 	cout << "Default: " << studentDefault.get_name() << " " << studentDefault.get_average() << endl << endl;
 	cout << "Param: " << studentParam.get_name() << " " << studentParam.get_average() << endl << endl;
 	cout << "Copy:" << studentDefault.get_name() << " " << copyConstr.get_average() << endl << endl;
-
-
-	cout << endl << "From file:" << endl;
-	fstream myFile;
-	myFile.open("data.txt");// in the folder where the cpp file is
-	for (int i = 0; i < 4; i++) {
-		string name;
-		double average;
-		myFile >> name;
-		myFile >> average;
-		Student s1(name, average);
-		s1.show();
-	}
-	myFile.close();
 	return 0;
 }
