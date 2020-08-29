@@ -1,0 +1,137 @@
+#include <iostream>
+#include <list>
+#include <algorithm>
+#include <fstream>
+using namespace std;
+
+class CStudent {
+private:
+    string m_strFN;
+    int m_iPoints; 
+public:
+    CStudent() {
+        this->m_strFN = "";
+        this->m_iPoints = 0;
+    }
+    CStudent(string m_strFN, int m_iPoints) {
+        this->m_strFN = m_strFN;
+        this->m_iPoints = m_iPoints;
+    }
+    CStudent(const  CStudent& student) {
+        this->m_strFN = student.m_strFN;
+        this->m_iPoints = student.m_iPoints;
+    }
+    string get_m_strFN() {
+        return m_strFN;
+    }
+    int get_m_iPoints() {
+        return m_iPoints;
+    }
+    void set_m_strFN(string m_strFN) {
+        this->m_strFN = m_strFN;
+    }
+    void set_m_iPoints(int m_iPoints) {
+        this->m_iPoints = m_iPoints;
+    }
+    friend ostream& operator <<(ostream& outStream, const CStudent& s);
+    friend istream& operator >>(istream& inStream, CStudent& s);
+    CStudent operator = (const CStudent s) {
+        this->m_iPoints = s.m_iPoints;
+        this->m_strFN = s.m_strFN;
+        return *this;
+    }
+    bool operator < (const CStudent s) {
+        return this->m_iPoints < s.m_iPoints;
+    }
+    bool operator == (const CStudent s) {
+        return this->m_iPoints == s.m_iPoints;
+    }
+};
+
+ostream& operator <<(ostream& outStream, const CStudent& s) {
+    return outStream << "m_strFN: " << s.m_strFN << endl << "m_iPoints: " << s.m_iPoints << endl << endl;
+}
+istream& operator >>(istream& inStream, CStudent& s) {
+    string m_strFN;
+    int m_iPoints;
+    inStream >> m_strFN; 
+    inStream >> m_iPoints;
+    s.set_m_iPoints(m_iPoints);
+    s.set_m_strFN(m_strFN);
+    return inStream;
+}
+
+class CStudentGroup {
+private:
+    list<CStudent> l_setStudents;
+public:
+    CStudentGroup() {
+    }
+    list<CStudent> get_l_setStudents() {
+        return l_setStudents;
+    }
+    void add_student(CStudent s) {
+        l_setStudents.push_back(s);
+    }
+    void delete_student(CStudent s) {
+        list<CStudent>::iterator it;
+        it = find(l_setStudents.begin(), l_setStudents.end(), s);
+
+        if (it == l_setStudents.end()) {
+            cout << "No such student!" << endl;
+        }
+        else {
+            l_setStudents.erase(it++);
+            cout << "student deleted..." << endl;
+        }
+    }
+    void check_students(int min, int max) {
+        cout << endl << "STUDENTS IN GAP: " << endl;
+        list<CStudent>::iterator it;
+        for (it = l_setStudents.begin(); it != l_setStudents.end(); it++) {
+            if ((*it).get_m_iPoints() >= min && (*it).get_m_iPoints() <= max) {
+                cout << "m_strFN: " << (*it).get_m_strFN() << endl << "m_iPoints: " << (*it).get_m_iPoints() << endl << endl;
+            }
+        }
+    }
+    void read_students(string file_name) {
+        fstream myFile;
+        myFile.open(file_name);
+        for (int i = 0; i < 8; i++) {
+            CStudent s;
+            myFile >> s;
+            l_setStudents.push_back(s);
+        }
+        myFile.close();
+        cout << "Students read." << endl;
+    }
+    void show() {
+        cout << "ALL STUDENTS: " << endl;
+        list<CStudent>::iterator it;
+        for (it = l_setStudents.begin(); it != l_setStudents.end(); it++) {
+            cout << "m_strFN: " << (*it).get_m_strFN() << endl << "m_iPoints: " << (*it).get_m_iPoints() << endl << endl;
+        }
+    }
+};
+
+int main() {
+    CStudent s1("aaaaaa11", 23);
+    CStudent s2("aaaaaa13", 93);
+    CStudent s3("aaaaaa12", 94);
+    CStudent s4("bbbbbb12", 55);
+
+    CStudentGroup group1;
+    group1.add_student(s1);
+    group1.add_student(s2);
+    group1.add_student(s3);
+    group1.add_student(s4);
+    group1.delete_student(s4);
+    group1.delete_student(s3);
+
+    group1.read_students("data.txt");
+
+    group1.show();
+    group1.check_students(30, 54);
+
+    return 0;
+}
