@@ -1,0 +1,24 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    vector<char> v;
+    vector<char>::iterator it;
+    v.push_back('a');
+    v.push_back('b');
+    v.push_back('e');
+    v.push_back('c');
+    v.push_back('d');
+
+    it = find(v.begin(), v.end(), 'e');
+    if (it == v.end()) {
+        cout << "no e" << endl;
+    }
+    else {
+        cout << *it << endl;
+    }
+
+    return 0;
+}
