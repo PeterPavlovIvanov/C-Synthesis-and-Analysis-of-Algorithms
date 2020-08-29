@@ -71,10 +71,8 @@ int main() {
         cout << *it;
     }
 
-    cout << "MAX: "<<endl;
-    ps1.reverse();
-    it = ps1.begin();
-    cout << *it << endl;
-
+    list<Project>::reverse_iterator rIt;
+    rIt = ps1.rbegin();
+    cout << "MAX: " << endl << *rIt << endl;
     return 0;
 }
