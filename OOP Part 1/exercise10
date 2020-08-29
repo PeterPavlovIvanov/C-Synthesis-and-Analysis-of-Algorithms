@@ -1,0 +1,80 @@
+#include <iostream>
+#include <vector>
+#include <iterator>
+#include <list>
+#include <string>
+
+using namespace std;
+
+class Project {
+private:
+    string name;
+    int duration;
+public:
+    Project() {
+        name = "";
+        duration = 0;
+    }
+    Project(string name, int duration) {
+        this->name = name;
+        this->duration = duration;
+    }
+    string get_name() {
+        return name;
+    }
+    int get_duration() {
+        return duration;
+    }
+    bool operator<(Project& p) {
+        return this-> duration < p.duration;
+    }
+    friend ostream& operator<<(ostream& outStream, const Project& p);
+};
+
+ostream& operator<<(ostream& outStream, const Project& p) {
+    return outStream << "name: " << p.name << endl << "duration: " << p.duration << endl << endl;
+}
+
+int main() {
+    list<Project> ps1;
+    list<Project> ps2;
+    list<Project>::iterator it;
+
+    Project p1("asd", 3), p2("dsa", 5), p3("dfg", 10), p4("gkks", 2), p5;
+    Project p6("fssdasd", 23), p10("fs", 55), p7("fsd", 20), p8("d33f", 24), p9;
+    ps1.push_back(p1);
+    ps1.push_back(p2);
+    ps1.push_back(p3);
+    ps1.push_back(p4);
+    ps1.push_back(p5);
+    ps2.push_back(p6);
+    ps2.push_back(p7);
+    ps2.push_back(p8);
+    ps2.push_back(p9);
+    ps2.push_back(p10);
+
+    cout << "PS1" << endl;
+    for (it = ps2.begin(); it != ps2.end(); it++) {
+        cout << *it;
+    }
+    cout << "PS2" << endl;
+    for (it = ps1.begin(); it != ps1.end(); it++) {
+        cout << *it;
+    }
+
+    ps1.sort();
+    ps2.sort();
+    ps1.merge(ps2);
+    
+    cout << "PS1 MERGED:" << endl;
+    for (it = ps1.begin(); it != ps1.end(); it++) {
+        cout << *it;
+    }
+
+    cout << "MAX: "<<endl;
+    ps1.reverse();
+    it = ps1.begin();
+    cout << *it << endl;
+
+    return 0;
+}
