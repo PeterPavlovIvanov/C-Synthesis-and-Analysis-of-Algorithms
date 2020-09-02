@@ -5,19 +5,20 @@ using namespace std;
 
 int main() {
     map<string, string> card;
+    map<string, string>::iterator it;
+    string word;
+
     card.insert(pair<string, string>("fast", "slow"));
     card.insert(pair<string, string>("big", "small"));
     card.insert(pair<string, string>("tiny", "huge"));
     card.insert(pair<string, string>("easy", "hard"));
 
-    map<string, string>::iterator it;
-    string word;
     cin >> word;
     it = card.find(word);
+
     if (it != card.end()) {
         cout << (*it).first << " != " << (*it).second << endl;
-    }
-    else {
+    }else {
         cout << "Not found: " << word << endl;
     }
 
