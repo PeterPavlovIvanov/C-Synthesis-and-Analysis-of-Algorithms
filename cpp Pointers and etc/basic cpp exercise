@@ -1,0 +1,81 @@
+#include <iostream>
+using namespace std;
+
+void enterArray(int (&arr)[1000], int n) {
+	cout << "Enter numbers in the array: " << endl;
+	for (int i = 0; i < n; i++) {
+		int temp;https://github.com/PeterPavlovIvanov/C-Synthesis-and-Analysis-of-Algorithms
+		cin >> temp;
+		arr[i] = temp;
+	}
+}
+
+void printArray(int arr[], int n) {
+	cout << "Numbers in the array: " << endl;
+	for (int i = 0; i < n; i++) {
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+}
+
+void findMedian(int arr[], int n) {
+	if (n % 2 == 0) {
+		float median = arr[(n / 2) - 1] + arr[(n / 2)];
+		cout << "median: " << median / 2<<endl;
+	}
+	else {
+		cout << "median: " << arr[(n / 2)] << endl;
+	}
+}
+
+void findMode(int arr[], int n) {
+	int maxNum = 0, lastCounter, currentCounter = -1;
+	for (int i = 0; i < n; i++) {
+		lastCounter = currentCounter;
+		currentCounter = 0;
+		for (int j = 0; j < n; j++) {
+			if (arr[i] == arr[j] && i != j) {
+				currentCounter++;
+			}
+		}
+		if (lastCounter < currentCounter) {
+			maxNum = arr[i];
+		}
+	}
+	cout << "Mode is: " << maxNum << endl;
+}
+
+int main() {
+
+	int n, arr[1000], menu;
+	cout << "Enter arrays length: ";
+	cin >> n;
+
+	do {
+		cout << "1: enter nums in array." << endl;
+		cout << "2: print nums in array." << endl;
+		cout << "3: print median." << endl;
+		cout << "4: print mode." << endl;
+		cin >> menu;
+		switch (menu)
+		{
+		case 1:
+			enterArray(arr, n);
+			break;
+		case 2:
+			printArray(arr, n);
+			break;
+		case 3:
+			findMedian(arr, n);
+			break;
+		case 4:
+			findMode(arr, n);
+			break;
+		default:
+			cout << "Enter a num between 0 and 4."<<endl;
+			break;
+		}
+
+	} while (menu != 0);
+
+ }
