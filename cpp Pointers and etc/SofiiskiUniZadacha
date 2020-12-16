@@ -1,0 +1,236 @@
+#include<iostream>
+#include<cstring>
+#include <thread>
+#include <chrono>
+using namespace std;
+
+const size_t MAX_SIZE = 8291;
+
+int minl(int a, int b)
+{
+    if (a < b)
+    {
+        return a;
+    }
+    else
+    {
+        return b;
+    }
+}
+
+int maxl(int a, int b)
+{
+    if (b < a)
+    {
+        return a;
+    }
+    else if(a < b)
+    {
+        return b;
+    }
+    else {
+        return -1;
+    }
+}
+
+
+void printArray(char array[], size_t n)
+{
+    for (size_t i = 0; i < n; ++i)
+    {
+
+        cout << array[i];
+    }
+
+}
+
+
+///razlichno
+
+void different(char array[MAX_SIZE], size_t n, char array1[MAX_SIZE], size_t m)
+{
+    if (n != m)
+    {
+        printArray(array, n);
+        cout << " != ";
+        printArray(array1, m);
+    }
+    if (n == m)
+    {
+        int count = 0;
+        for (unsigned i = 0; i < n; ++i)
+        {
+            if (array[i] == array1[i])
+            {
+                ;
+            }
+            else
+            {
+                count++;
+
+            }
+        }
+        if (count == 0)
+        {
+            printArray(array, n);
+            cout << " = ";
+            printArray(array1, m);
+        }
+        if (count > 0)
+        {
+            printArray(array, n);
+            cout << " != ";
+            printArray(array1, m);
+        }
+    }
+}
+
+///sravnenie
+
+void compare(char array[MAX_SIZE], size_t n, char array1[MAX_SIZE], size_t m)
+{
+    if (n > m)
+    {
+        printArray(array, n);
+        cout << " > ";
+        printArray(array1, m);
+    }
+    if (n < m)
+    {
+        printArray(array, n);
+        cout << " < ";
+        printArray(array1, m);
+    }
+    if (n == m)
+    {
+        char c = 0;
+        for (unsigned i = 0; i < n; ++i)
+        {
+            if (array[i] != array1[i])
+            {
+                if (array[i] > array1[i])
+                {
+                    c = 1;
+                }
+                else
+                {
+                    c = 2;
+                }
+                break;
+            }
+        }
+        if (c == 1)
+        {
+            printArray(array, n);
+            cout << " > ";
+            printArray(array1, m);
+        }
+        if (c == 2)
+        {
+            printArray(array, n);
+            cout << " < ";
+            printArray(array1, m);
+        }
+
+    }
+}
+
+///subirane
+
+void sumArrays(char arr1[MAX_SIZE], size_t n, char arr2[MAX_SIZE], size_t m)
+{
+    char result[8291];
+    int ost = 0, size1 = (int)n, size2 = (int)m;
+    if (minl(size1, size2) == size1) {
+        for (int i = size2 - 1; i >= size2 - size1; i--) {
+            int current = (arr2[i] - 48) + (arr1[i - (size2 - size1)] - 48) + ost;
+            ost = current / 10;
+            if (current >= 10) {
+                int next = current % 10;
+                result[i] = next;
+            }
+            else {
+                result[i] = current;
+            }
+        }
+    }
+    else {
+        for (int i = size1 - 1; i >= size1 - size2; i--) {
+            int current = (arr1[i] - 48) + (arr2[i - (size1 - size2)] - 48) + ost;
+            ost = current / 10;
+            if (current >= 10) {
+                int next = current % 10;
+                result[i] = next;
+            }
+            else {
+                result[i] = current;
+            }
+        }
+    }
+    
+    printArray(arr1, strlen(arr1));
+    cout << " + ";
+    printArray(arr2, strlen(arr2));
+    cout << " = ";
+    if (maxl(size1, size2) == size2) {
+        int temp = arr2[size2 - size1 - 1] - 48;
+        temp += ost;
+        arr2[size2 - size1 - 1] = temp + 48;
+        for (int i = 0; i < size2 - size1; i++)
+        {
+            cout << (int)arr2[i] - 48;
+        }
+        for (int i = size2 - size1; i < size2 ; i++)
+        {
+            cout << (int)result[i];
+        }
+    }
+    else if (maxl(size1, size2) == size1) {
+        int temp = arr1[size1 - size2 - 1] - 48;
+        temp += ost;
+        arr2[size1 - size2 - 1] = temp + 48;
+        for (int i = 0; i < size1 - size2; i++)
+        {
+            cout << (int)arr1[i] - 48;
+        }
+        for (int i = size1 - size2; i < size1; i++)
+        {
+            cout << (int)result[i];
+        }
+    }
+    else {
+        if (ost != 0) {
+            cout << ost;
+        }
+        for (int i = 0; i < size1; i++)
+        {
+            cout << (int)result[i];
+        }
+    }
+
+    cout << endl;
+}
+
+
+int main()
+{
+    char a[8291];
+    char b[8291];
+    cin>>a;
+    cin>>b;
+
+    size_t n = strlen(a);
+    printArray(a, n);
+    cout<<endl;
+    size_t m = strlen(b);
+    printArray(b, m);
+    cout<<endl;
+    different(a,n,b,m);
+    cout<<endl;
+    compare(a,n,b,m);
+    cout<<endl;
+    sumArrays(a,n,b,m);
+
+
+    return 0;
+}
