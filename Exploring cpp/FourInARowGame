@@ -34,6 +34,7 @@ int main() {
 			cout << "Player 2: ";
 		}
 
+		//enter and check column
 		cin >> enterCol;
 		if (enterCol < 0 || enterCol >= width) {
 			cout << "Invalid column..."<<endl;
