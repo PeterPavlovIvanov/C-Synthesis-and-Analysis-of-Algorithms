@@ -1,0 +1,118 @@
+#include <iostream>
+using namespace std;
+ 
+void whoWins(int current) {
+	if (current % 2 == 1) {
+		cout << endl << "Player 1 wins!" << endl;
+	}
+	else {
+		cout << endl << "Player 2 wins!" << endl;
+	}
+}
+
+int main() {
+
+	int width, height, enterCol, counter=0;
+	cin >> width;
+	cin >> height;
+	char matrix[40][40];
+
+	for (int row = 0; row < width; row++) {
+		for (int col = 0; col < height; col++) {
+			matrix[row][col] = ' ';
+		}
+	}
+	
+	bool gameOver = false;
+
+	do {
+		//checking player
+		if (counter % 2 == 0) {
+			cout << "Player 1: ";
+		}
+		else {
+			cout << "Player 2: ";
+		}
+
+		cin >> enterCol;
+		if (enterCol < 0 || enterCol >= width) {
+			cout << "Invalid column..."<<endl;
+			continue;
+		}
+
+		for (int i = height - 1; i >= 0; i--) {
+			if (matrix[i][enterCol] == ' ') {
+				if (counter % 2 == 0) {
+					matrix[i][enterCol] = 'x';
+				}
+				else {
+					matrix[i][enterCol] = 'o';
+				}
+				counter++;
+				break;
+			}
+		}
+
+		//printing the table
+		for (int i = 0; i <= width * 2; i++) {
+			cout << "-";
+		}
+		cout << endl;
+		for (int row = 0; row < height; row++) {
+			for (int col = 0; col < width; col++) {
+
+				//checks for winner
+				if (matrix[row][col] == 'x' || matrix[row][col] == 'o') {
+					if (col + 3 < width) {//out of bounds protection
+						// left - right
+						if (matrix[row][col + 1] == matrix[row][col]
+							&& matrix[row][col + 2] == matrix[row][col]
+							&& matrix[row][col + 3] == matrix[row][col]) {
+							gameOver = true;
+						}
+					}
+					if (row + 3 < height) {//out of bounds protection
+						// up - down
+						if (matrix[row + 1][col] == matrix[row][col]
+							&& matrix[row + 2][col] == matrix[row][col]
+							&& matrix[row + 3][col] == matrix[row][col]) {
+							gameOver = true;
+						}
+					}
+					if (col + 3 < width && row + 3 < height) {//out of bounds protection
+						//down right to up left
+						if (matrix[row + 1][col + 1] == matrix[row][col]
+							&& matrix[row + 2][col + 2] == matrix[row][col]
+							&& matrix[row + 3][col + 3] == matrix[row][col]
+							) {
+							gameOver = true;
+						}
+					}
+					if (col - 3 >= 0 && row + 3 < height) {//out of bounds protection
+						//down left to up right
+						if (matrix[row + 1][col - 1] == matrix[row][col]
+							&& matrix[row + 2][col - 2] == matrix[row][col]
+							&& matrix[row + 3][col - 3] == matrix[row][col]
+							) {
+							gameOver = true;
+						}
+					}
+				}
+				
+				cout << "|" << matrix[row][col];
+			}
+			cout << "|" << endl;
+			for (int i = 0; i <= width * 2; i++) {
+				cout << "-";
+			}
+			cout << endl;
+		}
+		if (gameOver) {
+			whoWins(counter);
+			break;
+		}
+	} while (true);
+
+	system("pause");
+	return 0;
+}
