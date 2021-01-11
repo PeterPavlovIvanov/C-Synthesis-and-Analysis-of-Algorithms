@@ -4,7 +4,7 @@ using namespace std;
 void enterArray(int (&arr)[1000], int n) {
 	cout << "Enter numbers in the array: " << endl;
 	for (int i = 0; i < n; i++) {
-		int temp;https://github.com/PeterPavlovIvanov/C-Synthesis-and-Analysis-of-Algorithms
+		int temp;
 		cin >> temp;
 		arr[i] = temp;
 	}
