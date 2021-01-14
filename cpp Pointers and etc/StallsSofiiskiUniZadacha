@@ -1,0 +1,137 @@
+#include<iostream>
+#include<string>
+#include<vector>
+#include<iterator>
+using namespace std;
+
+struct Product 
+{
+	string name;
+	double price;
+	int quantity;
+};
+
+struct Stall
+{
+	string name;
+	int quantity;
+	vector<Product> products;
+};
+
+struct OrderByStall 
+{
+	string productName;
+	int productQuantity;
+	string stallName;
+};
+
+int main(){
+	int stallsCount, quantityStall, quantityProduct, quantityPepa;
+	string productName, stallName;
+	double price;
+	vector<Stall> stalls;
+	vector<OrderByStall> orders;
+	vector<OrderByStall> sortedOrders;
+	double payCheck = 0;
+	string toBuy = "";
+
+	//vhod za sergiite
+	cin >> stallsCount;
+	for (int i = 0; i < stallsCount; i++) {
+
+		cin >> stallName;
+		cin >> quantityStall;
+		vector<Product> products;
+
+		for (int j = 0; j < quantityStall; j++) {
+
+			cin >> productName;
+			cin >> price;
+			cin >> quantityProduct;
+
+			Product tempProduct = { productName, price, quantityProduct};
+			products.push_back(tempProduct);
+
+		}
+
+		Stall tempStall = { stallName, quantityStall, products };
+		stalls.push_back(tempStall);
+	}
+
+	//vhod za spisuka na pepa
+	cin >> quantityPepa;
+	for (int i = 0; i < quantityPepa; i++) {
+		cin >> productName;
+		cin >> quantityProduct;
+		cin >> stallName;
+		OrderByStall order = { productName, quantityProduct, stallName };
+		orders.push_back(order);
+	}
+
+	//sortira poruchkite na pepa po sergii
+	vector<Stall>::iterator it;
+	for (it = stalls.begin(); it != stalls.end(); it++) {
+
+		vector<OrderByStall>::iterator pt;
+		for (pt = orders.begin(); pt != orders.end(); pt++) {
+
+			Stall st = *it;
+			OrderByStall obs = *pt;
+
+			//dobavq poruchkata v noviq vector sus sortirani poruchki
+			if (st.name == obs.stallName) {
+				sortedOrders.push_back(obs);
+			}
+
+		}
+
+	}
+
+	//smetki
+	vector<OrderByStall>::iterator pt;
+	for (pt = sortedOrders.begin(); pt != sortedOrders.end(); pt++) {
+
+		vector<Stall>::iterator it;
+		for (it = stalls.begin(); it != stalls.end(); it++) {
+
+			Stall st = *it;
+			OrderByStall obs = *pt;
+
+			if (st.name == obs.stallName) {
+				
+				vector<Product>::iterator productIt;
+				for (productIt = st.products.begin(); productIt != st.products.end(); productIt++) {
+					
+					Product p = *productIt;
+					if (p.name == obs.productName) {
+						int quantityToBuy = 0;
+						if (p.quantity < obs.productQuantity) {
+							quantityToBuy = p.quantity;
+							int diff = obs.productQuantity - p.quantity;
+							toBuy += "" + p.name + ": " + std::to_string(diff) + ", ";
+						}
+						else {
+							quantityToBuy = obs.productQuantity;
+						}
+						payCheck += quantityToBuy * p.price;
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+	vector<OrderByStall>::iterator pt2;
+	for (pt2 = sortedOrders.begin(); pt2 != sortedOrders.end(); pt2++) {
+		OrderByStall st = *pt2;
+		cout << st.stallName << endl;
+	}
+	cout << "Pay check: " << payCheck << endl;
+	cout << "Left to buy: " << toBuy << endl;
+
+	system("pause");
+	return 0;
+}
