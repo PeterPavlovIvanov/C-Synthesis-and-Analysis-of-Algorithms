@@ -1,0 +1,52 @@
+#include<iostream>
+using namespace std;
+ 
+void printMatrix(int matrix[99][99], int rows, int cols) {
+ 
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+ 
+}
+ 
+void printMatrixZigZag(int matrix[99][99], int rows, int cols) {
+ 
+    for (int i = 0; i < rows; i++) {
+ 
+        if (i % 2 == 0) {
+            for (int j = 0; j < cols; j++) {
+                cout << matrix[i][j] << " ";
+            }
+        }
+        else {
+            for (int j = cols-1; j >= 0; j--) {
+                cout << matrix[i][j] << " ";
+            }
+        }
+ 
+        cout << endl;
+    }
+ 
+}
+ 
+int main() {
+ 
+    int matrix[99][99], rows, cols;
+    cin >> rows >> cols;
+ 
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            matrix[i][j] = i + j;
+        }
+        cout << endl;
+    }
+ 
+    printMatrix(matrix, rows, cols);
+    cout << endl;
+    printMatrixZigZag(matrix, rows, cols);
+ 
+    return 0;
+}
