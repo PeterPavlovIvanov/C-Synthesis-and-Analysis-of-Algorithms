@@ -1,0 +1,71 @@
+#include<iostream>
+using namespace std;
+ 
+struct Car {
+    string model;
+    int year;
+};
+ 
+void read_Cars(int size, Car (&cars)[100]) {
+    string model;
+    int year;
+    for (int i= 0; i < size; i++)
+    {
+        cin >> model >> year;
+        Car car;
+        car.model = model;
+        car.year = year;
+        cars[i] = car;
+    }
+}
+ 
+void print_Cars(int size, Car(&cars)[100]) {
+    for (int i = 0; i < size; i++)
+    {
+        if (cars[i].year >= 0) {
+            cout << "Car:[ model: " << cars[i].model << ", year: " << cars[i].year << " ]" << endl;
+        }
+    }
+}
+ 
+void sort_Cars(int size, Car(&cars)[100]) {
+    bool switched = false;
+    int current = 0;
+    for (int i = 0; i < size - 1; i++)
+    {
+        if (switched) {
+            i = current;
+            switched = false;
+        }
+        for (int j = i + 1; j < size; j++)
+        {
+            if (cars[j].model == cars[i].model) {
+                cars[j] = Car{ "",-1 };
+            }
+            if ((cars[j].year < cars[i].year) || 
+                (cars[j].year == cars[i].year && cars[j].model < cars[i].model)) {
+                Car temp = cars[i];
+                cars[i] = cars[j];
+                cars[j] = temp;
+                switched = true;
+                current = i;
+                break;
+            }
+        }
+    }
+}
+ 
+int main() {
+ 
+    Car cars[100];
+    int size;
+    cin>>size;
+ 
+    read_Cars(size, cars);
+    print_Cars(size, cars);
+    sort_Cars(size, cars);
+    cout << endl;
+    print_Cars(size, cars);
+ 
+    return 0;
+}
