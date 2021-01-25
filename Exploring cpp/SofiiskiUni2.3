@@ -1,0 +1,72 @@
+#include<iostream>
+#include <cmath>
+using namespace std;
+static int size_n;
+struct Rect {
+	double a;
+	double b;
+};
+
+void readRectangles(Rect(&rectangles)[100]) {
+	int size;
+	cout << "Enter number of rectangles: ";
+	cin >> size;
+	size_n = size;
+	cout << "Enter 2 sides for each rectangle: " << endl;
+	for (int i = 0; i < size; i++)
+	{
+		int a, b;
+		cin >> a >> b;
+		Rect rect{ a, b };
+		rectangles[i] = rect;
+	}
+	for (int i = 0; i < size; i++)
+	{
+		cout << "Recangle: [side A: " << rectangles[i].a << "; side B: " << rectangles[i].b << "]"<<endl;
+	}
+}
+
+double perimeter(Rect r) {
+	return (r.b + r.a) * 2;
+}
+
+double diagonal(Rect r) {
+	return sqrt(pow(r.a, 2) + pow(r.b, 2));
+}
+
+void sortRectangles(Rect(&rectangles)[100]) {
+	bool switched = false;
+	int current = 0;
+
+	for (int i = 0; i < size_n - 1; i++){
+
+		if (switched) {
+			i = current;
+			switched = false;
+		}
+
+		for (int j = i + 1; j < size_n; j++)
+		{
+			if (perimeter(rectangles[j]) < perimeter(rectangles[i])){
+				Rect temp = rectangles[i];
+				rectangles[i] = rectangles[j];
+				rectangles[j] = temp;
+				switched = true;
+				current = i;
+				break;
+			}
+		}
+	}
+}
+
+int main() {
+	Rect rectangles[100];
+	readRectangles(rectangles);
+	sortRectangles(rectangles);
+	cout << "sorted rectangles by perimeter" << endl;
+	for (int i = 0; i < size_n; i++) {
+		cout << "Recangle: [side A: " << rectangles[i].a << "; side B: " << rectangles[i].b << "]" << endl;
+	}
+	cout << endl;
+	return 0;
+}
