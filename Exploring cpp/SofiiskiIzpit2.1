@@ -1,0 +1,82 @@
+#include<iostream>
+#include <cmath>
+using namespace std;
+
+bool is_good(int number) {
+	if (number == 1) {
+		return true;
+	}
+	bool isGood = false;
+	int counter = 0;
+	while (number > 0){
+		if (number % 3 == 0) {
+			number /= 3;
+			counter++;
+		} 
+		if (number % 5 == 0) {
+			number /= 5;
+			counter++;
+		}
+		if (counter == 0) {
+			break;
+		}
+		else {
+			counter = 0;
+		}
+		if (number == 1) {
+			isGood = true;
+			break;
+		}
+	}
+	return isGood;
+}
+
+void createAndPrintMatrix(const int rows, const int cols, int (&matrix)[100][100]) {
+	cout << "enter numbers for matrix " << endl;
+	for (int r = 0; r < rows; r++)
+	{
+		for (int c = 0; c < cols; c++)
+		{
+			 cin >> matrix[r][c];
+		}
+	}
+	cout << "matrix: " << endl;
+	for (int r = 0; r < rows; r++)
+	{
+		for (int c = 0; c < cols; c++)
+		{
+			cout << matrix[r][c] << " ";
+		}
+		cout << endl;
+	}
+}
+
+int* goodNumsByColumns(const int rows, const int cols, int(&matrix)[100][100]) {
+	static int result[100];
+	for (int c = 0; c < cols; c++)
+	{
+		int counter = 0;
+		for (int r = 0; r < rows; r++) {
+			if (is_good(matrix[r][c])) {
+				counter++;
+			}
+		}
+		result[c] = counter;
+	}
+	return result;
+}
+
+int main() {
+	int rows, cols;
+	cout << "enter row and col size: " << endl;
+	cin >> rows >> cols;
+	int matrix[100][100];
+	createAndPrintMatrix(rows, cols, matrix);
+	int* arr = goodNumsByColumns(rows, cols, matrix);
+	cout << "good nums by columns: " << endl;
+	for (int i = 0; i < cols; i++) {
+		cout << *(arr + i) << " ";
+	}
+	cout << endl;
+	return 0;
+}
