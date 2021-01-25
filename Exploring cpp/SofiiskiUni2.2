@@ -1,0 +1,27 @@
+#include<iostream>
+#include <cmath>
+using namespace std;
+static int i = 0;
+bool findSymbolRecursive(char arr[10], char symbol) {
+	bool isIn = false;
+	if (tolower(arr[i]) == tolower(symbol)) {
+		return true;
+	}
+	else {
+		i++;
+		if (i >= 10) {
+			return false;
+		}
+		isIn = findSymbolRecursive(arr, symbol);
+	}
+	return isIn;
+}
+
+int main() {
+	
+	char arr[10] = { 'a','b','5','C','v','f','g','{','?','-' };
+	char symbol = 'c';
+	bool result = findSymbolRecursive(arr, symbol);
+	cout << result << endl;
+	return 0;
+}
