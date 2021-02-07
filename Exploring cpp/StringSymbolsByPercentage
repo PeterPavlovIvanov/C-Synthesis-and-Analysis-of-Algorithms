@@ -1,0 +1,44 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main() {
+
+	//setup
+	string word;
+	int values[128], temp, memory[128];
+	double percentages[128];
+	for (int i = 0; i < 128; i++) { values[i] = 0; memory[i] = 0; }
+	getline(cin, word);
+
+	//count letters
+	for (int i = 0; i < word.size(); i++) {
+		values[(int)((char)word[i])] += 1;
+	}
+
+	//calculate percenteges
+	for (int i = 0; i < 128; i++) {
+		percentages[i] = ((double)(values[i]) / word.size()) * 100;
+	}
+
+	//sort result
+	for (int i = 0; i < 128; i++) {
+		for (int j = i + 1; j < 128; j++) {
+			if (percentages[i] < percentages[j]) {
+				temp = percentages[i];
+				percentages[i] = percentages[j];
+				percentages[j] = temp;
+				memory[i] = j;
+				memory[j] = i;
+			}
+		}
+	}
+
+	//print result
+	for (int i = 0; i < 128; i++)
+	{
+		if(memory[i] != 0)
+		cout << (char)memory[i] << ": " << percentages[i] << "%" << endl;
+	}
+
+	return 0;
+}
