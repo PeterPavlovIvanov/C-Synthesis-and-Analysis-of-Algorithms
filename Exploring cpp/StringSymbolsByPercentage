@@ -5,9 +5,9 @@ int main() {
 
 	//setup
 	string word;
-	int values[128], temp, memory[128];
+	int values[128], temp, temp2, memory[128];
 	double percentages[128];
-	for (int i = 0; i < 128; i++) { values[i] = 0; memory[i] = 0; }
+	for (int i = 0; i < 128; i++) { values[i] = 0; memory[i] = i; }
 	getline(cin, word);
 
 	//count letters
@@ -21,14 +21,23 @@ int main() {
 	}
 
 	//sort result
+	bool switched = false;
 	for (int i = 0; i < 128; i++) {
-		for (int j = i + 1; j < 128; j++) {
+		if (switched) {
+			switched = false;
+			i--;
+		}
+		for (int j = i ; j < 128; j++) {
 			if (percentages[i] < percentages[j]) {
 				temp = percentages[i];
 				percentages[i] = percentages[j];
 				percentages[j] = temp;
-				memory[i] = j;
-				memory[j] = i;
+				temp = memory[i];
+				temp2 = memory[j];
+				memory[i] = temp2;
+				memory[j] = temp;
+				switched = true;
+				break;
 			}
 		}
 	}
