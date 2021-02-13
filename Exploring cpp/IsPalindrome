@@ -1,0 +1,44 @@
+#include<iostream>
+using namespace std;
+
+int main() {
+	//initializing 
+	string text;
+	int check = 1;
+	bool isPalindrome = true;
+	cout << "Enter text to check if it is a palindrome: ";
+	cin >> text;
+
+	//check if entered text is one symbol
+	if (text.size() == 1) {
+		cout << "YES YES YES" << endl;
+		return 0;
+	}
+
+	//check wether the text length is odd or even
+	if (text.size() % 2 == 0) {
+		check = -1;
+	}
+	else {
+		check = 0;
+	}
+
+	//check is palindrome - main logic
+	for (int i = (text.size() - (text.size() / 2)) + check; i >= 0; i--) {
+
+		if (text[i] != text[text.size() - (i + 1)]) {
+			isPalindrome = false;
+			break;
+		}
+	}
+
+	//print result
+	if (isPalindrome) {
+		cout << "YES YES YES";
+	}
+	else {
+		cout << "NO NO NO";
+	}
+	cout << endl;
+	return 0;
+}
