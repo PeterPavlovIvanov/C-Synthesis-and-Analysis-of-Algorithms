@@ -1,0 +1,65 @@
+#include<iostream>
+using namespace std;
+
+int main() {
+	//initializing 
+	string text;
+	int index(-1), max(0), counter, j, start, check(0), k;
+	bool isPalindrome = true;
+	cout << "Enter text to check if it is a palindrome: ";
+	cin >> text;
+
+	for (int i = 1; i < text.size(); i++)
+	{
+		counter = 0, j = i;
+		k = 1;
+		
+		//even palindrome
+		if (i + k < text.size() && j >= 0) {
+			while (text[j] == text[i + k] ) {
+				counter += 2;
+				j--;
+				k++;
+				if (!(i + k < text.size() && j >= 0)) {
+					break;
+				}
+			}
+		}
+		
+		if (max < counter) {
+			max = counter;
+			index = i;
+			check = 1;
+			continue;
+		}
+
+		//odd palindrome
+		k = 0;
+		if (i + k < text.size() && j >= 0) {
+			while (text[j] == text[i + k]) {
+				counter += 2;
+				j--;
+				k++;
+				if (!(i + k < text.size() && j >= 0)) {
+					break;
+				}
+			}
+		}
+		counter--;
+		if (max < counter) {
+			max = counter;
+			index = i;
+			check = 0;
+		}
+	}
+
+	start = index + check - (max / 2);
+
+	cout << "Max palindrome: ";
+	for (int i = start; i < start + max; i++)
+	{
+		cout << text[i];
+	}
+	cout << endl;
+	return 0;
+}
