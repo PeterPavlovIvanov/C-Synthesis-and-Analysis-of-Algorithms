@@ -25,7 +25,6 @@ int main() {
 
 	//check is palindrome - main logic
 	for (int i = (text.size() - (text.size() / 2)) + check; i >= 0; i--) {
-
 		if (text[i] != text[text.size() - (i + 1)]) {
 			isPalindrome = false;
 			break;
