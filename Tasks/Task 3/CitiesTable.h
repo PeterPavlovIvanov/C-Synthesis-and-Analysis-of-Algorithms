@@ -26,23 +26,24 @@ protected:
 class CCitiesTable : private CCommand<CAccessor<CCitiesAccessor>> {
 public:
 	///<summary>Взима всички градове от таблицата CITIES</summary>
-	BOOL SelectAll(CCitiesArray& oCitiesArray);
+	BOOL SelectAll(CCitiesArray& oCitiesArray, HRESULT hResult);
 
 	///<summary>Взима град по посочено ID</summary>
-	BOOL SelectWhereID(const long lID, CITIES& recCities);
+	BOOL SelectWhereID(const long lID, CITIES& recCities, HRESULT hResult);
 
 	///<summary>Update-ва град по посочено ID</summary>
-	BOOL UpdateWhereID(const long lID, const CITIES& recCities);
+	BOOL UpdateWhereID(const long lID, const CITIES& recCities, HRESULT hResult);
 
 	///<summary>Вмъква град в таблицата CITIES</summary>
-	BOOL Insert(const CITIES& recCities);
+	BOOL Insert(const CITIES& recCities, HRESULT hResult);
 
 	///<summary>Изтрива град по посочено ID</summary>
-	BOOL DeleteWhereID(const long lID);
+	BOOL DeleteWhereID(const long lID, HRESULT hResult);
 
 	///<summary>Прави връзката с DB</summary>
-	void ExecuteQuery();
+	BOOL ExecuteQuery(HRESULT hResult);
 
+	///<summary>Прекратява връзката с DB</summary>
 	void CloseCommandSessionConnection(CDataSource& oDataSource, CSession& oSession);
 
 	//Members...

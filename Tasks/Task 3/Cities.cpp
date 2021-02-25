@@ -67,37 +67,52 @@ CCitiesApp theApp;
 
 BOOL CCitiesApp::InitInstance()
 {
+	HRESULT hResult = CoInitialize(0);
+
 	CString message;
+	message.AppendFormat(_T("TASK 3: \r\n"));
 
 	/////////Task 3/////////
 	CCitiesTable oCitiesTable;
+	CITIES oCity;
 
+	//SELECT BY ID
+	//oCitiesTable.SelectWhereID((long)CITY_ID_TO_SEARCH, oCity, hResult);
+	//message.AppendFormat(_T("City with ID - %d from DB: %s, %s\r\n"),
+	//	oCity.lID, oCity.szCITY_NAME, oCity.szREGION);
+	
+	//UPDATE BY ID
+	oCity.lID = CITY_ID_TO_SEARCH;
+	wcscpy_s(oCity.szCITY_NAME, _T("Ruse 2"));
+	wcscpy_s(oCity.szREGION, _T("Ruse Province 2"));
+	oCitiesTable.UpdateWhereID((long)CITY_ID_TO_SEARCH, oCity, hResult);
+		
+	//INSERT 
+	CITIES oCityInsert;
+	oCityInsert.lUPDATE_COUNTER = 0;
+	wcscpy_s(oCityInsert.szCITY_NAME, _T("Kavarna 2"));
+	wcscpy_s(oCityInsert.szREGION, _T("Kavarna Province 2"));
+	oCitiesTable.Insert(oCityInsert, hResult);
+
+	//DELETE BY ID
+	oCitiesTable.DeleteWhereID(12, hResult);
+	
 	//SELECT ALL
 	CCitiesArray oCitiesDB;
-	oCitiesTable.SelectAll(oCitiesDB);
+	oCitiesTable.SelectAll(oCitiesDB, hResult);
 
 	message.AppendFormat(_T("Cities from DB:\r\n"));
 	for (int i = 0; i < oCitiesDB.GetCount(); i++)
 	{
+		CString strName = oCitiesDB.GetAt(i)->szCITY_NAME;
+		strName.Remove(' ');
 		message.AppendFormat(_T("ID: %d, UPDATE_COUNTER: %d, CITY_NAME: %s, REGION: %s\r\n"),
 			oCitiesDB.GetAt(i)->lID, oCitiesDB.GetAt(i)->lUPDATE_COUNTER,
-			oCitiesDB.GetAt(i)->szCITY_NAME, oCitiesDB.GetAt(i)->szREGION);
+			strName, oCitiesDB.GetAt(i)->szREGION);
 	}
 
-	//SELECT BY ID
-	CITIES oCity;
-	oCitiesTable.SelectWhereID((long)CITY_ID_TO_SEARCH, oCity);
-	message.AppendFormat(_T("City with ID - %d from DB: %s, %s\r\n"),
-		oCity.lID, oCity.szCITY_NAME, oCity.szREGION);
-	
-	//UPDATE BY ID
-	wcscpy_s(oCity.szCITY_NAME, _T("Ruse Updated"));
-	wcscpy_s(oCity.szREGION, _T("Ruse Province Updated"));
-	oCitiesTable.UpdateWhereID((long)CITY_ID_TO_SEARCH, oCity);
-	oCitiesTable.SelectWhereID((long)CITY_ID_TO_SEARCH, oCity);
-	message.AppendFormat(_T("City with ID - %d from DB: %s, %s\r\n"),
-		oCity.lID, oCity.szCITY_NAME, oCity.szREGION);
-		
+	message.AppendFormat(_T("\r\nTASK 2: \r\n"));
+
 	/////////Task 2/////////
 	//Init containers
 	CCitiesArray oCities;
