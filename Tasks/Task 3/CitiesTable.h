@@ -46,6 +46,9 @@ public:
 	///<summary>Прекратява връзката с DB</summary>
 	void CloseCommandSessionConnection(CDataSource& oDataSource, CSession& oSession);
 
+	///<summary>Update-ва град по посочено ID без да затваря сесията</summary>
+	BOOL SelectByID(const long lID, CITIES& recCities);
+
 	//Members...
 private:
 	HRESULT m_hResult;

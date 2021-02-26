@@ -1,6 +1,10 @@
 ﻿#include "stdafx.h"
 
+#include <atlbase.h>
+
 #include <atldbcli.h>
+
+#include <atldbsch.h>
 
 #include "Typedefs.h"
 
@@ -18,14 +22,22 @@ BOOL CCitiesTable::ExecuteQuery(HRESULT hResult)
 	oDBPropSet.AddProperty(DBPROP_INIT_LCID, 1033L);
 	oDBPropSet.AddProperty(DBPROP_INIT_PROMPT, static_cast<short>(4));
 
+	CDBPropSet pPropSet(DBPROPSET_ROWSET);
+	pPropSet.AddProperty(DBPROP_CANFETCHBACKWARDS, true, DBPROPOPTIONS_OPTIONAL);
+	pPropSet.AddProperty(DBPROP_CANSCROLLBACKWARDS, true, DBPROPOPTIONS_OPTIONAL);
+	pPropSet.AddProperty(DBPROP_IGetRow, true, DBPROPOPTIONS_OPTIONAL);
+	pPropSet.AddProperty(DBPROP_IRowsetChange, true, DBPROPOPTIONS_OPTIONAL);
+	pPropSet.AddProperty(DBPROP_IRowsetUpdate, true);
+	pPropSet.AddProperty(DBPROP_UPDATABILITY, DBPROPVAL_UP_CHANGE | DBPROPVAL_UP_INSERT | DBPROPVAL_UP_DELETE);
+
 	// Свързваме се към базата данни
 	m_hResult = m_oDataSource.Open(_T("SQLOLEDB.1"), &oDBPropSet);
-	
+
 	// Отваряме сесия
 	m_hResult = m_oSession.Open(m_oDataSource);
 
 	//Изпълняваме заявката
-	m_hResult = Open(m_oSession, m_strQuery);
+	m_hResult = Open(m_oSession, m_strQuery, &pPropSet);
 
 	if (FAILED(hResult)) {
 		return FALSE;
@@ -36,7 +48,7 @@ BOOL CCitiesTable::ExecuteQuery(HRESULT hResult)
 BOOL CCitiesTable::SelectAll(CCitiesArray& oCitiesArray, HRESULT hResult)
 {
 	m_strQuery = _T("SELECT * FROM CITIES");
-	
+
 	if (FAILED(ExecuteQuery(hResult)))
 	{
 		CloseCommandSessionConnection(m_oDataSource, m_oSession);
@@ -46,14 +58,15 @@ BOOL CCitiesTable::SelectAll(CCitiesArray& oCitiesArray, HRESULT hResult)
 
 	while (true)
 	{
-		if (MoveNext() == S_OK) 
+		HRESULT hResultMove = MoveNext();
+		if (hResultMove == S_OK)
 		{
 			CITIES* pCity = new CITIES();
 			*pCity = m_recCity;
 
 			oCitiesArray.Add(pCity);
 		}
-		else if (MoveNext() == DB_S_ENDOFROWSET)
+		else if (hResultMove == DB_S_ENDOFROWSET)
 		{
 			break;
 		}
@@ -71,28 +84,12 @@ BOOL CCitiesTable::SelectAll(CCitiesArray& oCitiesArray, HRESULT hResult)
 
 BOOL CCitiesTable::SelectWhereID(const long lID, CITIES& recCities, HRESULT hResult)
 {
-	m_strQuery.Format(_T("SELECT * FROM CITIES WHERE ID = %d "), lID);
-
-	if (FAILED(ExecuteQuery(hResult))) {
+	if (FAILED(SelectByID(lID, recCities))) {
 		CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 		return FALSE;
 	}
 
-	if (MoveNext() == S_OK)
-	{
-		recCities = m_recCity;
-	}
-	else if (MoveNext() == DB_S_ENDOFROWSET)
-	{
-		
-	}
-	else
-	{
-		CloseCommandSessionConnection(m_oDataSource, m_oSession);
-		return FALSE;
-	}
-		
 	CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 	return TRUE;
@@ -101,37 +98,26 @@ BOOL CCitiesTable::SelectWhereID(const long lID, CITIES& recCities, HRESULT hRes
 BOOL CCitiesTable::UpdateWhereID(const long lID, const CITIES& recCities, HRESULT hResult)
 {
 	CITIES oCity;
-	SelectWhereID(lID, oCity, hResult);
 
-	if (FAILED(ExecuteQuery(hResult))) {
+	if (FAILED(SelectByID(lID, oCity))) {
 		CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 		return FALSE;
 	}
 
-	/*long lUpdateCounter = recCities.lUPDATE_COUNTER;
-	CString strCityName = recCities.szCITY_NAME;
-	CString strRegion = recCities.szREGION;
+	int nUpdateCounter = m_recCity.lUPDATE_COUNTER;
+	m_recCity = recCities;
+	m_recCity.lUPDATE_COUNTER = nUpdateCounter + 1;
+	hResult = SetData(1);
 
-	m_recCity.lUPDATE_COUNTER = lUpdateCounter;
-	wcscpy_s(m_recCity.szCITY_NAME, strCityName);
-	wcscpy_s(m_recCity.szREGION, strRegion);
-
-	m_strQuery.Format(_T("UPDATE CITIES SET UPDATE_COUNTER = %d, CITY_NAME = %s%s%s, REGION = %s%s%s WHERE ID = %d"),
-		 lUpdateCounter, QUOTE, strCityName, QUOTE, QUOTE, strRegion, QUOTE, lID);*/
-
-	if (MoveNext() == S_OK)
-	{
-		m_recCity = recCities;
-		SetData();
-	}
-	else
+	if (FAILED(hResult))
 	{
 		CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 		return FALSE;
 	}
-	
+
+	UpdateAll();
 	CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 	return TRUE;
@@ -139,13 +125,6 @@ BOOL CCitiesTable::UpdateWhereID(const long lID, const CITIES& recCities, HRESUL
 
 BOOL CCitiesTable::Insert(const CITIES& recCities, HRESULT hResult)
 {
-	/*long lUpdateCounter = recCities.lUPDATE_COUNTER;
-	CString strCityName = recCities.szCITY_NAME;
-	CString strRegion = recCities.szREGION;
-
-	m_strQuery.Format(_T("INSERT INTO CITIES(UPDATE_COUNTER, CITY_NAME, REGION) VALUES(%d, %s%s%s, %s%s%s)"),
-		lUpdateCounter, QUOTE, strCityName, QUOTE, QUOTE, strRegion, QUOTE);*/
-
 	m_strQuery.Format(_T("SELECT TOP 0 * FROM CITIES"));
 
 	if (FAILED(ExecuteQuery(hResult)))
@@ -154,8 +133,19 @@ BOOL CCitiesTable::Insert(const CITIES& recCities, HRESULT hResult)
 
 		return FALSE;
 	}
+
+	hResult = MoveNext();
+
+	if (FAILED(hResult))
+	{
+		CloseCommandSessionConnection(m_oDataSource, m_oSession);
+
+		return FALSE;
+	}
+
 	m_recCity = recCities;
-//TODO
+	CRowset::Insert(1);
+	UpdateAll();
 
 	CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
@@ -164,23 +154,43 @@ BOOL CCitiesTable::Insert(const CITIES& recCities, HRESULT hResult)
 
 BOOL CCitiesTable::DeleteWhereID(const long lID, HRESULT hResult)
 {
-	m_strQuery.Format(_T("DELETE * FROM CITIES WHERE ID = %d"), lID);
-
-	if (FAILED(ExecuteQuery(hResult)))
+	CITIES oCity;
+	if (FAILED(SelectByID(lID, oCity)))
 	{
 		CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 		return FALSE;
 	}
 
+	Delete();
+	UpdateAll();
+
 	CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 	return TRUE;
 };
 
-void CCitiesTable::CloseCommandSessionConnection(CDataSource& oDataSource, CSession& oSession) 
+void CCitiesTable::CloseCommandSessionConnection(CDataSource& oDataSource, CSession& oSession)
 {
 	Close();
 	oSession.Close();
 	oDataSource.Close();
+}
+
+BOOL CCitiesTable::SelectByID(const long lID, CITIES& recCities)
+{
+	m_strQuery.Format(_T("BEGIN TRAN selectCity SELECT * FROM CITIES WHERE ID = %d COMMIT TRAN selectCity"), lID);
+
+	HRESULT hResult = CoInitialize(0);
+	ExecuteQuery(hResult);
+
+	if (MoveNext() == S_OK)
+	{
+		recCities = m_recCity;
+	}
+	else
+	{
+		return FALSE;
+	}
+	return TRUE;
 }

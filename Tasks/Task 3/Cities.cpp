@@ -75,27 +75,30 @@ BOOL CCitiesApp::InitInstance()
 	/////////Task 3/////////
 	CCitiesTable oCitiesTable;
 	CITIES oCity;
-
+	
+	//UPDATE BY ID
+	//oCity.lID = CITY_ID_TO_SEARCH;
+	//wcscpy_s(oCity.szCITY_NAME, _T("Ruse"));
+	//wcscpy_s(oCity.szREGION, _T("Ruse Province"));
+	//oCitiesTable.UpdateWhereID((long)CITY_ID_TO_SEARCH, oCity, hResult);
+		
 	//SELECT BY ID
 	//oCitiesTable.SelectWhereID((long)CITY_ID_TO_SEARCH, oCity, hResult);
 	//message.AppendFormat(_T("City with ID - %d from DB: %s, %s\r\n"),
 	//	oCity.lID, oCity.szCITY_NAME, oCity.szREGION);
-	
-	//UPDATE BY ID
-	oCity.lID = CITY_ID_TO_SEARCH;
-	wcscpy_s(oCity.szCITY_NAME, _T("Ruse 2"));
-	wcscpy_s(oCity.szREGION, _T("Ruse Province 2"));
-	oCitiesTable.UpdateWhereID((long)CITY_ID_TO_SEARCH, oCity, hResult);
-		
+
 	//INSERT 
-	CITIES oCityInsert;
-	oCityInsert.lUPDATE_COUNTER = 0;
-	wcscpy_s(oCityInsert.szCITY_NAME, _T("Kavarna 2"));
-	wcscpy_s(oCityInsert.szREGION, _T("Kavarna Province 2"));
-	oCitiesTable.Insert(oCityInsert, hResult);
+	//CITIES oCityInsert;
+	//oCityInsert.lUPDATE_COUNTER = 0;
+	//wcscpy_s(oCityInsert.szCITY_NAME, _T("Kavarna 3"));
+	//wcscpy_s(oCityInsert.szREGION, _T("Kavarna Province 3"));
+	//oCitiesTable.Insert(oCityInsert, hResult);
 
 	//DELETE BY ID
-	oCitiesTable.DeleteWhereID(12, hResult);
+	oCitiesTable.DeleteWhereID(14, hResult);
+	oCitiesTable.DeleteWhereID(15, hResult);
+	oCitiesTable.DeleteWhereID(16, hResult);
+	oCitiesTable.DeleteWhereID(17, hResult);
 	
 	//SELECT ALL
 	CCitiesArray oCitiesDB;
@@ -104,11 +107,9 @@ BOOL CCitiesApp::InitInstance()
 	message.AppendFormat(_T("Cities from DB:\r\n"));
 	for (int i = 0; i < oCitiesDB.GetCount(); i++)
 	{
-		CString strName = oCitiesDB.GetAt(i)->szCITY_NAME;
-		strName.Remove(' ');
 		message.AppendFormat(_T("ID: %d, UPDATE_COUNTER: %d, CITY_NAME: %s, REGION: %s\r\n"),
 			oCitiesDB.GetAt(i)->lID, oCitiesDB.GetAt(i)->lUPDATE_COUNTER,
-			strName, oCitiesDB.GetAt(i)->szREGION);
+			oCitiesDB.GetAt(i)->szCITY_NAME, oCitiesDB.GetAt(i)->szREGION);
 	}
 
 	message.AppendFormat(_T("\r\nTASK 2: \r\n"));
