@@ -11,13 +11,13 @@ protected:
 
 	BEGIN_ACCESSOR_MAP(CCitiesAccessor, 2)
 		BEGIN_ACCESSOR(0, true)
-		COLUMN_ENTRY(1, m_recCity.lID)
+			COLUMN_ENTRY(1, m_recCity.lID)
 		END_ACCESSOR()
 
 		BEGIN_ACCESSOR(1, true)
-		COLUMN_ENTRY(2, m_recCity.lUPDATE_COUNTER)
-		COLUMN_ENTRY(3, m_recCity.szCITY_NAME)
-		COLUMN_ENTRY(4, m_recCity.szREGION)
+			COLUMN_ENTRY(2, m_recCity.lUPDATE_COUNTER)
+			COLUMN_ENTRY(3, m_recCity.szCITY_NAME)
+			COLUMN_ENTRY(4, m_recCity.szREGION)
 		END_ACCESSOR()
 	END_ACCESSOR_MAP()
 };

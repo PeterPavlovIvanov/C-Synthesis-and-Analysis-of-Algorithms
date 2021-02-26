@@ -64,6 +64,9 @@ CCitiesApp theApp;
 
 #define PERSON_ID_TO_SEARCH 4
 #define CITY_ID_TO_SEARCH 5
+#define CITY_NAME "Petrich"
+#define CITY_REGION "Petrich Province"
+#define INIT_UPDATE_COUNTER 0
 
 BOOL CCitiesApp::InitInstance()
 {
@@ -77,28 +80,27 @@ BOOL CCitiesApp::InitInstance()
 	CITIES oCity;
 	
 	//UPDATE BY ID
-	//oCity.lID = CITY_ID_TO_SEARCH;
-	//wcscpy_s(oCity.szCITY_NAME, _T("Ruse"));
-	//wcscpy_s(oCity.szREGION, _T("Ruse Province"));
-	//oCitiesTable.UpdateWhereID((long)CITY_ID_TO_SEARCH, oCity, hResult);
-		
+	oCity.lID = CITY_ID_TO_SEARCH;
+	wcscpy_s(oCity.szCITY_NAME, _T("Ruse test 2222"));
+	wcscpy_s(oCity.szREGION, _T("Ruse Province test"));
+	oCitiesTable.UpdateWhereID((long)CITY_ID_TO_SEARCH, oCity, hResult);
+	
 	//SELECT BY ID
-	//oCitiesTable.SelectWhereID((long)CITY_ID_TO_SEARCH, oCity, hResult);
-	//message.AppendFormat(_T("City with ID - %d from DB: %s, %s\r\n"),
-	//	oCity.lID, oCity.szCITY_NAME, oCity.szREGION);
+	oCitiesTable.SelectWhereID((long)CITY_ID_TO_SEARCH, oCity, hResult);
+	message.AppendFormat(_T("City with ID - %d from DB: %s, %s\r\n"),
+		oCity.lID, oCity.szCITY_NAME, oCity.szREGION);
 
 	//INSERT 
 	//CITIES oCityInsert;
-	//oCityInsert.lUPDATE_COUNTER = 0;
-	//wcscpy_s(oCityInsert.szCITY_NAME, _T("Kavarna 3"));
-	//wcscpy_s(oCityInsert.szREGION, _T("Kavarna Province 3"));
+	//oCityInsert.lUPDATE_COUNTER = INIT_UPDATE_COUNTER;
+	//wcscpy_s(oCityInsert.szCITY_NAME, _T(CITY_NAME));
+	//wcscpy_s(oCityInsert.szREGION, _T(CITY_REGION));
 	//oCitiesTable.Insert(oCityInsert, hResult);
 
 	//DELETE BY ID
-	oCitiesTable.DeleteWhereID(14, hResult);
-	oCitiesTable.DeleteWhereID(15, hResult);
-	oCitiesTable.DeleteWhereID(16, hResult);
-	oCitiesTable.DeleteWhereID(17, hResult);
+	//oCitiesTable.DeleteWhereID(11, hResult);
+	//oCitiesTable.DeleteWhereID(12, hResult);
+
 	
 	//SELECT ALL
 	CCitiesArray oCitiesDB;

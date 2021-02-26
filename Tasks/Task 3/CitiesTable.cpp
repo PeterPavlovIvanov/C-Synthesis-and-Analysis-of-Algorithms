@@ -11,6 +11,9 @@
 #include "CitiesTable.h"
 
 #define QUOTE "/'"
+#define BEGIN_TRAN "BEGIN TRANSACTION"
+#define COMMIT_TRAN "COMMIT TRANSACTION"
+#define ROLLBACK_TRAN "ROLLBACK TRANSACTION"
 
 BOOL CCitiesTable::ExecuteQuery(HRESULT hResult)
 {
@@ -36,7 +39,7 @@ BOOL CCitiesTable::ExecuteQuery(HRESULT hResult)
 	// Отваряме сесия
 	m_hResult = m_oSession.Open(m_oDataSource);
 
-	//Изпълняваме заявката
+	// Изпълняваме заявката
 	m_hResult = Open(m_oSession, m_strQuery, &pPropSet);
 
 	if (FAILED(hResult)) {
@@ -118,6 +121,17 @@ BOOL CCitiesTable::UpdateWhereID(const long lID, const CITIES& recCities, HRESUL
 	}
 
 	UpdateAll();
+	//SelectByID(lID, oCity);
+
+	//if (m_recCity.lUPDATE_COUNTER - 1 != oCity.lUPDATE_COUNTER)
+	//{
+	//	m_oSession.Abort();
+	//}
+	//else
+	//{
+	//	m_oSession.Commit();
+	//}
+
 	CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 	return TRUE;
@@ -125,6 +139,7 @@ BOOL CCitiesTable::UpdateWhereID(const long lID, const CITIES& recCities, HRESUL
 
 BOOL CCitiesTable::Insert(const CITIES& recCities, HRESULT hResult)
 {
+
 	m_strQuery.Format(_T("SELECT TOP 0 * FROM CITIES"));
 
 	if (FAILED(ExecuteQuery(hResult)))
@@ -142,7 +157,7 @@ BOOL CCitiesTable::Insert(const CITIES& recCities, HRESULT hResult)
 
 		return FALSE;
 	}
-
+	
 	m_recCity = recCities;
 	CRowset::Insert(1);
 	UpdateAll();
@@ -179,7 +194,7 @@ void CCitiesTable::CloseCommandSessionConnection(CDataSource& oDataSource, CSess
 
 BOOL CCitiesTable::SelectByID(const long lID, CITIES& recCities)
 {
-	m_strQuery.Format(_T("BEGIN TRAN selectCity SELECT * FROM CITIES WHERE ID = %d COMMIT TRAN selectCity"), lID);
+	m_strQuery.Format(_T("SELECT * FROM CITIES WHERE ID = %d"), lID);
 
 	HRESULT hResult = CoInitialize(0);
 	ExecuteQuery(hResult);

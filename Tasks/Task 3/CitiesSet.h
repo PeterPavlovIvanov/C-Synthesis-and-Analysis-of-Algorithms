@@ -42,12 +42,7 @@ public:
 
 	void GetRowsetProperties(CDBPropSet* pPropSet)
 	{
-		/*pPropSet->AddProperty(DBPROP_INIT_DATASOURCE, _T("DESKTOP-PFQL6JD\\SQLEXPRESS"));
-		pPropSet->AddProperty(DBPROP_AUTH_INTEGRATED, _T("SSPI"));
-		pPropSet->AddProperty(DBPROP_INIT_CATALOG, _T("PhoneBook"));
-		pPropSet->AddProperty(DBPROP_AUTH_PERSIST_SENSITIVE_AUTHINFO, false);
-		pPropSet->AddProperty(DBPROP_INIT_LCID, 1033L);
-		pPropSet->AddProperty(DBPROP_INIT_PROMPT, static_cast<short>(4));*/
+
 		pPropSet->AddProperty(DBPROP_CANFETCHBACKWARDS, true, DBPROPOPTIONS_OPTIONAL);
 		pPropSet->AddProperty(DBPROP_CANSCROLLBACKWARDS, true, DBPROPOPTIONS_OPTIONAL);
 	}
