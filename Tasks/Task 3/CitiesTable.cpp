@@ -156,9 +156,10 @@ BOOL CCitiesTable::UpdateWhereID(const long lID, const CITIES& recCities, HRESUL
 	}
 
 	CITIES oCity;
-	//m_oSession.StartTransaction();
+	m_oSession.StartTransaction();
 
 	if (FAILED(SelectByID(lID, oCity))) {
+		m_oSession.Abort();
 		CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 		return FALSE;
@@ -169,14 +170,23 @@ BOOL CCitiesTable::UpdateWhereID(const long lID, const CITIES& recCities, HRESUL
 	m_recCity.lUPDATE_COUNTER = nUpdateCounter + 1;
 	hResult = SetData(1);
 
+	if (m_recCity.lUPDATE_COUNTER - 1 != recCities.lUPDATE_COUNTER) {
+		m_oSession.Abort();
+		CloseCommandSessionConnection(m_oDataSource, m_oSession);
+
+		return FALSE;
+	}
+
 	if (FAILED(hResult))
 	{
+		m_oSession.Abort();
 		CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 		return FALSE;
 	}
 
 	UpdateAll();
+	m_oSession.Commit();
 	CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 	return TRUE;
@@ -190,9 +200,11 @@ BOOL CCitiesTable::Insert(const CITIES& recCities, HRESULT hResult)
 	}
 
 	m_strQuery.Format(_T("SELECT TOP 0 * FROM CITIES"));
+	m_oSession.StartTransaction();
 
 	if (FAILED(ExecuteQuery(hResult)))
 	{
+		m_oSession.Abort();
 		CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 		return FALSE;
@@ -202,6 +214,7 @@ BOOL CCitiesTable::Insert(const CITIES& recCities, HRESULT hResult)
 
 	if (FAILED(hResult))
 	{
+		m_oSession.Abort();
 		CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 		return FALSE;
@@ -209,8 +222,9 @@ BOOL CCitiesTable::Insert(const CITIES& recCities, HRESULT hResult)
 	
 	m_recCity = recCities;
 	CRowset::Insert(1);
-	UpdateAll();
 
+	UpdateAll();
+	m_oSession.Commit();
 	CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 	return TRUE;
@@ -224,8 +238,11 @@ BOOL CCitiesTable::DeleteWhereID(const long lID, HRESULT hResult)
 	}
 
 	CITIES oCity;
+	m_oSession.StartTransaction();
+
 	if (FAILED(SelectByID(lID, oCity)))
 	{
+		m_oSession.Abort();
 		CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 		return FALSE;
@@ -233,9 +250,8 @@ BOOL CCitiesTable::DeleteWhereID(const long lID, HRESULT hResult)
 
 	Delete();
 	UpdateAll();
-
+	m_oSession.Commit();
 	CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 	return TRUE;
 };
-
