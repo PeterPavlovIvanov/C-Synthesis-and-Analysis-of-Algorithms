@@ -24,6 +24,12 @@ protected:
 
 ///<summary>Клас за работа с таблица CITIES</summary>
 class CCitiesTable : private CCommand<CAccessor<CCitiesAccessor>> {
+	///Constructors...
+public:
+	///<summary>Конструктор създаващ настройките за връзката с DB</summary>
+	CCitiesTable();
+
+	///Methods...
 public:
 	///<summary>Взима всички градове от таблицата CITIES</summary>
 	BOOL SelectAll(CCitiesArray& oCitiesArray, HRESULT hResult);
@@ -49,8 +55,13 @@ public:
 	///<summary>Update-ва град по посочено ID без да затваря сесията</summary>
 	BOOL SelectByID(const long lID, CITIES& recCities);
 
+	///<summary>Създава връзката с DB</summary>
+	BOOL CreateCommandSessionConnection(CDBPropSet& oDBPropSet);
+
 	//Members...
 private:
+	CDBPropSet m_oDBPropSet;
+	CDBPropSet m_pPropSet;
 	HRESULT m_hResult;
 	CString m_strQuery;
 	CSession m_oSession;

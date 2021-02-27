@@ -57,6 +57,9 @@
     <ClInclude Include="CitiesTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PropertiesConnectionDB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cities.cpp">
@@ -84,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CitiesTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertiesConnectionDB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

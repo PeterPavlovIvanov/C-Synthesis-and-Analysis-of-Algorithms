@@ -10,37 +10,28 @@
 
 #include "CitiesTable.h"
 
+#include "PropertiesConnectionDB.h"
+
 #define QUOTE "/'"
 #define BEGIN_TRAN "BEGIN TRANSACTION"
 #define COMMIT_TRAN "COMMIT TRANSACTION"
 #define ROLLBACK_TRAN "ROLLBACK TRANSACTION"
 
-BOOL CCitiesTable::ExecuteQuery(HRESULT hResult)
+CCitiesTable::CCitiesTable()
 {
 	CDBPropSet oDBPropSet(DBPROPSET_DBINIT);
-	oDBPropSet.AddProperty(DBPROP_INIT_DATASOURCE, _T("DESKTOP-PFQL6JD\\SQLEXPRESS"));
-	oDBPropSet.AddProperty(DBPROP_AUTH_INTEGRATED, _T("SSPI"));
-	oDBPropSet.AddProperty(DBPROP_INIT_CATALOG, _T("PhoneBook"));
-	oDBPropSet.AddProperty(DBPROP_AUTH_PERSIST_SENSITIVE_AUTHINFO, false);
-	oDBPropSet.AddProperty(DBPROP_INIT_LCID, 1033L);
-	oDBPropSet.AddProperty(DBPROP_INIT_PROMPT, static_cast<short>(4));
-
 	CDBPropSet pPropSet(DBPROPSET_ROWSET);
-	pPropSet.AddProperty(DBPROP_CANFETCHBACKWARDS, true, DBPROPOPTIONS_OPTIONAL);
-	pPropSet.AddProperty(DBPROP_CANSCROLLBACKWARDS, true, DBPROPOPTIONS_OPTIONAL);
-	pPropSet.AddProperty(DBPROP_IGetRow, true, DBPROPOPTIONS_OPTIONAL);
-	pPropSet.AddProperty(DBPROP_IRowsetChange, true, DBPROPOPTIONS_OPTIONAL);
-	pPropSet.AddProperty(DBPROP_IRowsetUpdate, true);
-	pPropSet.AddProperty(DBPROP_UPDATABILITY, DBPROPVAL_UP_CHANGE | DBPROPVAL_UP_INSERT | DBPROPVAL_UP_DELETE);
 
-	// Свързваме се към базата данни
-	m_hResult = m_oDataSource.Open(_T("SQLOLEDB.1"), &oDBPropSet);
+	CPropertiesConnectionDB oPropConDB;
+	oPropConDB.SetProperties(oDBPropSet, pPropSet);
 
-	// Отваряме сесия
-	m_hResult = m_oSession.Open(m_oDataSource);
+	m_pPropSet = pPropSet;
+	m_oDBPropSet = oDBPropSet;
+}
 
-	// Изпълняваме заявката
-	m_hResult = Open(m_oSession, m_strQuery, &pPropSet);
+BOOL CCitiesTable::ExecuteQuery(HRESULT hResult)
+{
+	m_hResult = Open(m_oSession, m_strQuery, &m_pPropSet);
 
 	if (FAILED(hResult)) {
 		return FALSE;
@@ -48,12 +39,60 @@ BOOL CCitiesTable::ExecuteQuery(HRESULT hResult)
 	return TRUE;
 }
 
+BOOL CCitiesTable::CreateCommandSessionConnection(CDBPropSet& oDBPropSet)
+{
+	HRESULT hResult = CoInitialize(0);
+
+	// Свързваме се към базата данни
+	hResult = m_oDataSource.Open(_T("SQLOLEDB.1"), &oDBPropSet);
+
+	// Отваряме сесия
+	hResult = m_oSession.Open(m_oDataSource);
+
+	if (FAILED(hResult)) {
+		return FALSE;
+	}
+	return TRUE;
+}
+
+void CCitiesTable::CloseCommandSessionConnection(CDataSource& oDataSource, CSession& oSession)
+{
+	Close();
+	oSession.Close();
+	oDataSource.Close();
+}
+
+BOOL CCitiesTable::SelectByID(const long lID, CITIES& recCities)
+{
+	m_strQuery.Format(_T("SELECT * FROM CITIES WHERE ID = %d"), lID);
+
+	HRESULT hResult = CoInitialize(0);
+	ExecuteQuery(hResult);
+
+	if (MoveNext() == S_OK)
+	{
+		recCities = m_recCity;
+	}
+	else
+	{
+		return FALSE;
+	}
+	return TRUE;
+}
+
 BOOL CCitiesTable::SelectAll(CCitiesArray& oCitiesArray, HRESULT hResult)
 {
+	if (FAILED(CreateCommandSessionConnection(m_oDBPropSet)))
+	{
+		return FALSE;
+	}
+
 	m_strQuery = _T("SELECT * FROM CITIES");
+	m_oSession.StartTransaction();
 
 	if (FAILED(ExecuteQuery(hResult)))
 	{
+		m_oSession.Abort();
 		CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 		return FALSE;
@@ -75,11 +114,13 @@ BOOL CCitiesTable::SelectAll(CCitiesArray& oCitiesArray, HRESULT hResult)
 		}
 		else
 		{
+			m_oSession.Abort();
 			CloseCommandSessionConnection(m_oDataSource, m_oSession);
 			return FALSE;
 		}
 	}
 
+	m_oSession.Commit();
 	CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 	return TRUE;
@@ -87,12 +128,21 @@ BOOL CCitiesTable::SelectAll(CCitiesArray& oCitiesArray, HRESULT hResult)
 
 BOOL CCitiesTable::SelectWhereID(const long lID, CITIES& recCities, HRESULT hResult)
 {
+	if (FAILED(CreateCommandSessionConnection(m_oDBPropSet)))
+	{
+		return FALSE;
+	}
+
+	m_oSession.StartTransaction();
+
 	if (FAILED(SelectByID(lID, recCities))) {
+		m_oSession.Abort();
 		CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 		return FALSE;
 	}
 
+	m_oSession.Commit();
 	CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 	return TRUE;
@@ -100,7 +150,13 @@ BOOL CCitiesTable::SelectWhereID(const long lID, CITIES& recCities, HRESULT hRes
 
 BOOL CCitiesTable::UpdateWhereID(const long lID, const CITIES& recCities, HRESULT hResult)
 {
+	if (FAILED(CreateCommandSessionConnection(m_oDBPropSet)))
+	{
+		return FALSE;
+	}
+
 	CITIES oCity;
+	//m_oSession.StartTransaction();
 
 	if (FAILED(SelectByID(lID, oCity))) {
 		CloseCommandSessionConnection(m_oDataSource, m_oSession);
@@ -121,17 +177,6 @@ BOOL CCitiesTable::UpdateWhereID(const long lID, const CITIES& recCities, HRESUL
 	}
 
 	UpdateAll();
-	//SelectByID(lID, oCity);
-
-	//if (m_recCity.lUPDATE_COUNTER - 1 != oCity.lUPDATE_COUNTER)
-	//{
-	//	m_oSession.Abort();
-	//}
-	//else
-	//{
-	//	m_oSession.Commit();
-	//}
-
 	CloseCommandSessionConnection(m_oDataSource, m_oSession);
 
 	return TRUE;
@@ -139,6 +184,10 @@ BOOL CCitiesTable::UpdateWhereID(const long lID, const CITIES& recCities, HRESUL
 
 BOOL CCitiesTable::Insert(const CITIES& recCities, HRESULT hResult)
 {
+	if (FAILED(CreateCommandSessionConnection(m_oDBPropSet)))
+	{
+		return FALSE;
+	}
 
 	m_strQuery.Format(_T("SELECT TOP 0 * FROM CITIES"));
 
@@ -169,6 +218,11 @@ BOOL CCitiesTable::Insert(const CITIES& recCities, HRESULT hResult)
 
 BOOL CCitiesTable::DeleteWhereID(const long lID, HRESULT hResult)
 {
+	if (FAILED(CreateCommandSessionConnection(m_oDBPropSet)))
+	{
+		return FALSE;
+	}
+
 	CITIES oCity;
 	if (FAILED(SelectByID(lID, oCity)))
 	{
@@ -185,27 +239,3 @@ BOOL CCitiesTable::DeleteWhereID(const long lID, HRESULT hResult)
 	return TRUE;
 };
 
-void CCitiesTable::CloseCommandSessionConnection(CDataSource& oDataSource, CSession& oSession)
-{
-	Close();
-	oSession.Close();
-	oDataSource.Close();
-}
-
-BOOL CCitiesTable::SelectByID(const long lID, CITIES& recCities)
-{
-	m_strQuery.Format(_T("SELECT * FROM CITIES WHERE ID = %d"), lID);
-
-	HRESULT hResult = CoInitialize(0);
-	ExecuteQuery(hResult);
-
-	if (MoveNext() == S_OK)
-	{
-		recCities = m_recCity;
-	}
-	else
-	{
-		return FALSE;
-	}
-	return TRUE;
-}

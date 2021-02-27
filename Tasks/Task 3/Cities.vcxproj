@@ -201,6 +201,7 @@
     <ClInclude Include="CitiesView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="Operations.h" />
+    <ClInclude Include="PropertiesConnectionDB.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Structures.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="CitiesView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="Operations.cpp" />
+    <ClCompile Include="PropertiesConnectionDB.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
