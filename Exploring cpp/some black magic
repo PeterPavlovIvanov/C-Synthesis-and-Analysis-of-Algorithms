@@ -1,0 +1,216 @@
+#include <iostream>
+
+using namespace std;
+
+void BLACKMAGIC(int & front, int & back, int & lastEqual)
+{
+
+}
+
+void extractSqeunce(int * front, int* back, int dominoesCount, int & startSequenceIndex, int & sequnceLength)
+{
+	int * results = new int[dominoesCount], maxResultIndex = 0, max = 1;
+
+	for (int i = 1; i < dominoesCount; i++)
+		results[i] = 0;
+
+	int counter = 1, lastEqual = -666;
+
+	for (int i = 0; i < dominoesCount - 1; i++)
+	{
+		if (front[i] == front[i + 1])
+		{
+			if (front[i] == lastEqual) 
+			{
+				if (back[i + 1] == lastEqual)
+				{
+					lastEqual = front[i];
+					counter++;
+				}
+				else
+				{
+					results[i] = counter;
+					counter = 1;
+				}
+			}
+			else
+			{
+				lastEqual = front[i];
+				counter++;
+			}
+		}
+		else if (front[i] == back[i + 1])
+		{
+			if (front[i] == lastEqual)
+			{
+				if (front[i + 1] == lastEqual)
+				{
+					lastEqual = front[i];
+					counter++;
+				}
+				else
+				{
+					results[i] = counter;
+					counter = 1;
+				}
+			}
+			else
+			{
+				lastEqual = front[i];
+				counter++;
+			}
+		}
+		else if (back[i] == front[i + 1])
+		{
+			if (back[i] == lastEqual)
+			{
+				if (back[i + 1] == lastEqual)
+				{
+					lastEqual = back[i];
+					counter++;
+				}
+				else
+				{
+					results[i] = counter;
+					counter = 1;
+				}
+			}
+			else
+			{
+				lastEqual = back[i];
+				counter++;
+			}
+		}
+		else if (back[i] == back[i + 1])
+		{
+			if (back[i] == lastEqual)
+			{
+				if (front[i + 1] == lastEqual)
+				{
+					lastEqual = back[i];
+					counter++;
+				}
+				else
+				{
+					results[i] = counter;
+					counter = 1;
+				}
+			}
+			else
+			{
+				lastEqual = back[i];
+				counter++;
+			}
+		}
+		else
+		{
+			results[i] = counter;
+			counter = 1;
+		}
+
+
+
+	}
+
+	results[dominoesCount - 1] = counter;
+
+	for (int i = 0; i < dominoesCount; i++)
+	{
+		if (max <= results[i])
+		{
+			maxResultIndex = i;
+			max = results[i];
+		}
+	}
+
+	startSequenceIndex = maxResultIndex - max + 1;
+	sequnceLength = max;
+}
+
+void permute(int * front, int * back, int start, int end)
+{
+	// Base case
+	if (start == end)
+	{
+		//int startSequenceIndex, sequnceLength;
+		//extractSqeunce(front, back, end + 1, startSequenceIndex, sequnceLength);
+
+		//print result
+		bool printNextOposite = false;
+		for (int i = 0; i <= end; i++)
+		{
+			if (i == 0 && i != end)
+			{
+				if(back[i] == front[i + 1])
+					cout << front[i] << " " << back[i] << "  ";
+				else
+					cout << back[i] << " " << front[i] << "  ";
+			}
+			else 
+			{
+				if (!printNextOposite)
+					cout << front[i] << " " << back[i] << "  ";
+				else
+					cout << back[i] << " " << front[i] << "  ";
+
+				if (back[i] == front[i + 1])
+					printNextOposite = false;
+				else if (back[i] == back[i + 1])
+					printNextOposite = true;
+			}
+		}
+		cout << endl;
+	}
+	else
+	{
+		// Permutations made
+		for (int i = start; i <= end; i++)
+		{
+
+			// Swapping done
+			swap(front[start], front[i]);
+			swap(back[start], back[i]);
+
+			// Recursion called
+			permute(front, back, start + 1, end);
+
+			// Backtrack
+			swap(front[start], front[i]);
+			swap(back[start], back[i]);
+		}
+	}
+}
+
+int main()
+{
+	//Read input
+
+	int dominoesCount, l = 0, input, firstDominoIndex = 0;
+	int * originalFront = NULL, * originalBack = NULL;
+
+	cin >> dominoesCount;
+
+	originalFront = new int[dominoesCount];
+	originalBack = new int[dominoesCount];
+
+	do
+	{
+		cin >> input;
+		originalFront[l] = input;
+		
+		cin >> input;
+		originalBack[l] = input;
+		l++;
+	} 
+	while (l < dominoesCount);
+
+	permute(originalFront, originalBack, 0, dominoesCount - 1);
+
+	int s, d;
+	extractSqeunce(originalFront, originalBack, 3, s, d);
+
+	cout << endl <<"startSequenceIndex: " <<s << endl << "length: " << d <<endl;
+
+	system("pause");
+	return 0;
+}
