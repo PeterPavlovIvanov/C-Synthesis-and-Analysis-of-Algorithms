@@ -1,0 +1,56 @@
+﻿
+// PCShopDoc.h : interface of the CPCShopDoc class
+//
+
+
+#pragma once
+#include "PCShopSet.h"
+
+
+class CPCShopSrvrItem;
+
+class CPCShopDoc : public COleServerDocEx
+{
+protected: // create from serialization only
+	CPCShopDoc();
+	DECLARE_DYNCREATE(CPCShopDoc)
+
+// Attributes
+public:
+	CPCShopSrvrItem* GetEmbeddedItem()
+		{ return reinterpret_cast<CPCShopSrvrItem*>(COleServerDocEx::GetEmbeddedItem()); }
+	CPCShopSet m_PCShopSet;
+
+// Operations
+public:
+
+// Overrides
+protected:
+	virtual COleServerItem* OnGetEmbeddedItem();
+public:
+	virtual BOOL OnNewDocument();
+	virtual void Serialize(CArchive& ar);
+#ifdef SHARED_HANDLERS
+	virtual void InitializeSearchContent();
+	virtual void OnDrawThumbnail(CDC& dc, LPRECT lprcBounds);
+#endif // SHARED_HANDLERS
+
+// Implementation
+public:
+	virtual ~CPCShopDoc();
+#ifdef _DEBUG
+	virtual void AssertValid() const;
+	virtual void Dump(CDumpContext& dc) const;
+#endif
+
+protected:
+
+// Generated message map functions
+protected:
+	DECLARE_MESSAGE_MAP()
+
+#ifdef SHARED_HANDLERS
+	// Helper function that sets search content for a Search Handler
+	void SetSearchContent(const CString& value);
+#endif // SHARED_HANDLERS
+};
