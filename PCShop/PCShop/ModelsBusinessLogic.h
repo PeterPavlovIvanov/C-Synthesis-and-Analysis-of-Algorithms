@@ -10,7 +10,7 @@ public:
 public:
 	BOOL SelectAll(ModelsArray& modelsArray);
 
-	BOOL Insert(MODELS& model);
+	BOOL Insert(MODELS& model, BRANDS& brand);
 
 	BOOL DeleteWhereID(int id);
 

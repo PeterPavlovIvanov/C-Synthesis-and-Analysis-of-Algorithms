@@ -39,9 +39,15 @@ BOOL ModelsDocument::SelectAll()
 	return TRUE;
 }
 
-BOOL ModelsDocument::SelectByID(int id, MODELS & model)
+BOOL ModelsDocument::SelectByID(int id, MODELS & model, BRANDS& brand)
 {
-	return modelsBusinessLogic.SelectWhereID(id, model);
+	if (!modelsBusinessLogic.SelectWhereID(id, model))
+		return FALSE;
+
+	if (!brandsBusinessLogic.SelectWhereID(model.brandID, brand, modelsArray))
+		return FALSE;
+
+	return TRUE;
 }
 
 BOOL ModelsDocument::DeleteByID(int id)
@@ -50,7 +56,7 @@ BOOL ModelsDocument::DeleteByID(int id)
 
 	if (bResult != TRUE)
 	{
-		AfxMessageBox(_T("Error in removing model with ID: %d.\n", id));
+		AfxMessageBox(_T("Error in removing model with ID: %d.\n"), id);
 		return FALSE;
 	}
 
@@ -66,8 +72,8 @@ BOOL ModelsDocument::DeleteByID(int id)
 	MODELS model;
 	model.ID = id;
 
-	//UpdateCodes eUpdateCode = UpdateCodeDelete;
-	//OnUpdateAllViews(eUpdateCode, rack);
+	UpdateCodes eUpdateCode = UpdateCodeDelete;
+	OnUpdateAllViews(eUpdateCode, model);
 	return bResult;
 }
 
@@ -89,14 +95,14 @@ BOOL ModelsDocument::UpdateModel(MODELS & model)
 		}
 	}
 
-	//UpdateCodes eUpdateCode = UpdateCodeUpdate;
-	//OnUpdateAllViews(eUpdateCode, recCity);
+	UpdateCodes eUpdateCode = UpdateCodeUpdate;
+	OnUpdateAllViews(eUpdateCode, model);
 	return bResult;
 };
 
-BOOL ModelsDocument::InsertModel(MODELS & model)
+BOOL ModelsDocument::InsertModel(MODELS & model, BRANDS& brand)
 {
-	BOOL bResult = modelsBusinessLogic.Insert(model);
+	BOOL bResult = modelsBusinessLogic.Insert(model, brand);
 
 	if (bResult != TRUE)
 	{
@@ -105,11 +111,16 @@ BOOL ModelsDocument::InsertModel(MODELS & model)
 
 	MODELS* pointerBrand = new MODELS();
 	*pointerBrand = model;
-	modelsArray.Add(pointerBrand); //TODO: check Append
+	modelsArray.Add(pointerBrand); 
 
-								  //UpdateCodes eUpdateCode = UpdateCodeInsert;
-								  //OnUpdateAllViews(eUpdateCode, recCities);
+	UpdateCodes eUpdateCode = UpdateCodeInsert;
+	OnUpdateAllViews(eUpdateCode, model);
 	return bResult;
+}
+
+void ModelsDocument::OnUpdateAllViews(UpdateCodes updateCodeN, MODELS model)
+{
+	UpdateAllViews(NULL, updateCodeN, (CObject*)&model);
 }
 
 

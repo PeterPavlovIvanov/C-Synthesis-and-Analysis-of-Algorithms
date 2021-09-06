@@ -27,6 +27,7 @@
 #include "ProductTypesView.h"
 #include "ShelvesView.h"
 #include "ProductsView.h"
+#include "CategoriesView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -180,6 +181,14 @@ BOOL CPCShopApp::InitInstance()
 		RUNTIME_CLASS(ShelvesDocument),
 		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
 		RUNTIME_CLASS(ShelvesView));
+	if (!pDocTemplate)
+		return FALSE;
+	AddDocTemplate(pDocTemplate);
+
+	pDocTemplate = new CMultiDocTemplate(IDR_CATEGORIES_VIEW,
+		RUNTIME_CLASS(CategoriesDocument),
+		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
+		RUNTIME_CLASS(CategoriesView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);

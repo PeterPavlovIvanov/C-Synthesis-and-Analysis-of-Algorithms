@@ -16,5 +16,5 @@ public:
 
 	BOOL UpdateByID(BRANDS& brand);
 
-	BOOL SelectWhereID(int id, BRANDS& brand);
+	BOOL SelectWhereID(int id, BRANDS& brand, ModelsArray& modelsArray);
 };

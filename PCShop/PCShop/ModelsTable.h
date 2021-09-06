@@ -29,5 +29,7 @@ public:
 
 	void Trim() override;
 
+	BOOL SelectAllByBrandID(long brandID, ModelsArray& modelsArray);
+
 	MODELS & GetRowSet();
 };

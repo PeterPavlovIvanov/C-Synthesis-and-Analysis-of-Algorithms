@@ -5,6 +5,8 @@
 #include "PCShop.h"
 #include "BrandsView.h"
 #include "TypeDefs.h" 
+#include "UpdateCodes.h"
+#include "BrandsDialog.h"
 
 // BrandsView
 
@@ -20,10 +22,10 @@ BrandsView::~BrandsView()
 }
 
 BEGIN_MESSAGE_MAP(BrandsView, CListView)
-	/*ON_COMMAND(INSERT_OPTION_ID, &CCitiesView::OnCitiesInsert)
-	ON_COMMAND(VIEW_OPTION_ID, &CCitiesView::OnView)
-	ON_COMMAND(DELETE_OPTION_ID, &CCitiesView::OnDelete)
-	ON_COMMAND(UPDATE_OPTION_ID, &CCitiesView::OnCityUpdate)*/
+	ON_COMMAND(INSERT_BRAND_OPTION, &BrandsView::OnBrandInsert)
+	ON_COMMAND(UPDATE_BRAND_OPTION, &BrandsView::OnBrandUpdate)
+	ON_COMMAND(PREVIEW_BRAND_OPTION, &BrandsView::OnBrandPreview)
+	ON_COMMAND(DELETE_BRAND_OPTION, &BrandsView::OnBrandDelete)
 	ON_WM_PAINT()
 	ON_WM_CONTEXTMENU()
 END_MESSAGE_MAP()
@@ -53,7 +55,173 @@ BrandsDocument * BrandsView::GetDocument() const
 
 void BrandsView::OnContextMenu(CWnd * pWnd, CPoint point)
 {
-};
+	//Sample 01: Declarations
+	CRect client_rect;
+	CMenu MainMenu;
+
+	//Get Mouse Click position and convert it to the Screen Co-ordinate
+	GetClientRect(&client_rect);
+	ClientToScreen(&client_rect);
+
+	//Check the mouse pointer position is inside the client area
+	if (client_rect.PtInRect(point))
+	{
+		//Create the Main Menu
+		MainMenu.CreatePopupMenu();
+		MainMenu.AppendMenu(MF_STRING, INSERT_BRAND_OPTION, _T("Add Brand"));
+		if (listCtrl.GetNextItem(-1, LVNI_SELECTED) > -1)
+		{
+			MainMenu.AppendMenu(MF_STRING, UPDATE_BRAND_OPTION, _T("Update Brand"));
+			MainMenu.AppendMenu(MF_STRING, DELETE_BRAND_OPTION, _T("Delete Brand"));
+			MainMenu.AppendMenu(MF_STRING, PREVIEW_BRAND_OPTION, _T("Preview Brand"));
+		}
+
+		//Display the Popup Menu
+		MainMenu.TrackPopupMenu(TPM_LEFTALIGN, point.x, point.y, this);
+	}
+	else
+	{
+		CWnd::OnContextMenu(pWnd, point);
+	}
+}
+
+void BrandsView::OnBrandInsert()
+{
+	//Взимаме документа
+	BrandsDocument* brandsDocument = GetDocument();
+	ModelsArray empty;
+	//Инициализираме диалога със съответните заглавие и полета
+	BRANDS brand;
+	BrandsDialog dialog(brand, empty, DialogModeInsert);
+
+	if (dialog.DoModal() != IDOK)
+		return;
+
+	brandsDocument->InsertBrand(brand);
+}
+
+void BrandsView::OnBrandPreview()
+{
+	//Взимаме документа
+	BrandsDocument* brandsDocument = GetDocument();
+
+	int index = listCtrl.GetSelectionMark();
+	long ID = (long)listCtrl.GetItemData(index);
+
+	BRANDS brand;
+	ModelsArray modelsArray;
+	if (brandsDocument->SelectByID(ID, brand, modelsArray) == FALSE)
+		return;
+
+	//Инициализираме диалога със съответните заглавие и полета
+	BrandsDialog dialog(brand, modelsArray, DialogModePreview);
+
+	dialog.DoModal();
+}
+
+void BrandsView::OnBrandDelete()
+{
+	//Взимаме документа
+	BrandsDocument* brandsDocument = GetDocument();
+
+	int index = listCtrl.GetSelectionMark();
+	long ID = (long)listCtrl.GetItemData(index);
+
+	BRANDS brand;
+	ModelsArray modelsArray;
+	if (brandsDocument->SelectByID(ID, brand, modelsArray) == FALSE)
+		return;
+
+	//Инициализираме диалога със съответните заглавие и полета
+	BrandsDialog dialog(brand, modelsArray, DialogModeDelete);
+
+	if (dialog.DoModal() != IDOK)
+		return;
+
+	GetDocument()->DeleteByID(ID);
+}
+
+void BrandsView::OnBrandUpdate()
+{
+	//Взимаме документа
+	BrandsDocument* brandsDocument = GetDocument();
+
+	int index = listCtrl.GetSelectionMark();
+	long ID = (long)listCtrl.GetItemData(index);
+
+	BRANDS brand;
+	ModelsArray modelsArray;
+	if (brandsDocument->SelectByID(ID, brand, modelsArray) == FALSE)
+		return;
+
+	//Инициализираме диалога със съответните заглавие и полета
+	BrandsDialog dialog(brand, modelsArray, DialogModeUpdate);
+
+	if (dialog.DoModal() != IDOK)
+		return;
+
+	GetDocument()->UpdateBrand(brand);
+}
+
+void BrandsView::OnUpdate(CView * pSender, LPARAM lHint, CObject * pHint)
+{
+	switch (lHint)
+	{
+	case (UpdateCodes::UpdateCodeUpdate):
+	{
+		UpdateBrandInListCtrl(pHint);
+		break;
+	}
+	case (UpdateCodes::UpdateCodeInsert):
+	{
+		InsertBrandInListCtrl(pHint);
+		break;
+	}
+	case (UpdateCodes::UpdateCodeDelete):
+	{
+		DeleteBrandInListCtrl(pHint);
+		break;
+	}
+	default:
+		break;
+	}
+	__super::OnUpdate(pSender, lHint, pHint);
+}
+
+void BrandsView::UpdateBrandInListCtrl(CObject * pHint)
+{
+	for (int i = 0; i < listCtrl.GetItemCount(); i++)
+	{
+		BRANDS* brand = (BRANDS*)pHint;
+		if (listCtrl.GetItemData(i) == brand->ID)
+		{
+			listCtrl.SetItemText(i, 0, brand->brandName);
+			listCtrl.SetItemData(i, brand->ID);
+
+			break;
+		}//if
+	}//for
+}
+
+void BrandsView::InsertBrandInListCtrl(CObject * pHint)
+{
+	BRANDS* brand = (BRANDS*)pHint;
+	int index = listCtrl.InsertItem(0, brand->brandName);
+	listCtrl.SetItemData(index, brand->ID);
+}
+
+void BrandsView::DeleteBrandInListCtrl(CObject * pHint)
+{
+	for (int i = 0; i < listCtrl.GetItemCount(); i++)
+	{
+		BRANDS* brand = (BRANDS*)pHint;
+		if (listCtrl.GetItemData(i) == brand->ID)
+		{
+			listCtrl.DeleteItem(i);
+			break;
+		}
+	}
+}
 
 void BrandsView::OnInitialUpdate()
 {
@@ -72,25 +240,24 @@ void BrandsView::OnInitialUpdate()
 		CString strID;
 		strID.Format(_T("%d"), brand->ID);
 
-		int nIndex = m_ListCtrl.InsertItem(0, brand->brandName);
-		m_ListCtrl.SetItemText(nIndex, 1, brand->brandName);
-		m_ListCtrl.SetItemText(nIndex, 2, strID);
+		int index = listCtrl.InsertItem(0, brand->brandName);
+		listCtrl.SetItemText(index, 1, brand->brandName);
+		listCtrl.SetItemData(index, brand->ID);
 	}
 
-	m_ListCtrl.DeleteColumn(0);
+	listCtrl.DeleteColumn(0);
 }
 
 // BrandsView message handlers
 
 void BrandsView::SetColumnsBrandsListCtrl()
 {
-	m_ListCtrl.SetView(LVS_REPORT);
+	listCtrl.SetView(LVS_REPORT);
 	//todo: LVS_SINGLESEL
-	m_ListCtrl.SetExtendedStyle(m_ListCtrl.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+	listCtrl.SetExtendedStyle(listCtrl.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 
-	m_ListCtrl.InsertColumn(0, _T(""), LVCFMT_RIGHT);
-	m_ListCtrl.InsertColumn(1, _T("BRAND_NAME"), LVCFMT_CENTER, COLUMN_WIDTH_BASIC);
-	m_ListCtrl.InsertColumn(2, _T("ID"), LVCFMT_CENTER, COLUMN_WIDTH_BASIC);
+	listCtrl.InsertColumn(0, _T(""), LVCFMT_RIGHT);
+	listCtrl.InsertColumn(1, _T("BRAND_NAME"), LVCFMT_CENTER, COLUMN_WIDTH_BASIC);
 }
 
 

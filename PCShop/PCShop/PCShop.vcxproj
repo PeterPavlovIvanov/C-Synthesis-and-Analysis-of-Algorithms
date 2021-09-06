@@ -197,18 +197,23 @@
     <ClInclude Include="AbstractTable.h" />
     <ClInclude Include="Brands.h" />
     <ClInclude Include="BrandsBusinessLogic.h" />
+    <ClInclude Include="BrandsDialog.h" />
     <ClInclude Include="BrandsDocument.h" />
     <ClInclude Include="BrandsTable.h" />
     <ClInclude Include="BrandsView.h" />
     <ClInclude Include="Categories.h" />
     <ClInclude Include="CategoriesBusinessLogic.h" />
+    <ClInclude Include="CategoriesDialog.h" />
+    <ClInclude Include="CategoriesDocument.h" />
     <ClInclude Include="CategoriesTable.h" />
+    <ClInclude Include="CategoriesView.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="CntrItem.h" />
     <ClInclude Include="ConnectionProps.h" />
     <ClInclude Include="DBConnection.h" />
     <ClInclude Include="DialogModes.h" />
     <ClInclude Include="ModelsBusinessLogic.h" />
+    <ClInclude Include="ModelsDialog.h" />
     <ClInclude Include="ModelsDocument.h" />
     <ClInclude Include="ModelsView.h" />
     <ClInclude Include="ProductsBusinessLogic.h" />
@@ -253,11 +258,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BrandsBusinessLogic.cpp" />
+    <ClCompile Include="BrandsDialog.cpp" />
     <ClCompile Include="BrandsDocument.cpp" />
     <ClCompile Include="BrandsTable.cpp" />
     <ClCompile Include="BrandsView.cpp" />
     <ClCompile Include="CategoriesBusinessLogic.cpp" />
+    <ClCompile Include="CategoriesDialog.cpp" />
+    <ClCompile Include="CategoriesDocument.cpp" />
     <ClCompile Include="CategoriesTable.cpp" />
+    <ClCompile Include="CategoriesView.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="CntrItem.cpp" />
     <ClCompile Include="ConnectionProps.cpp" />
@@ -265,6 +274,7 @@
     <ClCompile Include="IpFrame.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="ModelsBusinessLogic.cpp" />
+    <ClCompile Include="ModelsDialog.cpp" />
     <ClCompile Include="ModelsDocument.cpp" />
     <ClCompile Include="ModelsTable.cpp" />
     <ClCompile Include="ModelsView.cpp" />

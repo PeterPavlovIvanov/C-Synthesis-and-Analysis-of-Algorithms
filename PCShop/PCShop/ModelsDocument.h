@@ -3,6 +3,7 @@
 #include "CategoriesBusinessLogic.h"
 #include "ModelsBusinessLogic.h"
 #include "BrandsBusinessLogic.h"
+#include "UpdateCodes.h"
 
 // ModelsDocument document
 
@@ -30,13 +31,13 @@ public:
 public:
 	BOOL SelectAll();
 
-	BOOL SelectByID(int id, MODELS& model);
+	BOOL SelectByID(int id, MODELS& model, BRANDS& brand);
 
 	BOOL DeleteByID(int id);
 
 	BOOL UpdateModel(MODELS& model);
 
-	BOOL InsertModel(MODELS& model);
+	BOOL InsertModel(MODELS& model, BRANDS& brand);
 
 	ModelsArray& GetModelsArray()
 	{
@@ -48,7 +49,7 @@ public:
 		return brandsArray;
 	}
 
-	//void OnUpdateAllViews(UpdateCodes eUpdateCode, RACKS rack);
+	void OnUpdateAllViews(UpdateCodes updateCodeN, MODELS model);
 
 public:
 	ModelsBusinessLogic modelsBusinessLogic;

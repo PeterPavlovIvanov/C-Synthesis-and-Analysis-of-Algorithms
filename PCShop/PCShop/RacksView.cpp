@@ -214,6 +214,7 @@ void RacksView::OnInitialUpdate()
 		int index = listCtrl.InsertItem(0, rack->rackName);
 		listCtrl.SetItemText(index, 1, rack->rackName);
 		listCtrl.SetItemText(index, 2, strID);
+
 		listCtrl.SetItemData(index, rack->ID);
 	}
 

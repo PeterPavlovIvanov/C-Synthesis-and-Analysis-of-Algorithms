@@ -6,6 +6,7 @@
 #include "ProductTypes.h"
 #include "Shelves.h"
 #include "Products.h"
+#include "Categories.h"
 
 #define FIX_TO_LAST_INDEX 1
 #define COLUMN_WIDTH_BASIC 120

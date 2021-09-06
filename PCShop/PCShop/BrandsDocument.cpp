@@ -5,7 +5,6 @@
 #include "PCShop.h"
 #include "BrandsDocument.h"
 
-
 // BrandsDocument
 
 IMPLEMENT_DYNCREATE(BrandsDocument, CDocument)
@@ -34,9 +33,9 @@ BOOL BrandsDocument::SelectAll()
 	return brandsBusinessLogic.SelectAll(brandsArray);
 }
 
-BOOL BrandsDocument::SelectByID(int id, BRANDS & brand)
+BOOL BrandsDocument::SelectByID(int id, BRANDS & brand, ModelsArray& modelsArray)
 {
-	return brandsBusinessLogic.SelectWhereID(id, brand);
+	return brandsBusinessLogic.SelectWhereID(id, brand, modelsArray);
 }
 
 BOOL BrandsDocument::DeleteByID(int id)
@@ -45,7 +44,7 @@ BOOL BrandsDocument::DeleteByID(int id)
 
 	if (bResult != TRUE)
 	{
-		AfxMessageBox(_T("Error in removing brand with ID: %d.\n", id));
+		AfxMessageBox(_T("Error in removing brand with ID: %d.\n"), id);
 		return FALSE;
 	}
 
@@ -61,8 +60,8 @@ BOOL BrandsDocument::DeleteByID(int id)
 	BRANDS brand;
 	brand.ID = id;
 
-	//UpdateCodes eUpdateCode = UpdateCodeDelete;
-	//OnUpdateAllViews(eUpdateCode, rack);
+	UpdateCodes eUpdateCode = UpdateCodeDelete;
+	OnUpdateAllViews(eUpdateCode, brand);
 	return bResult;
 }
 
@@ -84,8 +83,8 @@ BOOL BrandsDocument::UpdateBrand(BRANDS & brand)
 		}
 	}
 
-	//UpdateCodes eUpdateCode = UpdateCodeUpdate;
-	//OnUpdateAllViews(eUpdateCode, recCity);
+	UpdateCodes eUpdateCode = UpdateCodeUpdate;
+	OnUpdateAllViews(eUpdateCode, brand);
 	return bResult;
 };
 
@@ -100,11 +99,16 @@ BOOL BrandsDocument::InsertBrand(BRANDS & brand)
 
 	BRANDS* pointerBrand = new BRANDS();
 	*pointerBrand = brand;
-	brandsArray.Add(pointerBrand); //TODO: check Append
+	brandsArray.Add(pointerBrand);
 
-								 //UpdateCodes eUpdateCode = UpdateCodeInsert;
-								 //OnUpdateAllViews(eUpdateCode, recCities);
+	UpdateCodes eUpdateCode = UpdateCodeInsert;
+	OnUpdateAllViews(eUpdateCode, brand);
 	return bResult;
+}
+
+void BrandsDocument::OnUpdateAllViews(UpdateCodes updateCodeN, BRANDS brand)
+{
+	UpdateAllViews(NULL, updateCodeN, (CObject*)&brand);
 }
 
 // BrandsDocument diagnostics

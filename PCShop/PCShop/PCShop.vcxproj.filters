@@ -207,6 +207,21 @@
     <ClInclude Include="ProductsDialog.h">
       <Filter>Source Files\Dialogs</Filter>
     </ClInclude>
+    <ClInclude Include="CategoriesDialog.h">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="CategoriesDocument.h">
+      <Filter>Source Files\Documents</Filter>
+    </ClInclude>
+    <ClInclude Include="CategoriesView.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="BrandsDialog.h">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelsDialog.h">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConnectionProps.cpp">
@@ -334,6 +349,21 @@
     </ClCompile>
     <ClCompile Include="ProductsBusinessLogic.cpp">
       <Filter>Source Files\Business Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="CategoriesDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="CategoriesDocument.cpp">
+      <Filter>Source Files\Documents</Filter>
+    </ClCompile>
+    <ClCompile Include="CategoriesView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="BrandsDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelsDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

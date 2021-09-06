@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "TypeDefs.h"
 #include "BrandsBusinessLogic.h"
+#include "UpdateCodes.h"
 
 // BrandsDocument document
 
@@ -28,7 +29,7 @@ public:
 public:
 	BOOL SelectAll();
 
-	BOOL SelectByID(int id, BRANDS& brand);
+	BOOL SelectByID(int id, BRANDS& brand, ModelsArray& modelsArray);
 
 	BOOL DeleteByID(int id);
 
@@ -41,7 +42,7 @@ public:
 		return brandsArray;
 	}
 
-	//void OnUpdateAllViews(UpdateCodes eUpdateCode, RACKS rack);
+	void OnUpdateAllViews(UpdateCodes updateCodeN, BRANDS brand);
 
 public:
 	BrandsBusinessLogic brandsBusinessLogic;

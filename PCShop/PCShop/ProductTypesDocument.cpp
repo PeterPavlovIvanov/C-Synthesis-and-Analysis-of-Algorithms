@@ -83,8 +83,8 @@ BOOL ProductTypesDocument::DeleteByID(int id)
 	PRODUCT_TYPES productType;
 	productType.ID = id;
 
-	UpdateCodes eUpdateCode = UpdateCodeDelete;
-	OnUpdateAllViews(eUpdateCode, productType);
+	UpdateCodes updateCode = UpdateCodeDelete;
+	OnUpdateAllViews(updateCode, productType);
 	return bResult;
 }
 

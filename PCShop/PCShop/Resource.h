@@ -34,6 +34,10 @@
 #define IDD_RACKS_DIALOG                313
 #define IDD_PRODUCT_TYPES_DIALOG        314
 #define IDD_PRODUCTS_DIALOG             315
+#define IDD_DIALOG_CATEGORIES           317
+#define IDR_CATEGORIES_VIEW             318
+#define IDD_DIALOG_BRANDS               319
+#define IDD_DIALOG_MODELS               321
 #define IDC_EDIT_SHELF_NUMBER           1000
 #define IDC_EDIT_SHELF_NAME             1001
 #define IDC_STATIC_SHELF_NUMBER         1002
@@ -96,39 +100,61 @@
 #define IDC_COMBO_P_RACK                1065
 #define IDC_STATIC_P_SHELF              1066
 #define IDC_STATIC_P_RACK               1067
+#define IDC_EDIT_CATEGORIES_CATEGORY_NAME 1068
+#define IDC_STATIC_CATEGORIES_CATEGORY_NAME 1069
+#define IDC_STATIC_BRANDS_NAME          1070
+#define IDC_EDIT_BRANDS_NAME            1071
+#define IDC_LIST_BRANDS_MODELS          1072
+#define IDC_STATIC_BRANDS_MODELS        1073
+#define IDC_EDIT_MODELS_NAME            1074
+#define IDC_STATIC_MODELS_NAME          1075
+#define IDC_EDIT_MODELS_BRAND           1076
+#define IDC_STATIC_MODELS_BRAND         1077
 #define ID_CANCEL_EDIT_CNTR             32768
 #define ID_CANCEL_EDIT_SRVR             32769
 #define INSERT_SHELF_OPTION             32770
 #define UPDATE_SHELF_OPTION             32771
-#define ID_PRODUCTTYPES                 32771
-#define PREVIEW_SHELF_OPTION            32772
-#define ID_PRODUCTS                     32772
-#define DELETE_SHELF_OPTION             32773
-#define ID_SHELVES                      32773
-#define INSERT_RACK_OPTION              32774
-#define ID_RACKS                        32774
-#define UPDATE_RACK_OPTION              32775
-#define ID_MODELS                       32775
-#define PREVIEW_RACK_OPTION             32776
-#define ID_BRANDS                       32776
-#define DELETE_RACK_OPTION              32777
-#define ID_Menu                         32777
-#define INSERT_PRODUCT_TYPE_OPTION      32778
-#define INSERT_PRODUCT_OPTION           32778
-#define UPDATE_PRODUCT_TYPE_OPTION      32779
-#define UPDATE_PRODUCT_OPTION           32779
-#define PREVIEW_PRODUCT_TYPE_OPTION     32780
-#define PREVIEW_PRODUCT_OPTION          32780
-#define DELETE_PRODUCT_TYPE_OPTION      32781
-#define DELETE_PRODUCT_OPTION           32781
+#define ID_PRODUCTTYPES                 32772
+#define PREVIEW_SHELF_OPTION            32773
+#define ID_PRODUCTS                     32774
+#define DELETE_SHELF_OPTION             32775
+#define ID_SHELVES                      32776
+#define INSERT_RACK_OPTION              32777
+#define ID_RACKS                        32778
+#define UPDATE_RACK_OPTION              32779
+#define ID_MODELS                       32780
+#define PREVIEW_RACK_OPTION             32781
+#define ID_BRANDS                       32782
+#define DELETE_RACK_OPTION              32783
+#define ID_Menu                         32784
+#define INSERT_PRODUCT_TYPE_OPTION      32785
+#define INSERT_PRODUCT_OPTION           32786
+#define UPDATE_PRODUCT_TYPE_OPTION      32787
+#define UPDATE_PRODUCT_OPTION           32788
+#define PREVIEW_PRODUCT_TYPE_OPTION     32789
+#define PREVIEW_PRODUCT_OPTION          32790
+#define DELETE_PRODUCT_TYPE_OPTION      32791
+#define DELETE_PRODUCT_OPTION           32792
+#define INSERT_CATEGORY_OPTION          32793
+#define UPDATE_CATEGORY_OPTION          32794
+#define PREVIEW_CATEGORY_OPTION         32795
+#define DELETE_CATEGORY_OPTION          32796
+#define INSERT_BRAND_OPTION             32797
+#define UPDATE_BRAND_OPTION             32798
+#define PREVIEW_BRAND_OPTION            32799
+#define DELETE_BRAND_OPTION             32800
+#define INSERT_MODEL_OPTION             32801
+#define UPDATE_MODEL_OPTION             32802
+#define PREVIEW_MODEL_OPTION            32803
+#define DELETE_MODEL_OPTION             32804
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        317
+#define _APS_NEXT_RESOURCE_VALUE        323
 #define _APS_NEXT_COMMAND_VALUE         32778
-#define _APS_NEXT_CONTROL_VALUE         1068
-#define _APS_NEXT_SYMED_VALUE           315
+#define _APS_NEXT_CONTROL_VALUE         1078
+#define _APS_NEXT_SYMED_VALUE           321
 #endif
 #endif

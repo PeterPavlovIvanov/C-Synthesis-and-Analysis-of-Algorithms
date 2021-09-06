@@ -42,19 +42,13 @@ public:
 	void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) override;
 
 private:
-	///<summary>Обновява град в лист контролата</summary>
-	///<param "pHint">Обект съдържащ информацията за града</param>
+
 	void UpdateProductTypeInListCtrl(CObject * pHint);
 
-	///<summary>Добавя град в лист контролата</summary>
-	///<param "pHint">Обект съдържащ информацията за града</param>
 	void InsertProductTypeInListCtrl(CObject * pHint);
 
-	///<summary>Изтрива град от лист контролата</summary>
-	///<param "pHint">Обект съдържащ информацията за града</param>
 	void DeleteProductTypeInListCtrl(CObject * pHint);
 
-	///<summary>Задава колонките на лист контролата</summary>
 	void SetColumnsProductTypesListCtrl();
 
 	//Members

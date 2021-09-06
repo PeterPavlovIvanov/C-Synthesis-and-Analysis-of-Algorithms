@@ -28,6 +28,44 @@ void BrandsTable::Trim()
 	}
 }
 
+BOOL BrandsTable::SelectWherebrandName(CString brandName, BRANDS & brand)
+{
+	HRESULT hResult = S_OK;
+	CString strQuery;
+	strQuery.Format(_T("SELECT TOP 1 * FROM BRANDS WHERE BRAND_NAME = '%s'"), brandName);
+
+	if (FAILED(OpenSession()))
+		return FALSE;
+
+	if (FAILED(ExecuteQuery(strQuery)))
+	{
+		Close();
+		return FALSE;
+	}
+
+	while (true)
+	{
+		hResult = MoveNext();
+		if (hResult == S_OK)
+		{
+			Trim();
+			brand = GetRowSet();
+		}
+		else if (hResult == DB_S_ENDOFROWSET)
+		{
+			break;
+		}
+		else
+		{
+			CloseSession();
+			Close();
+			return FALSE;
+		}
+	}
+	Close();
+	return TRUE;
+}
+
 BRANDS& BrandsTable::GetRowSet()
 {
 	return brand;

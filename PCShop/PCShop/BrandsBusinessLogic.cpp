@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BrandsBusinessLogic.h"
 #include "BrandsTable.h"
+#include "ModelsTable.h"
 
 BrandsBusinessLogic::BrandsBusinessLogic()
 {
@@ -46,11 +47,34 @@ BOOL BrandsBusinessLogic::UpdateByID(BRANDS & brand)
 	return hResult;
 }
 
-BOOL BrandsBusinessLogic::SelectWhereID(int id, BRANDS & brand)
+BOOL BrandsBusinessLogic::SelectWhereID(int id, BRANDS & brand, ModelsArray& modelsArray)
 {
-	BrandsTable brandsTable;
+	CSession session;
 
-	BOOL hResult = brandsTable.SelectWhereID(id, brand);
+	// Отваряме сесия
+	if (session.Open(DBConnection::GetInstance().GetDataSource()))
+		return FALSE;
 
-	return hResult;
+	// Започваме транзакция
+	if (FAILED(session.StartTransaction()))
+		return FALSE;
+
+	BrandsTable brandsTable(&session);
+
+	if (!brandsTable.SelectWhereID(id, brand))
+		return FALSE;
+
+	ModelsTable modelsTable(&session);
+
+	if (!modelsTable.SelectAllByBrandID(id, modelsArray))
+		return FALSE;
+
+	// Commit-ваме транзакцията
+	if (FAILED(session.Commit()))
+		return FALSE;
+
+	// Затваряме сесията
+	session.Close();
+
+	return TRUE;
 }

@@ -40,19 +40,12 @@ public:
 	void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) override;
 
 private:
-	///<summary>Обновява град в лист контролата</summary>
-	///<param "pHint">Обект съдържащ информацията за града</param>
 	void UpdateRackInListCtrl(CObject * pHint);
 
-	///<summary>Добавя град в лист контролата</summary>
-	///<param "pHint">Обект съдържащ информацията за града</param>
 	void InsertRackInListCtrl(CObject * pHint);
 
-	///<summary>Изтрива град от лист контролата</summary>
-	///<param "pHint">Обект съдържащ информацията за града</param>
 	void DeleteRackInListCtrl(CObject * pHint);
 
-	///<summary>Задава колонките на лист контролата</summary>
 	void SetColumnsRacksListCtrl();
 
 	//Members

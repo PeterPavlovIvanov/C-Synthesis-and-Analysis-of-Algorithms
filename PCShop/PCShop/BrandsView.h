@@ -23,52 +23,38 @@ public:
 #endif
 
 public:
-	///<summary>Отваря диалога за Insert на град</summary>
-	afx_msg void OnBrandsInsert();
 
 	void OnInitialUpdate();
-
-	BOOL InsertBrand(BRANDS& brand);
-
-	BOOL UpdateBrand(BRANDS& brand);
-
-	BOOL DeleteBrand(int nID);
-
-	BOOL SelectBrand(int nID, BRANDS& brand);
 
 	BrandsDocument* GetDocument() const;
 
 	void OnContextMenu(CWnd* pWnd, CPoint point);
 
-	void OnView();
+	void OnBrandInsert();
 
-	void OnDelete();
+	void OnBrandPreview();
 
-	void OnCityUpdate();
+	void OnBrandDelete();
 
-	//void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) override;
+	void OnBrandUpdate();
+
+	void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) override;
 
 private:
-	///<summary>Обновява град в лист контролата</summary>
-	///<param "pHint">Обект съдържащ информацията за града</param>
+
 	void UpdateBrandInListCtrl(CObject * pHint);
 
-	///<summary>Добавя град в лист контролата</summary>
-	///<param "pHint">Обект съдържащ информацията за града</param>
 	void InsertBrandInListCtrl(CObject * pHint);
 
-	///<summary>Изтрива град от лист контролата</summary>
-	///<param "pHint">Обект съдържащ информацията за града</param>
 	void DeleteBrandInListCtrl(CObject * pHint);
 
-	///<summary>Задава колонките на лист контролата</summary>
 	void SetColumnsBrandsListCtrl();
 
 	//Members
 	// ----------------
 private:
 	///<summary>Инстанция на List Control-ата</summary>
-	CListCtrl& m_ListCtrl = GetListCtrl();
+	CListCtrl& listCtrl = GetListCtrl();
 };
 
 

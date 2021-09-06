@@ -28,5 +28,7 @@ public:
 
 	void Trim() override;
 
+	BOOL SelectWherebrandName(CString brandName, BRANDS& brand);
+
 	BRANDS & GetRowSet();
 };
