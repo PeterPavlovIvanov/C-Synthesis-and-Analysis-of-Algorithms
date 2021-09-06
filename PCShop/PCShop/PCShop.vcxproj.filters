@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\DB Connection">
+      <UniqueIdentifier>{5c81346c-dcd0-4ca8-9e58-a038f0b8b236}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tables">
+      <UniqueIdentifier>{f165f65b-b591-4d43-96f9-80b858285e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Table Structures">
+      <UniqueIdentifier>{8dfd94f6-d2bd-471a-ba66-0fc99e5af5c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Business Classes">
+      <UniqueIdentifier>{39f14aa1-9475-4bc9-b367-f51464e21072}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Views">
+      <UniqueIdentifier>{9340d910-c702-4bd9-8b60-c00530ffff7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Documents">
+      <UniqueIdentifier>{c9bc0395-9448-43d9-bc7b-ea393fa62069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dialogs">
+      <UniqueIdentifier>{d9d4091f-593a-483d-a604-8dbdb85e8ecf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DBConnection.h">
+      <Filter>Source Files\DB Connection</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectionProps.h">
+      <Filter>Source Files\DB Connection</Filter>
+    </ClInclude>
+    <ClInclude Include="Brands.h">
+      <Filter>Source Files\Table Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Racks.h">
+      <Filter>Source Files\Table Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Shelves.h">
+      <Filter>Source Files\Table Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Categories.h">
+      <Filter>Source Files\Table Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Products.h">
+      <Filter>Source Files\Table Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductTypes.h">
+      <Filter>Source Files\Table Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Models.h">
+      <Filter>Source Files\Table Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractTable.h">
+      <Filter>Source Files\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="BrandsTable.h">
+      <Filter>Source Files\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="CategoriesTable.h">
+      <Filter>Source Files\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelsTable.h">
+      <Filter>Source Files\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductsTable.h">
+      <Filter>Source Files\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductTypesTable.h">
+      <Filter>Source Files\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="RacksTable.h">
+      <Filter>Source Files\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="ShelvesTable.h">
+      <Filter>Source Files\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="ChildFrm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CntrItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IpFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PCShop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PCShopDoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PCShopSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PCShopView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SrvrItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RacksBusinessLogic.h">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeDefs.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RacksDocument.h">
+      <Filter>Source Files\Documents</Filter>
+    </ClInclude>
+    <ClInclude Include="RacksView.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryArray.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BrandsDocument.h">
+      <Filter>Source Files\Documents</Filter>
+    </ClInclude>
+    <ClInclude Include="BrandsBusinessLogic.h">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="BrandsView.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelsBusinessLogic.h">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelsDocument.h">
+      <Filter>Source Files\Documents</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelsView.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductTypesBusinessLogic.h">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductTypesDocument.h">
+      <Filter>Source Files\Documents</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductTypesView.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="CategoriesBusinessLogic.h">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="ShelvesBusinessLogic.h">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="ShelvesDocument.h">
+      <Filter>Source Files\Documents</Filter>
+    </ClInclude>
+    <ClInclude Include="ShelvesView.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductsBusinessLogic.h">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductsDocument.h">
+      <Filter>Source Files\Documents</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductsView.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="ShelvesDialog.h">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogModes.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateCodes.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RacksDialog.h">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductTypesDialog.h">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductsDialog.h">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ConnectionProps.cpp">
+      <Filter>Source Files\DB Connection</Filter>
+    </ClCompile>
+    <ClCompile Include="DBConnection.cpp">
+      <Filter>Source Files\DB Connection</Filter>
+    </ClCompile>
+    <ClCompile Include="BrandsTable.cpp">
+      <Filter>Source Files\Tables</Filter>
+    </ClCompile>
+    <ClCompile Include="CategoriesTable.cpp">
+      <Filter>Source Files\Tables</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelsTable.cpp">
+      <Filter>Source Files\Tables</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductsTable.cpp">
+      <Filter>Source Files\Tables</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductTypesTable.cpp">
+      <Filter>Source Files\Tables</Filter>
+    </ClCompile>
+    <ClCompile Include="RacksTable.cpp">
+      <Filter>Source Files\Tables</Filter>
+    </ClCompile>
+    <ClCompile Include="ShelvesTable.cpp">
+      <Filter>Source Files\Tables</Filter>
+    </ClCompile>
+    <ClCompile Include="ChildFrm.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CntrItem.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IpFrame.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PCShop.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PCShopDoc.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PCShopSet.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PCShopView.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SrvrItem.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RacksBusinessLogic.cpp">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="RacksDocument.cpp">
+      <Filter>Source Files\Documents</Filter>
+    </ClCompile>
+    <ClCompile Include="RacksView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="BrandsDocument.cpp">
+      <Filter>Source Files\Documents</Filter>
+    </ClCompile>
+    <ClCompile Include="BrandsBusinessLogic.cpp">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="BrandsView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelsBusinessLogic.cpp">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelsDocument.cpp">
+      <Filter>Source Files\Documents</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelsView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductTypesBusinessLogic.cpp">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductTypesDocument.cpp">
+      <Filter>Source Files\Documents</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductTypesView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="CategoriesBusinessLogic.cpp">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ShelvesBusinessLogic.cpp">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ShelvesDocument.cpp">
+      <Filter>Source Files\Documents</Filter>
+    </ClCompile>
+    <ClCompile Include="ShelvesView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductsDocument.cpp">
+      <Filter>Source Files\Documents</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductsView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="ShelvesDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="RacksDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductTypesDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductsDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductsBusinessLogic.cpp">
+      <Filter>Source Files\Business Classes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PCShop.reg" />
+    <None Include="res\PCShop.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PCShop.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="UserImages.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\PCShopDoc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\PCShop.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Toolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Toolbar256.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\IToolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\IToolbar256.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
