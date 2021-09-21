@@ -17,8 +17,6 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK    A1(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK    A12(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -186,7 +184,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 						mii.dwTypeData = TEXT("A10");
 						mii.fState = MFS_ENABLED;
 
-						InsertMenuItem(hMenu, ID_A1 + 1, FALSE, &mii);
+						InsertMenuItem(hMenu, ID_A2, FALSE, &mii);
 					}
 
 					break;
@@ -194,6 +192,63 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			case ID_A12:
 			{
 				MessageBox(hWnd, _T("Листо А12"), _T("А12"), MB_OK | MB_ICONINFORMATION);
+				break;
+			}
+			case ID_DOBAVI_M:
+			{
+				HMENU hMenu = GetMenu(hWnd);
+
+				if (GetMenuState(hMenu, ID_DOBAVI_M32817 + 1, MF_BYCOMMAND) == -1)
+				{
+					MENUITEMINFO menuItemInfo;
+					ZeroMemory(&menuItemInfo, sizeof(menuItemInfo));
+					menuItemInfo.cbSize = sizeof(menuItemInfo);
+					menuItemInfo.fMask = MIIM_ID | MIIM_TYPE | MIIM_STATE;
+					menuItemInfo.wID = ID_DOBAVI_M32817 + 1;
+					menuItemInfo.fType = MFT_STRING;
+					menuItemInfo.dwTypeData = TEXT("Mejdu b1 i b2");
+					menuItemInfo.fState = MFS_ENABLED;
+
+					InsertMenuItem(hMenu, ID_PRIMER_B2, FALSE, &menuItemInfo);
+				}
+				break;
+			}
+			case ID_DOBAVI_M32816:
+			{
+				HMENU hMenu = GetMenu(hWnd);
+
+				if (GetMenuState(hMenu, ID_DOBAVI_M32817 + 2, MF_BYCOMMAND) == -1)
+				{
+					MENUITEMINFO menuItemInfo;
+					ZeroMemory(&menuItemInfo, sizeof(menuItemInfo));
+					menuItemInfo.cbSize = sizeof(menuItemInfo);
+					menuItemInfo.fMask = MIIM_ID | MIIM_TYPE | MIIM_STATE;
+					menuItemInfo.wID = ID_DOBAVI_M32817 + 2;
+					menuItemInfo.fType = MFT_STRING;
+					menuItemInfo.dwTypeData = TEXT("Mejdu b3 i b4");
+					menuItemInfo.fState = MFS_ENABLED;
+
+					InsertMenuItem(hMenu, ID_PRIMER_B4, FALSE, &menuItemInfo);
+				}
+				break;
+			}
+			case ID_DOBAVI_M32817:
+			{
+				HMENU hMenu = GetMenu(hWnd);
+
+				if (GetMenuState(hMenu, ID_DOBAVI_M32817 + 3, MF_BYCOMMAND) == -1)
+				{
+					MENUITEMINFO menuItemInfo;
+					ZeroMemory(&menuItemInfo, sizeof(menuItemInfo));
+					menuItemInfo.cbSize = sizeof(menuItemInfo);
+					menuItemInfo.fMask = MIIM_ID | MIIM_TYPE | MIIM_STATE;
+					menuItemInfo.wID = ID_DOBAVI_M32817 + 3;
+					menuItemInfo.fType = MFT_STRING;
+					menuItemInfo.dwTypeData = TEXT("Mejdu b4 i b5");
+					menuItemInfo.fState = MFS_ENABLED;
+
+					InsertMenuItem(hMenu, ID_PRIMER_B5, FALSE, &menuItemInfo);
+				}
 				break;
 			}
 			default:
