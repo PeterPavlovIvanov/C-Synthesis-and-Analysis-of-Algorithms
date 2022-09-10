@@ -62,7 +62,7 @@
             this.Controls.Add(this.Register);
             this.Controls.Add(this.Login);
             this.Name = "Welcome";
-            this.Text = "Welcome";
+            this.Text = "Better Call Taxi";
             this.Load += new System.EventHandler(this.Welcome_Load);
             this.ResumeLayout(false);
 

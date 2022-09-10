@@ -93,6 +93,7 @@ namespace BetterCallTaxi
             this.Login_Button.TabIndex = 5;
             this.Login_Button.Text = "Login";
             this.Login_Button.UseVisualStyleBackColor = false;
+            this.Login_Button.Click += new System.EventHandler(this.Login_Button_Click);
             // 
             // LoginDialog
             // 
@@ -121,6 +122,59 @@ namespace BetterCallTaxi
         private void Back_Login_Button_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        private bool Validate_UserName()
+        {
+            if (this.Username_Field.Text == "")
+            {
+                MessageBox.Show("You must enter a username.");
+                return false;
+            }
+
+            if(this.Username_Field.Text.Length < 5)
+            {
+                MessageBox.Show("You must enter a username longer than 4 symbols.");
+                return false;
+            }
+
+            if (this.Username_Field.Text.Length > 60)
+            {
+                MessageBox.Show("You must enter a username shorter than 61 symbols.");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool Validate_Password()
+        {
+            if (this.Password_Field.Text == "")
+            {
+                MessageBox.Show("You must enter a password.");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool Validate_Fields()
+        {
+            if (Validate_UserName())
+                return false;
+
+            if (Validate_Password())
+                return false;
+
+            return true;
+        }
+
+        private void Login_Button_Click(object sender, EventArgs e)
+        {
+            if (Validate_Fields())
+                return;
+            
+
         }
     }
 }
