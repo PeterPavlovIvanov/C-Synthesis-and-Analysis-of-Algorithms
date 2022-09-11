@@ -70,14 +70,8 @@ namespace BetterCallTaxi
             string message = "";
             while (oSqlDataReader.Read())
             {
-                message += oSqlDataReader.GetValue(0).ToString() + "; ";
-                message += oSqlDataReader.GetValue(1).ToString() + "; ";
-                message += oSqlDataReader.GetValue(2).ToString() + "; ";
-                message += oSqlDataReader.GetValue(3).ToString() + "; ";
-                message += oSqlDataReader.GetValue(4).ToString() + "; ";
-                message += oSqlDataReader.GetValue(5).ToString() + "; ";
-                message += oSqlDataReader.GetValue(6).ToString() + "; ";
-                message += "\n";
+                Customer recCustomer = new Customer(oSqlDataReader);
+                message += recCustomer.ToString();
             }
 
             oSqlConnection.Close();
