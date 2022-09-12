@@ -5,6 +5,7 @@ using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BetterCallTaxi
 {
@@ -21,7 +22,9 @@ namespace BetterCallTaxi
         public Int32 nOrdersMade;
         public Int32 nRoleId;
         public string strUsername;
-        public Byte[] byPassword;
+        public byte[] byPassword;
+
+        public bool b_Last_Operation_Status = true;
 
         public Customer()
         {
@@ -35,11 +38,14 @@ namespace BetterCallTaxi
 
         public Customer(SqlDataReader oSqlDataReader)
         {
-            Read_Data(oSqlDataReader);
+            this.b_Last_Operation_Status = Read_One_Customer(oSqlDataReader);
         }
 
-        public void Read_Data(SqlDataReader oSqlDataReader)
+        public bool Read_One_Customer(SqlDataReader oSqlDataReader)
         {
+            if (!oSqlDataReader.Read())
+                return false;
+
             this.nId = (Int32)(oSqlDataReader.GetValue((int)Columns.ID));
             this.strUcn = oSqlDataReader.GetValue((int)Columns.UCN).ToString();
             this.strName = oSqlDataReader.GetValue((int)Columns.NAME).ToString();
@@ -47,6 +53,8 @@ namespace BetterCallTaxi
             this.nRoleId = (Int32)(oSqlDataReader.GetValue((int)Columns.ROLE_ID));
             this.strUsername = oSqlDataReader.GetValue((int)Columns.USERNAME).ToString();
             this.byPassword = (byte[])(oSqlDataReader.GetValue((int)Columns.PASSWORD));
+
+            return true;
         }
 
         public override string ToString()

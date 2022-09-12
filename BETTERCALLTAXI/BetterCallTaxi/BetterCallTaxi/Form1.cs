@@ -14,7 +14,6 @@ namespace BetterCallTaxi
 {
     public partial class Welcome : Form
     {
-        public const string CONNECTION_STRING = "Data Source=DESKTOP-PFQL6JD;Database=BetterCallTaxi;Integrated Security=True";
 
         public Welcome()
         {
@@ -61,21 +60,6 @@ namespace BetterCallTaxi
 
         private void Welcome_Load(object sender, EventArgs e)
         {
-            SqlConnection oSqlConnection = new SqlConnection();
-            oSqlConnection.ConnectionString = CONNECTION_STRING;
-            oSqlConnection.Open();
-            SqlCommand oSqlCommand = new SqlCommand("SELECT * FROM CUSTOMERS WITH(NOLOCK)", oSqlConnection);
-            oSqlCommand.CommandType = CommandType.Text;
-            SqlDataReader oSqlDataReader = oSqlCommand.ExecuteReader();
-            string message = "";
-            while (oSqlDataReader.Read())
-            {
-                Customer recCustomer = new Customer(oSqlDataReader);
-                message += recCustomer.ToString();
-            }
-
-            oSqlConnection.Close();
-            MessageBox.Show(message);
         }
 
        

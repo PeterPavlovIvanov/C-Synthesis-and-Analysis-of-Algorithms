@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -9,6 +11,9 @@ namespace BetterCallTaxi
 {
     class LoginDialog : Form
     {
+        private const string SELECT_CUSTOMER_BY_USERNAME = "SELECT * FROM CUSTOMERS WITH(NOLOCK) WHERE USERNAME = '{0}'";
+        private const string INVALID_CREDENTIALS = "Invalid credentials!";
+
         private TextBox Username_Field;
         private TextBox Password_Field;
         private Label Username;
@@ -24,8 +29,11 @@ namespace BetterCallTaxi
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginDialog));
-            this.Username_Field = new System.Windows.Forms.TextBox();
-            this.Password_Field = new System.Windows.Forms.TextBox();
+
+            if(this.Username_Field == null)
+            { this.Username_Field = new TextBox(); }
+            if (this.Password_Field == null)
+            { this.Password_Field = new TextBox(); }
             this.Username = new System.Windows.Forms.Label();
             this.Password = new System.Windows.Forms.Label();
             this.Back_Login_Button = new System.Windows.Forms.Button();
@@ -38,6 +46,7 @@ namespace BetterCallTaxi
             this.Username_Field.Name = "Username_Field";
             this.Username_Field.Size = new System.Drawing.Size(182, 22);
             this.Username_Field.TabIndex = 0;
+            this.Username_Field.TextChanged += new System.EventHandler(this.Username_Field_TextChanged);
             // 
             // Password_Field
             // 
@@ -46,6 +55,7 @@ namespace BetterCallTaxi
             this.Password_Field.PasswordChar = '*';
             this.Password_Field.Size = new System.Drawing.Size(182, 22);
             this.Password_Field.TabIndex = 1;
+            this.Password_Field.TextChanged += new System.EventHandler(this.Password_Field_TextChanged);
             // 
             // Username
             // 
@@ -138,9 +148,9 @@ namespace BetterCallTaxi
                 return false;
             }
 
-            if (this.Username_Field.Text.Length > 60)
+            if (this.Username_Field.Text.Length > 25)
             {
-                MessageBox.Show("You must enter a username shorter than 61 symbols.");
+                MessageBox.Show("You must enter a username shorter than 26 symbols.");
                 return false;
             }
 
@@ -155,15 +165,27 @@ namespace BetterCallTaxi
                 return false;
             }
 
+            if (this.Password_Field.Text.Length < 6)
+            {
+                MessageBox.Show("You must enter a password longer than 5 symbols.");
+                return false;
+            }
+
+            if (this.Password_Field.Text.Length > 25)
+            {
+                MessageBox.Show("You must enter a password shorter than 26 symbols.");
+                return false;
+            }
+
             return true;
         }
 
         private bool Validate_Fields()
         {
-            if (Validate_UserName())
+            if (!Validate_UserName())
                 return false;
 
-            if (Validate_Password())
+            if (!Validate_Password())
                 return false;
 
             return true;
@@ -171,9 +193,59 @@ namespace BetterCallTaxi
 
         private void Login_Button_Click(object sender, EventArgs e)
         {
-            if (Validate_Fields())
+            if (!Validate_Fields())
                 return;
-            
+
+            try
+            {
+                DatabaseManager oDatabaseManager = new DatabaseManager();
+                SqlDataReader oSqlDataReader = oDatabaseManager.ExecuteQuery(String.Format(SELECT_CUSTOMER_BY_USERNAME, this.Username_Field.Text));
+                Customer recCustomer = new Customer(oSqlDataReader);
+
+                if (!recCustomer.b_Last_Operation_Status || Compare_Passwords(recCustomer.byPassword))
+                {
+                    MessageBox.Show(INVALID_CREDENTIALS);
+                    return;
+                }
+
+                MessageBox.Show(recCustomer.ToString());
+            }
+            catch (Exception oException)
+            {
+                MessageBox.Show(oException.ToString());
+            }
+
+        }
+
+        private bool Compare_Passwords(byte[] byPassword)
+        {
+            SHA256 oSHA256 = SHA256.Create();
+            byte[] byUserInputPassword = oSHA256.ComputeHash(Encoding.UTF8.GetBytes(this.Password_Field.Text));
+
+            StringBuilder oBuilderInputPassword = new StringBuilder();
+            for (int i = 0; i < byUserInputPassword.Length; i++)
+            {
+                oBuilderInputPassword.Append(byUserInputPassword[i].ToString("x2"));
+            }
+
+            StringBuilder oBuilderDatabasePassword = new StringBuilder();
+            for (int i = 0; i < byUserInputPassword.Length; i++)
+            {
+                oBuilderDatabasePassword.Append(byPassword[i].ToString("x2"));
+            }
+
+            MessageBox.Show("sql: " + oBuilderDatabasePassword.ToString() + "\ninput: " + oBuilderInputPassword.ToString() + "\n");
+            bool bResult = oBuilderDatabasePassword.ToString().Equals(oBuilderInputPassword.ToString());
+            return bResult;
+        }
+
+        private void Password_Field_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Username_Field_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }
