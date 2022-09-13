@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,6 +70,7 @@ namespace BetterCallTaxi
             this.Password_Reg_Field.Name = "Password_Reg_Field";
             this.Password_Reg_Field.Size = new System.Drawing.Size(183, 22);
             this.Password_Reg_Field.TabIndex = 2;
+            this.Password_Reg_Field.PasswordChar = '*';
             // 
             // Password_Reg
             // 
@@ -86,6 +88,7 @@ namespace BetterCallTaxi
             this.R_Password_Reg_Field.Name = "R_Password_Reg_Field";
             this.R_Password_Reg_Field.Size = new System.Drawing.Size(183, 22);
             this.R_Password_Reg_Field.TabIndex = 4;
+            this.Password_Reg_Field.PasswordChar = '*';
             // 
             // R_Password_Reg
             // 
@@ -139,6 +142,7 @@ namespace BetterCallTaxi
             this.Register_Button.TabIndex = 10;
             this.Register_Button.Text = "Register";
             this.Register_Button.UseVisualStyleBackColor = true;
+            this.Register_Button.Click += new System.EventHandler(this.Register_Button_Click);
             // 
             // Back_Reg_Button
             // 
@@ -167,6 +171,7 @@ namespace BetterCallTaxi
             this.Controls.Add(this.Username_Reg);
             this.Controls.Add(this.Username_Reg_Field);
             this.Name = "RegisterDialog";
+            this.Load += new System.EventHandler(this.RegisterDialog_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,6 +180,62 @@ namespace BetterCallTaxi
         private void Back_Reg_Button_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        private bool Validate_Fields()
+        {
+            if (!InputValidator.Validate_Username(this.Username_Reg_Field.Text))
+                return false;
+
+            if (!InputValidator.Validate_Password(this.Password_Reg_Field.Text))
+                return false;
+
+            if (!InputValidator.Validate_Ucn(this.Ucn_Reg_Field.Text))
+                return false;
+
+            return true;
+        }
+
+        private bool Check_Username_Availability()
+        {
+            try
+            {
+                DatabaseManager oDatabaseManager = new DatabaseManager();
+                if (!oDatabaseManager.Check_Username_Availability(this.Username_Reg_Field.Text))
+                {
+                    MessageBox.Show(String.Format(GlobalConstants.USERNAME_TAKEN, this.Username_Reg_Field.Text));
+                    return false;
+                }
+
+                SqlDataReader oSqlDataReader =
+                    oDatabaseManager.ExecuteQuery(String.Format(GlobalConstants.SELECT_CUSTOMER_BY_USERNAME, this.Username_Reg_Field.Text));
+
+                Customer recCustomer = new Customer(oSqlDataReader);
+                MessageBox.Show(recCustomer.ToString());
+            }
+            catch (Exception oException)
+            {
+                MessageBox.Show(oException.ToString());
+                return false;
+            }
+
+            return true;
+        }
+
+        private void RegisterDialog_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Register_Button_Click(object sender, EventArgs e)
+        {
+            if (!Validate_Fields())
+                return;
+
+            if (!Check_Username_Availability())
+                return;
+
+
         }
     }
 }
