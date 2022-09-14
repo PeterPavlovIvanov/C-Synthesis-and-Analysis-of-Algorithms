@@ -24,8 +24,8 @@ namespace BetterCallTaxi
         {
             this.Hide();
             LoginDialog oLoginDialog = new LoginDialog();
-            DialogResult oDialogResult = oLoginDialog.ShowDialog();
-            switch(oDialogResult)
+            DialogResult eDialogResult = oLoginDialog.ShowDialog();
+            switch(eDialogResult)
             {
                 case DialogResult.OK:
 
@@ -43,8 +43,8 @@ namespace BetterCallTaxi
         {
             this.Hide();
             RegisterDialog oRegisterDialog = new RegisterDialog();
-            DialogResult oDialogResult = oRegisterDialog.ShowDialog();
-            switch (oDialogResult)
+            DialogResult eDialogResult = oRegisterDialog.ShowDialog();
+            switch (eDialogResult)
             {
                 case DialogResult.OK:
 

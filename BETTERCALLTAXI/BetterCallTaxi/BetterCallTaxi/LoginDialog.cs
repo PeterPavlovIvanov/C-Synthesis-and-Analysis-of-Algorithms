@@ -20,7 +20,7 @@ namespace BetterCallTaxi
         private Button Back_Login_Button;
         private Button Login_Button;
 
-        public LoginDialog ()
+        public LoginDialog()
         {
             InitializeComponent();
         }
@@ -29,7 +29,7 @@ namespace BetterCallTaxi
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginDialog));
 
-            if(this.Username_Field == null)
+            if (this.Username_Field == null)
             { this.Username_Field = new TextBox(); }
             if (this.Password_Field == null)
             { this.Password_Field = new TextBox(); }
@@ -138,7 +138,7 @@ namespace BetterCallTaxi
 
             if (!InputValidator.Validate_Password(this.Password_Field.Text))
                 return false;
-            
+
             return true;
         }
 
@@ -152,12 +152,6 @@ namespace BetterCallTaxi
                     MessageBox.Show(GlobalConstants.INVALID_CREDENTIALS);
                     return false;
                 }
-
-                SqlDataReader oSqlDataReader =
-                    oDatabaseManager.ExecuteQuery(String.Format(GlobalConstants.SELECT_CUSTOMER_BY_USERNAME, this.Username_Field.Text));
-
-                Customer recCustomer = new Customer(oSqlDataReader);
-                MessageBox.Show(recCustomer.ToString());
             }
             catch (Exception oException)
             {
@@ -176,6 +170,31 @@ namespace BetterCallTaxi
 
             if (!Login_Authentication())
                 return;
+
+            this.Hide();
+
+            DatabaseManager oDatabaseManager = new DatabaseManager();
+            SqlDataReader oSqlDataReader =
+                oDatabaseManager.ExecuteQuery(String.Format(GlobalConstants.SELECT_CUSTOMER_BY_USERNAME, this.Username_Field.Text));
+
+            Customer recCustomer = new Customer(oSqlDataReader);
+
+            switch (recCustomer.nRoleId)
+            {
+                case (int)Customer.Roles.RoleAdministrator:
+
+                    AdminHomePage oAdminHomePage = new AdminHomePage(recCustomer);
+                    oAdminHomePage.ShowDialog();
+
+                    break;
+                case (int)Customer.Roles.RoleDriver:
+
+                    break;
+                case (int)Customer.Roles.RoleUser:
+
+                    break;
+            }
+
         }
     }
 }

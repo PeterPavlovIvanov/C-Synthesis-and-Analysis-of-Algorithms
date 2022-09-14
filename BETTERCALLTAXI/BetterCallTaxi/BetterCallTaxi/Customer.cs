@@ -11,9 +11,14 @@ namespace BetterCallTaxi
 {
     class Customer
     {
+        public enum Roles
+        {
+            RoleAdministrator = 1, RoleDriver = 2, RoleUser =3
+        }
+
         public enum Columns 
         {
-            ID = 0, UCN, NAME, ORDERS_MADE, ROLE_ID, USERNAME, PASSWORD
+            ID = 0, UCN = 1, NAME = 2, ORDERS_MADE = 3, ROLE_ID = 4, USERNAME = 5, PASSWORD = 6
         }
 
         public Int32 nId;
@@ -40,6 +45,28 @@ namespace BetterCallTaxi
         {
             this.b_Last_Operation_Status = Read_One_Customer(oSqlDataReader);
         }
+
+        public string GetRoleText()
+        {
+            string strRole = "";
+            switch (this.nRoleId)
+            {
+                case (int)Roles.RoleAdministrator:
+                    strRole = "Administrator";
+                    break;
+                case (int)Roles.RoleDriver:
+                    strRole = "Driver";
+                    break;
+                case (int)Roles.RoleUser:
+                    strRole = "User";
+                    break;
+                default:
+                    strRole = "Unknown";
+                    break;
+            }
+            return strRole;
+        }
+
 
         public bool Read_One_Customer(SqlDataReader oSqlDataReader)
         {
