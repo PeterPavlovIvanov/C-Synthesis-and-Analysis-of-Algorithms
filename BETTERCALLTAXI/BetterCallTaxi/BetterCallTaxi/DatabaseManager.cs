@@ -13,6 +13,7 @@ namespace BetterCallTaxi
     class DatabaseManager
     {
         private SqlConnection oSqlConnection;
+        private SqlTransaction oSqlTransaction;
 
         public DatabaseManager()
         {
@@ -21,11 +22,33 @@ namespace BetterCallTaxi
             this.oSqlConnection.Open();
         }
 
-        public SqlDataReader ExecuteQuery(string strQuery)
+        public void Begin()
+        {
+            this.oSqlTransaction = this.oSqlConnection.BeginTransaction();
+        }
+
+        public void Commit()
+        {
+            this.oSqlTransaction.Commit();
+        }
+
+        public void Rollback()
+        {
+            this.oSqlTransaction.Rollback();
+        }
+
+        public SqlDataReader ExecuteQuery(string strQuery, bool bInTran = false, bool bCloseReader = false /* true - няма да четем */)
         {
             SqlCommand oSqlCommand = new SqlCommand(strQuery, this.oSqlConnection);
             oSqlCommand.CommandType = CommandType.Text;
+
+            if (bInTran)
+                oSqlCommand.Transaction = this.oSqlTransaction;
+
             SqlDataReader oSqlDataReader = oSqlCommand.ExecuteReader();
+
+            if (bCloseReader)
+                oSqlDataReader.Close();
 
             return oSqlDataReader;
         }

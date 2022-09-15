@@ -1,13 +1,19 @@
 ﻿
+using System.Drawing;
+
 namespace BetterCallTaxi
 {
 
     class GlobalConstants
     {
-        public const string CONNECTION_STRING = "Data Source=DESKTOP-PFQL6JD;Database=BetterCallTaxi;Integrated Security=True";
+
+        public static Point START_POINT = new Point(100, 50);
+        public const string CONNECTION_STRING = "Data Source=DESKTOP-PFQL6JD;MultipleActiveResultSets=true;Database=BetterCallTaxi;Integrated Security=True";
 
         // Queries
+        // Select
         public const string SELECT_CUSTOMER_BY_USERNAME = "SELECT * FROM CUSTOMERS WITH(NOLOCK) WHERE USERNAME = '{0}'";
+        public const string SELECT_CUSTOMER_ID_BY_USERNAME = "SELECT ID FROM CUSTOMERS WITH(NOLOCK) WHERE USERNAME = '{0}'";
         public const string SELECT_ORDERS_BEFORE_DATE = "SELECT O.ORD_TIME, C.REG_NOMER, M.NAME, ORDERS_COUNTS.COUNTS\n" 
                                                         + "FROM ORDERS AS O WITH(NOLOCK)\n" 
                                                         + "INNER JOIN CARS AS C WITH(NOLOCK) ON C.KOD_TAXI = O.KOD_TAXI\n" 
@@ -18,6 +24,11 @@ namespace BetterCallTaxi
                                                         + "            GROUP BY O.KOD_TAXI) AS ORDERS_COUNTS\n" 
                                                         + "            ON C.KOD_TAXI = ORDERS_COUNTS.KOD_TAXI\n" 
                                                         + "WHERE O.ORD_TIME< '{0}'\n"; // 3. qryTotalOrders
+
+
+        // Insert
+        public const string INSERT_CUSTOMER = "INSERT INTO CUSTOMERS VALUES('{0}', '{1}', {2}, {3}, '{4}', HASHBYTES('SHA2_512', '{5}'))";
+        public const string INSERT_DRIVER = "INSERT INTO DRIVERS VALUES({0}, {1}, {2}, {3})";
 
         // Procedures
         public const string LOGIN_AUTHENTICATION = "LOGIN_AUTHENTICATION";

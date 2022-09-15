@@ -75,6 +75,7 @@
     </Compile>
     <Compile Include="Customer.cs" />
     <Compile Include="DatabaseManager.cs" />
+    <Compile Include="Driver.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

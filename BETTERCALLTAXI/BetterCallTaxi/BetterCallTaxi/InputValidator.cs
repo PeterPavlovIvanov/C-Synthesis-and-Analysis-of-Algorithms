@@ -37,7 +37,7 @@ namespace BetterCallTaxi
             return true;
         }
 
-        public static bool Validate_Password(string strPassword)
+        public static bool Validate_Password(string strPassword, string strRePassword = "", bool bRegister = false)
         {
             if (strPassword == "")
             {
@@ -57,8 +57,19 @@ namespace BetterCallTaxi
                 return false;
             }
 
+            if (bRegister)
+            {
+                if (strRePassword != strPassword)
+                {
+                    MessageBox.Show("Provided passwords do not match!.");
+                    return false;
+                }
+            }
+
             return true;
         }
+
+
 
         public static bool Validate_Ucn(string strUcn)
         {
@@ -74,14 +85,13 @@ namespace BetterCallTaxi
                 return false;
             }
 
-            try
+            foreach (char cSymbol in strUcn)
             {
-                Int32.Parse(strUcn);
-            }
-            catch(FormatException)
-            {
-                MessageBox.Show(GlobalConstants.UCN_DIGITS_MESSAGE);
-                return false;
+                if (cSymbol < 48 && cSymbol > 57)
+                {
+                    MessageBox.Show(GlobalConstants.UCN_DIGITS_MESSAGE);
+                    return false;
+                }
             }
 
             return true;

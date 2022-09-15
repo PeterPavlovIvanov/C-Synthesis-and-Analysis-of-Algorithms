@@ -23,6 +23,12 @@ namespace BetterCallTaxi
         public LoginDialog()
         {
             InitializeComponent();
+            this.Location = GlobalConstants.START_POINT;
+        }
+
+        public String GetUsername()
+        {
+            return this.Username_Field.Text;
         }
 
         private void InitializeComponent()
@@ -114,7 +120,8 @@ namespace BetterCallTaxi
             this.Controls.Add(this.Username_Field);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Name = "LoginDialog";
-            this.Text = "Login";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.Text = "Better Call Saul - Login";
             this.Load += new System.EventHandler(this.LoginDialog_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -171,30 +178,8 @@ namespace BetterCallTaxi
             if (!Login_Authentication())
                 return;
 
+            this.DialogResult = DialogResult.OK;
             this.Hide();
-
-            DatabaseManager oDatabaseManager = new DatabaseManager();
-            SqlDataReader oSqlDataReader =
-                oDatabaseManager.ExecuteQuery(String.Format(GlobalConstants.SELECT_CUSTOMER_BY_USERNAME, this.Username_Field.Text));
-
-            Customer recCustomer = new Customer(oSqlDataReader);
-
-            switch (recCustomer.nRoleId)
-            {
-                case (int)Customer.Roles.RoleAdministrator:
-
-                    AdminHomePage oAdminHomePage = new AdminHomePage(recCustomer);
-                    oAdminHomePage.ShowDialog();
-
-                    break;
-                case (int)Customer.Roles.RoleDriver:
-
-                    break;
-                case (int)Customer.Roles.RoleUser:
-
-                    break;
-            }
-
         }
     }
 }

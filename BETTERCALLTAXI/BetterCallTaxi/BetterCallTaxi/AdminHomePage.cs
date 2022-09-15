@@ -18,6 +18,7 @@ namespace BetterCallTaxi
         public AdminHomePage(Customer recCustomer)
         {
             InitializeComponent();
+            this.Location = GlobalConstants.START_POINT;
             this.recCustomer = recCustomer;    
         }
 
@@ -69,7 +70,8 @@ namespace BetterCallTaxi
             this.Controls.Add(this.Logged_In_Welcome);
             this.ForeColor = System.Drawing.Color.Black;
             this.Name = "AdminHomePage";
-            this.Text = "Better Call Taxi";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.Text = "Better Call Taxi - Home";
             this.Load += new System.EventHandler(this.AdminHomePage_Load);
             this.Reports_GrpBox.ResumeLayout(false);
             this.ResumeLayout(false);

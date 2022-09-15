@@ -11,6 +11,7 @@ namespace BetterCallTaxi
 {
     class Customer
     {
+        // Enums
         public enum Roles
         {
             RoleAdministrator = 1, RoleDriver = 2, RoleUser =3
@@ -21,6 +22,7 @@ namespace BetterCallTaxi
             ID = 0, UCN = 1, NAME = 2, ORDERS_MADE = 3, ROLE_ID = 4, USERNAME = 5, PASSWORD = 6
         }
 
+        // Полета в таблицата CUSTOMERS
         public Int32 nId;
         public string strUcn;
         public string strName;
