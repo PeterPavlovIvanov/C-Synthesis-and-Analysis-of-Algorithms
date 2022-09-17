@@ -43,23 +43,42 @@ namespace BetterCallTaxi
         private void Do_Login(string strUsername)
         {
             DatabaseManager oDatabaseManager = new DatabaseManager();
-            SqlDataReader oSqlDataReader =
+            SqlDataReader oSqlDataReaderCustomer =
                 oDatabaseManager.ExecuteQuery(String.Format(GlobalConstants.SELECT_CUSTOMER_BY_USERNAME, strUsername));
 
-            Customer recCustomer = new Customer(oSqlDataReader);
+            Customer recCustomer = new Customer(oSqlDataReaderCustomer);
+            oSqlDataReaderCustomer.Close();
 
             switch (recCustomer.nRoleId)
             {
                 case (int)Customer.Roles.RoleAdministrator:
-
                     AdminHomePage oAdminHomePage = new AdminHomePage(recCustomer);
                     oAdminHomePage.ShowDialog();
+                    if (oAdminHomePage.DialogResult == DialogResult.Cancel)
+                    {
+                        this.Show();
+                    }
                     break;
                 case (int)Customer.Roles.RoleDriver:
-                    MessageBox.Show("TODO OPEN DRIVER HOME PAGE");
+                    SqlDataReader oSqlDataReaderDriver =
+                        oDatabaseManager.ExecuteQuery(String.Format(GlobalConstants.SELECT_DRIVER_BY_CUSTOMER_ID, recCustomer.nId));
+                    Driver recDriver = new Driver(oSqlDataReaderDriver);
+                    oSqlDataReaderDriver.Close();
+
+                    DriverHomePage oDriverHomePage = new DriverHomePage(recCustomer, recDriver);
+                    oDriverHomePage.ShowDialog();
+                    if (oDriverHomePage.DialogResult == DialogResult.Cancel)
+                    {
+                        this.Show();
+                    }
                     break;
                 case (int)Customer.Roles.RoleUser:
-                    MessageBox.Show("TODO OPEN USER HOME PAGE");
+                    UserHomePage oUserHomePage = new UserHomePage(recCustomer);
+                    oUserHomePage.ShowDialog();
+                    if (oUserHomePage.DialogResult == DialogResult.Cancel)
+                    {
+                        this.Show();
+                    }
                     break;
             }
         }

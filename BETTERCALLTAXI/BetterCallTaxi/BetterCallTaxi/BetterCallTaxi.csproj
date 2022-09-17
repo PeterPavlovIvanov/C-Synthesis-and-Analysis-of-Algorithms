@@ -76,6 +76,9 @@
     <Compile Include="Customer.cs" />
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="Driver.cs" />
+    <Compile Include="DriverHomePage.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,8 +98,14 @@
     <Compile Include="RegisterDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UserHomePage.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="AdminHomePage.resx">
       <DependentUpon>AdminHomePage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DriverHomePage.resx">
+      <DependentUpon>DriverHomePage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -118,6 +127,9 @@
     </Compile>
     <EmbeddedResource Include="RegisterDialog.resx">
       <DependentUpon>RegisterDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserHomePage.resx">
+      <DependentUpon>UserHomePage.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

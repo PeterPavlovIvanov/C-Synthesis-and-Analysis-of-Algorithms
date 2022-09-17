@@ -24,7 +24,7 @@ namespace BetterCallTaxi
                                                         + "            GROUP BY O.KOD_TAXI) AS ORDERS_COUNTS\n" 
                                                         + "            ON C.KOD_TAXI = ORDERS_COUNTS.KOD_TAXI\n" 
                                                         + "WHERE O.ORD_TIME< '{0}'\n"; // 3. qryTotalOrders
-
+        public const string SELECT_DRIVER_BY_CUSTOMER_ID = "SELECT * FROM DRIVERS WITH(NOLOCK) WHERE CUSTOMER_ID = {0}";
 
         // Insert
         public const string INSERT_CUSTOMER = "INSERT INTO CUSTOMERS VALUES('{0}', '{1}', {2}, {3}, '{4}', HASHBYTES('SHA2_512', '{5}'))";
