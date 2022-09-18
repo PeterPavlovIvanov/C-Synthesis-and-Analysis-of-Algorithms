@@ -10,6 +10,7 @@ namespace BetterCallTaxi
         public const string CONNECTION_STRING = "Data Source=DESKTOP-PFQL6JD;MultipleActiveResultSets=true;Database=BetterCallTaxi;Integrated Security=True";
         public const string DATE_FORMAT = "yyyy-MM-dd hh:mm:ss.FFF";
         public const string TAB = "\t";
+        public const string WELCOME_USER = "Welcome, {0}!";
 
         // Queries
         // Select
@@ -26,6 +27,10 @@ namespace BetterCallTaxi
                                                         + "            ON C.KOD_TAXI = ORDERS_COUNTS.KOD_TAXI\n" 
                                                         + "WHERE O.ORD_TIME < CAST('{0}' AS DATETIME)\n"; // 3. qryTotalOrders
         public const string SELECT_DRIVER_BY_CUSTOMER_ID = "SELECT * FROM DRIVERS WITH(NOLOCK) WHERE CUSTOMER_ID = {0}";
+        public const string SELECT_CUSTOMER_BY_ID = "SELECT * FROM CUSTOMERS WITH(NOLOCK) WHERE ID = {0}";
+
+        // Update
+        public const string UPDATE_CUSTOMER_NAME_AND_USERNAME_BY_ID = "UPDATE CUSTOMERS SET NAME = '{0}', USERNAME = '{1}' WHERE ID = {2}";
 
         // Insert
         public const string INSERT_CUSTOMER = "INSERT INTO CUSTOMERS VALUES('{0}', '{1}', {2}, {3}, '{4}', HASHBYTES('SHA2_512', '{5}'))";

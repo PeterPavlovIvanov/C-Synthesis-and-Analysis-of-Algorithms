@@ -79,15 +79,18 @@
     <Compile Include="Pages\DriverHomePage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="Pages\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="Pages\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalConstants.cs" />
     <Compile Include="InputValidator.cs" />
     <Compile Include="Pages\LoginDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pages\ProfileDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Reports\Ord_Bfr_Date\OrdBfrDateReport.cs">
@@ -102,7 +105,7 @@
     <Compile Include="RegisterDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserHomePage.cs">
+    <Compile Include="Pages\UserHomePage.cs">
       <SubType>Form</SubType>
     </Compile>
     <EmbeddedResource Include="Pages\AdminHomePage.resx">
@@ -111,11 +114,14 @@
     <EmbeddedResource Include="Pages\DriverHomePage.resx">
       <DependentUpon>DriverHomePage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="Pages\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\LoginDialog.resx">
       <DependentUpon>LoginDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\ProfileDialog.resx">
+      <DependentUpon>ProfileDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\Ord_Bfr_Date\OrdBfrDateReport.resx">
       <DependentUpon>OrdBfrDateReport.cs</DependentUpon>
@@ -135,7 +141,7 @@
     <EmbeddedResource Include="RegisterDialog.resx">
       <DependentUpon>RegisterDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserHomePage.resx">
+    <EmbeddedResource Include="Pages\UserHomePage.resx">
       <DependentUpon>UserHomePage.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />

@@ -233,6 +233,9 @@ namespace BetterCallTaxi
             if (!InputValidator.Validate_Ucn(this.Ucn_Reg_Field.Text))
                 return false;
 
+            if (!InputValidator.Validate_Full_Name(this.Name_Reg_Field.Text))
+                return false;
+
             return true;
         }
 

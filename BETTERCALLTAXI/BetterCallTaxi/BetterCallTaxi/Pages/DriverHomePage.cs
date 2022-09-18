@@ -1,5 +1,7 @@
-﻿using System;
+﻿using BetterCallTaxi.Pages;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,8 +30,8 @@ namespace BetterCallTaxi
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DriverHomePage));
             this.Welcome_Driver = new System.Windows.Forms.GroupBox();
-            this.Profile_Driver_Button = new System.Windows.Forms.Button();
             this.Logout_Driver_Button = new System.Windows.Forms.Button();
+            this.Profile_Driver_Button = new System.Windows.Forms.Button();
             this.Welcome_Driver.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,15 +47,6 @@ namespace BetterCallTaxi
             this.Welcome_Driver.TabStop = false;
             this.Welcome_Driver.Text = "Welcome, {0}!";
             // 
-            // Profile_Driver_Button
-            // 
-            this.Profile_Driver_Button.Location = new System.Drawing.Point(7, 22);
-            this.Profile_Driver_Button.Name = "Profile_Driver_Button";
-            this.Profile_Driver_Button.Size = new System.Drawing.Size(166, 36);
-            this.Profile_Driver_Button.TabIndex = 0;
-            this.Profile_Driver_Button.Text = "Profile";
-            this.Profile_Driver_Button.UseVisualStyleBackColor = true;
-            // 
             // Logout_Driver_Button
             // 
             this.Logout_Driver_Button.Location = new System.Drawing.Point(7, 65);
@@ -63,6 +56,16 @@ namespace BetterCallTaxi
             this.Logout_Driver_Button.Text = "Logout";
             this.Logout_Driver_Button.UseVisualStyleBackColor = true;
             this.Logout_Driver_Button.Click += new System.EventHandler(this.Logout_Driver_Button_Click);
+            // 
+            // Profile_Driver_Button
+            // 
+            this.Profile_Driver_Button.Location = new System.Drawing.Point(7, 22);
+            this.Profile_Driver_Button.Name = "Profile_Driver_Button";
+            this.Profile_Driver_Button.Size = new System.Drawing.Size(166, 36);
+            this.Profile_Driver_Button.TabIndex = 0;
+            this.Profile_Driver_Button.Text = "Profile";
+            this.Profile_Driver_Button.UseVisualStyleBackColor = true;
+            this.Profile_Driver_Button.Click += new System.EventHandler(this.Profile_Driver_Button_Click);
             // 
             // DriverHomePage
             // 
@@ -82,5 +85,31 @@ namespace BetterCallTaxi
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
+
+        private void Profile_Driver_Button_Click(object sender, EventArgs e)
+        { 
+            // Крием Home страницата
+            this.Hide();
+
+            // Показваме Profile страницата
+            ProfileDialog oProfileDialog = new ProfileDialog(recCustomer);
+            oProfileDialog.ShowDialog();
+
+            // За всеки случай ако е променян потребителят, го взимаме наново от базата
+            DatabaseManager oDataBaseManager = new DatabaseManager();
+            SqlDataReader oSqlDataReader =
+                oDataBaseManager.ExecuteQuery(String.Format(GlobalConstants.SELECT_CUSTOMER_BY_ID, this.recCustomer.nId));
+
+            // Записваме си го при нас
+            this.recCustomer = new Customer(oSqlDataReader);
+            this.Welcome_Driver.Text = String.Format(GlobalConstants.WELCOME_USER, this.recCustomer.strName);
+
+            // Да не забравим да затворим след нас
+            oSqlDataReader.Close();
+
+            // Показваме обратно Home страницата
+            this.Show();
+        }
+
     }
 }

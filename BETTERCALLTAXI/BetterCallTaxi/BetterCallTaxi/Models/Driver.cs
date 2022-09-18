@@ -28,7 +28,7 @@ namespace BetterCallTaxi
         public Int32 nCompletedOrders;
         public Int32 nCustomerId;
         public double dMoneyMade;
-        public bool bStatus;
+        public bool bStatus; // true - available; false - busy
 
         public Driver()
         {

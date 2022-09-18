@@ -37,6 +37,23 @@ namespace BetterCallTaxi
             return true;
         }
 
+        public static bool Validate_Full_Name(string strFullName)
+        {
+            if (strFullName == "")
+            {
+                MessageBox.Show("You must enter a name.");
+                return false;
+            }
+
+            if (strFullName.Length > 60)
+            {
+                MessageBox.Show("You must enter a username shorter than 60 symbols.");
+                return false;
+            }
+
+            return true;
+        }
+
         public static bool Validate_Password(string strPassword, string strRePassword = "", bool bRegister = false)
         {
             if (strPassword == "")

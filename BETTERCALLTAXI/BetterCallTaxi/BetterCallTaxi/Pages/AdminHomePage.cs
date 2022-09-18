@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BetterCallTaxi.Pages;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -87,6 +88,7 @@ namespace BetterCallTaxi
             this.Profile_Admin_Button.TabIndex = 0;
             this.Profile_Admin_Button.Text = "Profile";
             this.Profile_Admin_Button.UseVisualStyleBackColor = true;
+            this.Profile_Admin_Button.Click += new System.EventHandler(this.Profile_Admin_Button_Click);
             // 
             // AdminHomePage
             // 
@@ -133,6 +135,31 @@ namespace BetterCallTaxi
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void Profile_Admin_Button_Click(object sender, EventArgs e)
+        {
+            // Крием Home страницата
+            this.Hide();
+
+            // Показваме Profile страницата
+            ProfileDialog oProfileDialog = new ProfileDialog(recCustomer);
+            oProfileDialog.ShowDialog();
+
+            // За всеки случай ако е променян потребителят, го взимаме наново от базата
+            DatabaseManager oDataBaseManager = new DatabaseManager();
+            SqlDataReader oSqlDataReader =
+                oDataBaseManager.ExecuteQuery(String.Format(GlobalConstants.SELECT_CUSTOMER_BY_ID, this.recCustomer.nId));
+
+            // Записваме си го при нас
+            this.recCustomer = new Customer(oSqlDataReader);
+            this.Logged_In_Welcome.Text = String.Format(GlobalConstants.WELCOME_USER, this.recCustomer.strName);
+
+            // Да не забравим да затворим след нас
+            oSqlDataReader.Close();
+
+            // Показваме обратно Home страницата
+            this.Show();
         }
     }
 }
