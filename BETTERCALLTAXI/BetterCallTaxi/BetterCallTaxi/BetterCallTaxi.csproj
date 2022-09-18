@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Role.cs" />
     <Compile Include="Pages\AdminHomePage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +92,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Pages\ProfileDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\Customers\CustomersFilterDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Reports\Ord_Bfr_Date\OrdBfrDateReport.cs">
@@ -122,6 +126,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\ProfileDialog.resx">
       <DependentUpon>ProfileDialog.cs</DependentUpon>
+    </EmbeddedResource>
+      <DependentUpon>CustomersFilterDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\Ord_Bfr_Date\OrdBfrDateReport.resx">
       <DependentUpon>OrdBfrDateReport.cs</DependentUpon>

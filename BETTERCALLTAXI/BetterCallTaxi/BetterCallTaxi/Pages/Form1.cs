@@ -52,7 +52,7 @@ namespace BetterCallTaxi
             switch (recCustomer.nRoleId)
             {
                 case (int)Customer.Roles.RoleAdministrator:
-                    AdminHomePage oAdminHomePage = new AdminHomePage(recCustomer);
+                    Admin_Home_Page oAdminHomePage = new Admin_Home_Page(recCustomer);
                     oAdminHomePage.ShowDialog();
                     if (oAdminHomePage.DialogResult == DialogResult.Cancel)
                     {

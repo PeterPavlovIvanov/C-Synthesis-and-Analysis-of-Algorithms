@@ -15,7 +15,7 @@ namespace BetterCallTaxi
             ORD_TIME = 0, REG_NOMER = 1, NAME = 2, ORDERS_COUNTS = 3
         }
 
-        // Полета в таблицата CUSTOMERS
+        // Полета в отчета
         public DateTime dtOrdDate;
         public string strRegNomer;
         public string strManufacturerName;
@@ -44,7 +44,7 @@ namespace BetterCallTaxi
 
         public bool Read_Report_Orders_Before_Date(SqlDataReader oSqlDataReader)
         {
-            while (!oSqlDataReader.Read())
+            while (oSqlDataReader.Read())
             {
                 OrdersBeforeDateRow oOrdersBeforeDateRow = new OrdersBeforeDateRow(
                       (DateTime)(oSqlDataReader.GetValue((int)OrdersBeforeDateRow.Columns.ORD_TIME))

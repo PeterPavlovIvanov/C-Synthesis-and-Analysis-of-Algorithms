@@ -1,4 +1,5 @@
 ﻿using BetterCallTaxi.Pages;
+using BetterCallTaxi.Reports.Customers;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,16 +10,23 @@ using System.Windows.Forms;
 
 namespace BetterCallTaxi
 {
-    class AdminHomePage : Form
+    class Admin_Home_Page : Form
     {
         private Button Orders_Before;
         private GroupBox Reports_GrpBox;
         private GroupBox Logged_In_Welcome;
         private Button Logout_Admin_Button;
         private Button Profile_Admin_Button;
+        private Button Admin_Roles_Button;
+        private Button Admin_Order_Requests_Button;
+        private Button Admin_Manufacturers_Button;
+        private Button Admin_Cars_Button;
+        private Button Admin_Orders_Button;
+        private Button Admin_Drivers_Button;
+        private Button Admin_Customers_Button;
         Customer recCustomer;
 
-        public AdminHomePage(Customer recCustomer)
+        public Admin_Home_Page(Customer recCustomer)
         {
             InitializeComponent();
             this.Location = GlobalConstants.START_POINT;
@@ -27,12 +35,19 @@ namespace BetterCallTaxi
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminHomePage));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Admin_Home_Page));
             this.Orders_Before = new System.Windows.Forms.Button();
             this.Reports_GrpBox = new System.Windows.Forms.GroupBox();
             this.Logged_In_Welcome = new System.Windows.Forms.GroupBox();
             this.Logout_Admin_Button = new System.Windows.Forms.Button();
             this.Profile_Admin_Button = new System.Windows.Forms.Button();
+            this.Admin_Customers_Button = new System.Windows.Forms.Button();
+            this.Admin_Drivers_Button = new System.Windows.Forms.Button();
+            this.Admin_Orders_Button = new System.Windows.Forms.Button();
+            this.Admin_Cars_Button = new System.Windows.Forms.Button();
+            this.Admin_Manufacturers_Button = new System.Windows.Forms.Button();
+            this.Admin_Order_Requests_Button = new System.Windows.Forms.Button();
+            this.Admin_Roles_Button = new System.Windows.Forms.Button();
             this.Reports_GrpBox.SuspendLayout();
             this.Logged_In_Welcome.SuspendLayout();
             this.SuspendLayout();
@@ -50,10 +65,17 @@ namespace BetterCallTaxi
             // Reports_GrpBox
             // 
             this.Reports_GrpBox.BackColor = System.Drawing.Color.Transparent;
+            this.Reports_GrpBox.Controls.Add(this.Admin_Roles_Button);
+            this.Reports_GrpBox.Controls.Add(this.Admin_Order_Requests_Button);
+            this.Reports_GrpBox.Controls.Add(this.Admin_Manufacturers_Button);
+            this.Reports_GrpBox.Controls.Add(this.Admin_Cars_Button);
+            this.Reports_GrpBox.Controls.Add(this.Admin_Orders_Button);
+            this.Reports_GrpBox.Controls.Add(this.Admin_Drivers_Button);
+            this.Reports_GrpBox.Controls.Add(this.Admin_Customers_Button);
             this.Reports_GrpBox.Controls.Add(this.Orders_Before);
             this.Reports_GrpBox.Location = new System.Drawing.Point(764, 12);
             this.Reports_GrpBox.Name = "Reports_GrpBox";
-            this.Reports_GrpBox.Size = new System.Drawing.Size(182, 326);
+            this.Reports_GrpBox.Size = new System.Drawing.Size(182, 384);
             this.Reports_GrpBox.TabIndex = 2;
             this.Reports_GrpBox.TabStop = false;
             this.Reports_GrpBox.Text = "Reports:";
@@ -90,14 +112,78 @@ namespace BetterCallTaxi
             this.Profile_Admin_Button.UseVisualStyleBackColor = true;
             this.Profile_Admin_Button.Click += new System.EventHandler(this.Profile_Admin_Button_Click);
             // 
-            // AdminHomePage
+            // Admin_Customers_Button
+            // 
+            this.Admin_Customers_Button.Location = new System.Drawing.Point(7, 65);
+            this.Admin_Customers_Button.Name = "Admin_Customers_Button";
+            this.Admin_Customers_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Customers_Button.TabIndex = 2;
+            this.Admin_Customers_Button.Text = "Customers";
+            this.Admin_Customers_Button.UseVisualStyleBackColor = true;
+            this.Admin_Customers_Button.Click += new System.EventHandler(this.Admin_Customers_Button_Click);
+            // 
+            // Admin_Drivers_Button
+            // 
+            this.Admin_Drivers_Button.Location = new System.Drawing.Point(7, 110);
+            this.Admin_Drivers_Button.Name = "Admin_Drivers_Button";
+            this.Admin_Drivers_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Drivers_Button.TabIndex = 3;
+            this.Admin_Drivers_Button.Text = "Drivers";
+            this.Admin_Drivers_Button.UseVisualStyleBackColor = true;
+            // 
+            // Admin_Orders_Button
+            // 
+            this.Admin_Orders_Button.Location = new System.Drawing.Point(7, 155);
+            this.Admin_Orders_Button.Name = "Admin_Orders_Button";
+            this.Admin_Orders_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Orders_Button.TabIndex = 4;
+            this.Admin_Orders_Button.Text = "Orders";
+            this.Admin_Orders_Button.UseVisualStyleBackColor = true;
+            // 
+            // Admin_Cars_Button
+            // 
+            this.Admin_Cars_Button.Location = new System.Drawing.Point(7, 200);
+            this.Admin_Cars_Button.Name = "Admin_Cars_Button";
+            this.Admin_Cars_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Cars_Button.TabIndex = 5;
+            this.Admin_Cars_Button.Text = "Cars";
+            this.Admin_Cars_Button.UseVisualStyleBackColor = true;
+            // 
+            // Admin_Manufacturers_Button
+            // 
+            this.Admin_Manufacturers_Button.Location = new System.Drawing.Point(7, 245);
+            this.Admin_Manufacturers_Button.Name = "Admin_Manufacturers_Button";
+            this.Admin_Manufacturers_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Manufacturers_Button.TabIndex = 6;
+            this.Admin_Manufacturers_Button.Text = "Manufacturers";
+            this.Admin_Manufacturers_Button.UseVisualStyleBackColor = true;
+            // 
+            // Admin_Order_Requests_Button
+            // 
+            this.Admin_Order_Requests_Button.Location = new System.Drawing.Point(7, 290);
+            this.Admin_Order_Requests_Button.Name = "Admin_Order_Requests_Button";
+            this.Admin_Order_Requests_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Order_Requests_Button.TabIndex = 7;
+            this.Admin_Order_Requests_Button.Text = "Order Requests";
+            this.Admin_Order_Requests_Button.UseVisualStyleBackColor = true;
+            // 
+            // Admin_Roles_Button
+            // 
+            this.Admin_Roles_Button.Location = new System.Drawing.Point(7, 335);
+            this.Admin_Roles_Button.Name = "Admin_Roles_Button";
+            this.Admin_Roles_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Roles_Button.TabIndex = 8;
+            this.Admin_Roles_Button.Text = "Roles";
+            this.Admin_Roles_Button.UseVisualStyleBackColor = true;
+            // 
+            // Admin_Home_Page
             // 
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(958, 645);
             this.Controls.Add(this.Logged_In_Welcome);
             this.Controls.Add(this.Reports_GrpBox);
             this.ForeColor = System.Drawing.Color.Black;
-            this.Name = "AdminHomePage";
+            this.Name = "Admin_Home_Page";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Better Call Taxi - Home";
             this.Load += new System.EventHandler(this.AdminHomePage_Load);
@@ -161,5 +247,19 @@ namespace BetterCallTaxi
             // Показваме обратно Home страницата
             this.Show();
         }
+
+        private void Admin_Customers_Button_Click(object sender, EventArgs e)
+        {
+            CustomersFilterDialog oCustomersFilterDialog = new CustomersFilterDialog();
+            if (oCustomersFilterDialog.ShowDialog() == DialogResult.OK)
+            {
+
+            }
+            else if (oCustomersFilterDialog.ShowDialog() == DialogResult.Cancel)
+            {
+
+            }
+        }
+
     }
 }

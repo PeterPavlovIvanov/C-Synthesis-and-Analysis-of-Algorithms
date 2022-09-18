@@ -52,6 +52,7 @@ namespace BetterCallTaxi
             this.Ord_Bfr_Date_ListBox.Name = "Ord_Bfr_Date_ListBox";
             this.Ord_Bfr_Date_ListBox.Size = new System.Drawing.Size(755, 420);
             this.Ord_Bfr_Date_ListBox.TabIndex = 0;
+            this.Ord_Bfr_Date_ListBox.SelectedIndexChanged += new System.EventHandler(this.Ord_Bfr_Date_ListBox_SelectedIndexChanged);
             // 
             // OrdBfrDateReport
             // 
@@ -60,6 +61,11 @@ namespace BetterCallTaxi
             this.Name = "OrdBfrDateReport";
             this.Text = "Orders Before Date: {0}";
             this.ResumeLayout(false);
+
+        }
+
+        private void Ord_Bfr_Date_ListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
     }
