@@ -70,13 +70,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdminHomePage.cs">
+    <Compile Include="Pages\AdminHomePage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Customer.cs" />
+    <Compile Include="Models\Customer.cs" />
     <Compile Include="DatabaseManager.cs" />
-    <Compile Include="Driver.cs" />
-    <Compile Include="DriverHomePage.cs">
+    <Compile Include="Models\Driver.cs" />
+    <Compile Include="Pages\DriverHomePage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.cs">
@@ -87,12 +87,16 @@
     </Compile>
     <Compile Include="GlobalConstants.cs" />
     <Compile Include="InputValidator.cs" />
-    <Compile Include="LoginDialog.cs">
+    <Compile Include="Pages\LoginDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OrdersBeforeDateDialog.cs">
+    <Compile Include="Reports\Ord_Bfr_Date\OrdBfrDateReport.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Reports\Ord_Bfr_Date\OrdersBeforeDateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Models\OrdersBeforeDateResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterDialog.cs">
@@ -101,19 +105,22 @@
     <Compile Include="UserHomePage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <EmbeddedResource Include="AdminHomePage.resx">
+    <EmbeddedResource Include="Pages\AdminHomePage.resx">
       <DependentUpon>AdminHomePage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DriverHomePage.resx">
+    <EmbeddedResource Include="Pages\DriverHomePage.resx">
       <DependentUpon>DriverHomePage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginDialog.resx">
+    <EmbeddedResource Include="Pages\LoginDialog.resx">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OrdersBeforeDateDialog.resx">
+    <EmbeddedResource Include="Reports\Ord_Bfr_Date\OrdBfrDateReport.resx">
+      <DependentUpon>OrdBfrDateReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Ord_Bfr_Date\OrdersBeforeDateDialog.resx">
       <DependentUpon>OrdersBeforeDateDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

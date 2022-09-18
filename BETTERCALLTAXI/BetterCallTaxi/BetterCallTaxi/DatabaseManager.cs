@@ -37,6 +37,11 @@ namespace BetterCallTaxi
             this.oSqlTransaction.Rollback();
         }
 
+        public void CloseSqlConnection()
+        {
+            this.oSqlConnection.Close();
+        }
+
         public SqlDataReader ExecuteQuery(string strQuery, bool bInTran = false, bool bCloseReader = false /* true - няма да четем */)
         {
             SqlCommand oSqlCommand = new SqlCommand(strQuery, this.oSqlConnection);
@@ -48,7 +53,10 @@ namespace BetterCallTaxi
             SqlDataReader oSqlDataReader = oSqlCommand.ExecuteReader();
 
             if (bCloseReader)
+            {
+                oSqlConnection.Close();
                 oSqlDataReader.Close();
+            }
 
             return oSqlDataReader;
         }

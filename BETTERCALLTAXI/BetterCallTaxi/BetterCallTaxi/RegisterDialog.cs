@@ -248,7 +248,8 @@ namespace BetterCallTaxi
                 }
 
                 SqlDataReader oSqlDataReader =
-                    oDatabaseManager.ExecuteQuery(String.Format(GlobalConstants.SELECT_CUSTOMER_ID_BY_USERNAME, this.Username_Reg_Field.Text));
+                    oDatabaseManager.ExecuteQuery(
+                        String.Format(GlobalConstants.SELECT_CUSTOMER_ID_BY_USERNAME, this.Username_Reg_Field.Text));
 
                 if (oSqlDataReader.Read())
                     return false;
@@ -264,7 +265,7 @@ namespace BetterCallTaxi
 
         private bool Register()
         {
-            // Връзваме се с базата
+            // Връзваме се към базата
             DatabaseManager oDatabaseManager = new DatabaseManager();
 
             // Започваме транзакця
@@ -284,7 +285,8 @@ namespace BetterCallTaxi
             if (this.Driver_CheckBox.CheckState == CheckState.Checked)
             {
                 // Взимаме му ID-то
-                SqlDataReader oSqlDataReaderCustId = oDatabaseManager.ExecuteQuery(String.Format(GlobalConstants.SELECT_CUSTOMER_ID_BY_USERNAME
+                SqlDataReader oSqlDataReaderCustId = oDatabaseManager.ExecuteQuery(
+                    String.Format(GlobalConstants.SELECT_CUSTOMER_ID_BY_USERNAME
                     , this.Username_Reg_Field.Text), true /* в транзакция сме */);
                 if (!oSqlDataReaderCustId.Read()) // ако няма запис нещо е гръмнало в SQL-а, rollback-ваме транзакцията
                 {
@@ -302,7 +304,7 @@ namespace BetterCallTaxi
                             , (int)Driver.DriverStatus.DriverStatusAvailable // при създаване се бъде свободен
                             ), true /* в транзакция сме */, true /* няма да четем */);
             }
-            
+
             // Ако сме стигнали до тук, затваряме транзакцията
             oDatabaseManager.Commit();
 
