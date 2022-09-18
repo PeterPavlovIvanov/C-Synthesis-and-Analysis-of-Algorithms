@@ -127,6 +127,7 @@
     <EmbeddedResource Include="Pages\ProfileDialog.resx">
       <DependentUpon>ProfileDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Customers\CustomersFilterDialog.resx">
       <DependentUpon>CustomersFilterDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\Ord_Bfr_Date\OrdBfrDateReport.resx">
