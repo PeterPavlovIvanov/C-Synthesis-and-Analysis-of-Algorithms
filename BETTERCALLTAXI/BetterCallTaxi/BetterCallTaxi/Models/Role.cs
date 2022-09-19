@@ -18,8 +18,8 @@ namespace BetterCallTaxi.Models
         public bool b_Last_Operation_Status = true;
 
         // Полета от таблиата ROLES
-        public Int32 nId;
-        public string strRole;
+        public Int32 nId { get; set; }
+        public string strRole { get; set; }
 
         public Role()
         {

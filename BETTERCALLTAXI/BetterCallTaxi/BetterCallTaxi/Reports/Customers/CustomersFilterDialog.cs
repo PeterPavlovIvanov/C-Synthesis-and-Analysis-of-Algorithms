@@ -25,20 +25,9 @@ namespace BetterCallTaxi.Reports.Customers
 
         public CustomersFilterDialog()
         {
-            DatabaseManager oDatabaseManager = new DatabaseManager();
-            SqlDataReader oSqlDataReader = oDatabaseManager.ExecuteQuery(GlobalConstants.SELECT_ALL_ROLES);
-            RolesReader oRolesReader = new RolesReader();
-            oRolesReader.Read_Many_Roles(oSqlDataReader);
-            oSqlDataReader.Close();
-
-            //foreach (Role recRole in oRolesReader.oRoles)
-            //{
-            //    this.Cust_Filt_Role_Cmb.Items.Add(recRole);
-            //}
-            ////this.Cust_Filt_Role_Cmb.DataSource = oRolesReader.oRoles;
-            //this.Cust_Filt_Role_Cmb.DisplayMember = "strRole";
-            //this.Cust_Filt_Role_Cmb.ValueMember = "nId";
-
+            InitializeComponent();
+            this.SetFieldsStatus();
+            this.FillRolesComboFromDatabase();
         }
 
         private void InitializeComponent()
@@ -175,6 +164,7 @@ namespace BetterCallTaxi.Reports.Customers
             this.Controls.Add(this.Cust_Filt_Ok_Btn);
             this.Name = "CustomersFilterDialog";
             this.Text = "Filter Customers Report";
+            this.Load += new System.EventHandler(this.CustomersFilterDialog_Load);
             this.Cust_Filt_Grp_Box.ResumeLayout(false);
             this.Cust_Filt_Grp_Box.PerformLayout();
             this.ResumeLayout(false);
@@ -184,16 +174,75 @@ namespace BetterCallTaxi.Reports.Customers
         private void Cust_Filt_Cancel_Btn_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
-            this.Close();
+        }
+
+        public string FormSelectFilterQuery()
+        {
+            string strQuery = GlobalConstants.SELECT_ALL_CUSTOMERS;
+
+            if (this.Cust_Filt_Username_Chk.Checked || this.Cust_Filt_Name_Chk.Checked
+                || this.Cust_Filt_Role_Chk.Checked || this.Cust_Filt_Ucn_Chk.Checked)
+            {
+                strQuery += " WHERE ";
+                bool bPutAnd = false;
+
+                if (this.Cust_Filt_Username_Chk.Checked)
+                {
+                    strQuery += " USERNAME LIKE '" + this.Cust_Filt_Username_Field.Text + "%' ";
+                    bPutAnd = true;
+                }
+
+                if (this.Cust_Filt_Name_Chk.Checked)
+                {
+                    if (bPutAnd)
+                        strQuery += " AND ";
+
+                    strQuery += " NAME LIKE '" + this.Cust_Filt_Name_Field.Text + "%' ";
+                    bPutAnd = true;
+                }
+
+                if (this.Cust_Filt_Role_Chk.Checked)
+                {
+                    if (bPutAnd)
+                        strQuery += " AND ";
+
+                    strQuery += " ROLE_ID = " + this.Cust_Filt_Role_Cmb.SelectedValue;
+                    bPutAnd = true;
+                }
+
+                if (this.Cust_Filt_Ucn_Chk.Checked)
+                {
+                    strQuery += " UCN LIKE '" + this.Cust_Filt_Ucn_Field.Text + "%' ";
+                }
+            }
+
+            return strQuery;
         }
 
         private void Cust_Filt_Ok_Btn_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
+        }
 
-            // TODO: call listview or listbox
+        private void FillRolesComboFromDatabase()
+        {
+            DatabaseManager oDatabaseManager = new DatabaseManager();
+            SqlDataReader oSqlDataReader = oDatabaseManager.ExecuteQuery(GlobalConstants.SELECT_ALL_ROLES);
+            RolesReader oRolesReader = new RolesReader();
+            oRolesReader.Read_Many_Roles(oSqlDataReader);
+            oSqlDataReader.Close();
 
-            this.Close();
+            this.Cust_Filt_Role_Cmb.DataSource = oRolesReader.oRoles;
+            this.Cust_Filt_Role_Cmb.DisplayMember = "strRole";
+            this.Cust_Filt_Role_Cmb.ValueMember = "nId";
+        }
+
+        private void SetFieldsStatus(bool bEnabled = false)
+        {
+            this.Cust_Filt_Username_Field.Enabled = bEnabled;
+            this.Cust_Filt_Name_Field.Enabled = bEnabled;
+            this.Cust_Filt_Role_Cmb.Enabled = bEnabled;
+            this.Cust_Filt_Ucn_Field.Enabled = bEnabled;
         }
 
         private void Cust_Filt_Username_Chk_CheckedChanged(object sender, EventArgs e)
@@ -226,6 +275,11 @@ namespace BetterCallTaxi.Reports.Customers
                 this.Cust_Filt_Role_Cmb.Enabled = true;
             else
                 this.Cust_Filt_Role_Cmb.Enabled = false;
+        }
+
+        private void CustomersFilterDialog_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -94,4 +94,28 @@ namespace BetterCallTaxi
             return strResult;
         }
     }
+
+    class CustomersReader
+    {
+        public List<Customer> oCustomers;
+
+        public CustomersReader()
+        { this.oCustomers = new List<Customer>(); }
+
+        public bool Read_Many_Customers(SqlDataReader oSqlDataReader)
+        {
+            this.oCustomers = new List<Customer>();
+            while (true)
+            {
+                Customer recCustomer = new Customer(oSqlDataReader);
+
+                if (!recCustomer.b_Last_Operation_Status)
+                    break;
+
+                this.oCustomers.Add(recCustomer);
+            }
+
+            return true;
+        }
+    }
 }

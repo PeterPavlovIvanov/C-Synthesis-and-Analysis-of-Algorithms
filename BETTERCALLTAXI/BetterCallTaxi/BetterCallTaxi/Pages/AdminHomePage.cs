@@ -24,6 +24,7 @@ namespace BetterCallTaxi
         private Button Admin_Orders_Button;
         private Button Admin_Drivers_Button;
         private Button Admin_Customers_Button;
+        private ListView Admin_List_View;
         Customer recCustomer;
 
         public Admin_Home_Page(Customer recCustomer)
@@ -31,6 +32,7 @@ namespace BetterCallTaxi
             InitializeComponent();
             this.Location = GlobalConstants.START_POINT;
             this.recCustomer = recCustomer;    
+            this.Admin_List_View.View = View.Details;
         }
 
         private void InitializeComponent()
@@ -38,16 +40,17 @@ namespace BetterCallTaxi
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Admin_Home_Page));
             this.Orders_Before = new System.Windows.Forms.Button();
             this.Reports_GrpBox = new System.Windows.Forms.GroupBox();
+            this.Admin_Roles_Button = new System.Windows.Forms.Button();
+            this.Admin_Order_Requests_Button = new System.Windows.Forms.Button();
+            this.Admin_Manufacturers_Button = new System.Windows.Forms.Button();
+            this.Admin_Cars_Button = new System.Windows.Forms.Button();
+            this.Admin_Orders_Button = new System.Windows.Forms.Button();
+            this.Admin_Drivers_Button = new System.Windows.Forms.Button();
+            this.Admin_Customers_Button = new System.Windows.Forms.Button();
             this.Logged_In_Welcome = new System.Windows.Forms.GroupBox();
             this.Logout_Admin_Button = new System.Windows.Forms.Button();
             this.Profile_Admin_Button = new System.Windows.Forms.Button();
-            this.Admin_Customers_Button = new System.Windows.Forms.Button();
-            this.Admin_Drivers_Button = new System.Windows.Forms.Button();
-            this.Admin_Orders_Button = new System.Windows.Forms.Button();
-            this.Admin_Cars_Button = new System.Windows.Forms.Button();
-            this.Admin_Manufacturers_Button = new System.Windows.Forms.Button();
-            this.Admin_Order_Requests_Button = new System.Windows.Forms.Button();
-            this.Admin_Roles_Button = new System.Windows.Forms.Button();
+            this.Admin_List_View = new System.Windows.Forms.ListView();
             this.Reports_GrpBox.SuspendLayout();
             this.Logged_In_Welcome.SuspendLayout();
             this.SuspendLayout();
@@ -79,6 +82,70 @@ namespace BetterCallTaxi
             this.Reports_GrpBox.TabIndex = 2;
             this.Reports_GrpBox.TabStop = false;
             this.Reports_GrpBox.Text = "Reports:";
+            // 
+            // Admin_Roles_Button
+            // 
+            this.Admin_Roles_Button.Location = new System.Drawing.Point(7, 335);
+            this.Admin_Roles_Button.Name = "Admin_Roles_Button";
+            this.Admin_Roles_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Roles_Button.TabIndex = 8;
+            this.Admin_Roles_Button.Text = "Roles";
+            this.Admin_Roles_Button.UseVisualStyleBackColor = true;
+            // 
+            // Admin_Order_Requests_Button
+            // 
+            this.Admin_Order_Requests_Button.Location = new System.Drawing.Point(7, 290);
+            this.Admin_Order_Requests_Button.Name = "Admin_Order_Requests_Button";
+            this.Admin_Order_Requests_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Order_Requests_Button.TabIndex = 7;
+            this.Admin_Order_Requests_Button.Text = "Order Requests";
+            this.Admin_Order_Requests_Button.UseVisualStyleBackColor = true;
+            // 
+            // Admin_Manufacturers_Button
+            // 
+            this.Admin_Manufacturers_Button.Location = new System.Drawing.Point(7, 245);
+            this.Admin_Manufacturers_Button.Name = "Admin_Manufacturers_Button";
+            this.Admin_Manufacturers_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Manufacturers_Button.TabIndex = 6;
+            this.Admin_Manufacturers_Button.Text = "Manufacturers";
+            this.Admin_Manufacturers_Button.UseVisualStyleBackColor = true;
+            // 
+            // Admin_Cars_Button
+            // 
+            this.Admin_Cars_Button.Location = new System.Drawing.Point(7, 200);
+            this.Admin_Cars_Button.Name = "Admin_Cars_Button";
+            this.Admin_Cars_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Cars_Button.TabIndex = 5;
+            this.Admin_Cars_Button.Text = "Cars";
+            this.Admin_Cars_Button.UseVisualStyleBackColor = true;
+            // 
+            // Admin_Orders_Button
+            // 
+            this.Admin_Orders_Button.Location = new System.Drawing.Point(7, 155);
+            this.Admin_Orders_Button.Name = "Admin_Orders_Button";
+            this.Admin_Orders_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Orders_Button.TabIndex = 4;
+            this.Admin_Orders_Button.Text = "Orders";
+            this.Admin_Orders_Button.UseVisualStyleBackColor = true;
+            // 
+            // Admin_Drivers_Button
+            // 
+            this.Admin_Drivers_Button.Location = new System.Drawing.Point(7, 110);
+            this.Admin_Drivers_Button.Name = "Admin_Drivers_Button";
+            this.Admin_Drivers_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Drivers_Button.TabIndex = 3;
+            this.Admin_Drivers_Button.Text = "Drivers";
+            this.Admin_Drivers_Button.UseVisualStyleBackColor = true;
+            // 
+            // Admin_Customers_Button
+            // 
+            this.Admin_Customers_Button.Location = new System.Drawing.Point(7, 65);
+            this.Admin_Customers_Button.Name = "Admin_Customers_Button";
+            this.Admin_Customers_Button.Size = new System.Drawing.Size(165, 38);
+            this.Admin_Customers_Button.TabIndex = 2;
+            this.Admin_Customers_Button.Text = "Customers";
+            this.Admin_Customers_Button.UseVisualStyleBackColor = true;
+            this.Admin_Customers_Button.Click += new System.EventHandler(this.Admin_Customers_Button_Click);
             // 
             // Logged_In_Welcome
             // 
@@ -112,74 +179,23 @@ namespace BetterCallTaxi
             this.Profile_Admin_Button.UseVisualStyleBackColor = true;
             this.Profile_Admin_Button.Click += new System.EventHandler(this.Profile_Admin_Button_Click);
             // 
-            // Admin_Customers_Button
+            // Admin_List_View
             // 
-            this.Admin_Customers_Button.Location = new System.Drawing.Point(7, 65);
-            this.Admin_Customers_Button.Name = "Admin_Customers_Button";
-            this.Admin_Customers_Button.Size = new System.Drawing.Size(165, 38);
-            this.Admin_Customers_Button.TabIndex = 2;
-            this.Admin_Customers_Button.Text = "Customers";
-            this.Admin_Customers_Button.UseVisualStyleBackColor = true;
-            this.Admin_Customers_Button.Click += new System.EventHandler(this.Admin_Customers_Button_Click);
-            // 
-            // Admin_Drivers_Button
-            // 
-            this.Admin_Drivers_Button.Location = new System.Drawing.Point(7, 110);
-            this.Admin_Drivers_Button.Name = "Admin_Drivers_Button";
-            this.Admin_Drivers_Button.Size = new System.Drawing.Size(165, 38);
-            this.Admin_Drivers_Button.TabIndex = 3;
-            this.Admin_Drivers_Button.Text = "Drivers";
-            this.Admin_Drivers_Button.UseVisualStyleBackColor = true;
-            // 
-            // Admin_Orders_Button
-            // 
-            this.Admin_Orders_Button.Location = new System.Drawing.Point(7, 155);
-            this.Admin_Orders_Button.Name = "Admin_Orders_Button";
-            this.Admin_Orders_Button.Size = new System.Drawing.Size(165, 38);
-            this.Admin_Orders_Button.TabIndex = 4;
-            this.Admin_Orders_Button.Text = "Orders";
-            this.Admin_Orders_Button.UseVisualStyleBackColor = true;
-            // 
-            // Admin_Cars_Button
-            // 
-            this.Admin_Cars_Button.Location = new System.Drawing.Point(7, 200);
-            this.Admin_Cars_Button.Name = "Admin_Cars_Button";
-            this.Admin_Cars_Button.Size = new System.Drawing.Size(165, 38);
-            this.Admin_Cars_Button.TabIndex = 5;
-            this.Admin_Cars_Button.Text = "Cars";
-            this.Admin_Cars_Button.UseVisualStyleBackColor = true;
-            // 
-            // Admin_Manufacturers_Button
-            // 
-            this.Admin_Manufacturers_Button.Location = new System.Drawing.Point(7, 245);
-            this.Admin_Manufacturers_Button.Name = "Admin_Manufacturers_Button";
-            this.Admin_Manufacturers_Button.Size = new System.Drawing.Size(165, 38);
-            this.Admin_Manufacturers_Button.TabIndex = 6;
-            this.Admin_Manufacturers_Button.Text = "Manufacturers";
-            this.Admin_Manufacturers_Button.UseVisualStyleBackColor = true;
-            // 
-            // Admin_Order_Requests_Button
-            // 
-            this.Admin_Order_Requests_Button.Location = new System.Drawing.Point(7, 290);
-            this.Admin_Order_Requests_Button.Name = "Admin_Order_Requests_Button";
-            this.Admin_Order_Requests_Button.Size = new System.Drawing.Size(165, 38);
-            this.Admin_Order_Requests_Button.TabIndex = 7;
-            this.Admin_Order_Requests_Button.Text = "Order Requests";
-            this.Admin_Order_Requests_Button.UseVisualStyleBackColor = true;
-            // 
-            // Admin_Roles_Button
-            // 
-            this.Admin_Roles_Button.Location = new System.Drawing.Point(7, 335);
-            this.Admin_Roles_Button.Name = "Admin_Roles_Button";
-            this.Admin_Roles_Button.Size = new System.Drawing.Size(165, 38);
-            this.Admin_Roles_Button.TabIndex = 8;
-            this.Admin_Roles_Button.Text = "Roles";
-            this.Admin_Roles_Button.UseVisualStyleBackColor = true;
+            this.Admin_List_View.FullRowSelect = true;
+            this.Admin_List_View.GridLines = true;
+            this.Admin_List_View.HideSelection = false;
+            this.Admin_List_View.Location = new System.Drawing.Point(12, 180);
+            this.Admin_List_View.MultiSelect = false;
+            this.Admin_List_View.Name = "Admin_List_View";
+            this.Admin_List_View.Size = new System.Drawing.Size(583, 453);
+            this.Admin_List_View.TabIndex = 4;
+            this.Admin_List_View.UseCompatibleStateImageBehavior = false;
             // 
             // Admin_Home_Page
             // 
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(958, 645);
+            this.Controls.Add(this.Admin_List_View);
             this.Controls.Add(this.Logged_In_Welcome);
             this.Controls.Add(this.Reports_GrpBox);
             this.ForeColor = System.Drawing.Color.Black;
@@ -248,17 +264,84 @@ namespace BetterCallTaxi
             this.Show();
         }
 
+        private void PrepareListViewForCustomersReport()
+        {
+            this.Admin_List_View.Items.Clear();
+            ColumnHeader[] oHeaderCols = new ColumnHeader[5];
+            oHeaderCols[0] = new ColumnHeader();
+            oHeaderCols[0].Text = GlobalConstants.USERNAME;
+            oHeaderCols[0].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[0].Width = 130;
+            this.Admin_List_View.Columns.Add(oHeaderCols[0]);
+
+            oHeaderCols[1] = new ColumnHeader();
+            oHeaderCols[1].Text = GlobalConstants.FULL_NAME;
+            oHeaderCols[1].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[1].Width = 130;
+            this.Admin_List_View.Columns.Add(oHeaderCols[1]);
+
+            oHeaderCols[2] = new ColumnHeader();
+            oHeaderCols[2].Text = GlobalConstants.UCN;
+            oHeaderCols[2].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[2].Width = 130;
+            this.Admin_List_View.Columns.Add(oHeaderCols[2]);
+
+            oHeaderCols[3] = new ColumnHeader();
+            oHeaderCols[3].Text = GlobalConstants.ROLE;
+            oHeaderCols[3].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[3].Width = 90;
+            this.Admin_List_View.Columns.Add(oHeaderCols[3]);
+
+            oHeaderCols[4] = new ColumnHeader();
+            oHeaderCols[4].Text = GlobalConstants.ORDERS_MADE;
+            oHeaderCols[4].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[4].Width = 90;
+            this.Admin_List_View.Columns.Add(oHeaderCols[4]);
+        }
+        
+        private void FillCustomersReportData(List<Customer> oCustomers)
+        {
+            foreach (Customer recCust in oCustomers)
+            {
+                string strRole = GlobalConstants.UNKNOWN;
+                switch (recCust.nRoleId)
+                {
+                    case (int)Customer.Roles.RoleAdministrator: strRole = GlobalConstants.ADMINISTRATOR; break;
+                    case (int)Customer.Roles.RoleDriver: strRole = GlobalConstants.DRIVER; break;
+                    case (int)Customer.Roles.RoleUser: strRole = GlobalConstants.USER; break;
+                }
+                this.Admin_List_View.Items.Add(new ListViewItem(new string[]{
+                        recCust.strName
+                      , recCust.strUsername
+                      , recCust.strUcn
+                      , strRole
+                      , recCust.nOrdersMade.ToString()}));
+            }
+        }
+
         private void Admin_Customers_Button_Click(object sender, EventArgs e)
         {
             CustomersFilterDialog oCustomersFilterDialog = new CustomersFilterDialog();
-            if (oCustomersFilterDialog.ShowDialog() == DialogResult.OK)
+            DialogResult oDlgRes = oCustomersFilterDialog.ShowDialog();
+
+            if (oDlgRes == DialogResult.OK)
+            {
+                this.PrepareListViewForCustomersReport();
+
+                DatabaseManager oDatabaseManager = new DatabaseManager();
+                SqlDataReader oSqlDataReader = oDatabaseManager.ExecuteQuery(oCustomersFilterDialog.FormSelectFilterQuery());
+                CustomersReader oCustomersReader = new CustomersReader();
+                oCustomersReader.Read_Many_Customers(oSqlDataReader);
+                oSqlDataReader.Close();
+
+                this.FillCustomersReportData(oCustomersReader.oCustomers);
+            }
+            else if (oDlgRes == DialogResult.Cancel)
             {
 
             }
-            else if (oCustomersFilterDialog.ShowDialog() == DialogResult.Cancel)
-            {
 
-            }
+            oCustomersFilterDialog.Close();
         }
 
     }

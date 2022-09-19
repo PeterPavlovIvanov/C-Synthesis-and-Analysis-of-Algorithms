@@ -60,11 +60,17 @@ namespace BetterCallTaxi
             this.Controls.Add(this.Ord_Bfr_Date_ListBox);
             this.Name = "OrdBfrDateReport";
             this.Text = "Orders Before Date: {0}";
+            this.Load += new System.EventHandler(this.OrdBfrDateReport_Load);
             this.ResumeLayout(false);
 
         }
 
         private void Ord_Bfr_Date_ListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OrdBfrDateReport_Load(object sender, EventArgs e)
         {
 
         }

@@ -11,6 +11,10 @@ namespace BetterCallTaxi
         public const string DATE_FORMAT = "yyyy-MM-dd hh:mm:ss.FFF";
         public const string TAB = "\t";
         public const string WELCOME_USER = "Welcome, {0}!";
+        public const string UNKNOWN = "unknown";
+        public const string ADMINISTRATOR = "Administrator";
+        public const string DRIVER = "Driver";
+        public const string USER = "User";
 
         // Queries
         // Select
@@ -29,6 +33,7 @@ namespace BetterCallTaxi
         public const string SELECT_DRIVER_BY_CUSTOMER_ID = "SELECT * FROM DRIVERS WITH(NOLOCK) WHERE CUSTOMER_ID = {0}";
         public const string SELECT_CUSTOMER_BY_ID = "SELECT * FROM CUSTOMERS WITH(NOLOCK) WHERE ID = {0}";
         public const string SELECT_ALL_ROLES = "SELECT * FROM ROLES WITH(NOLOCK)";
+        public const string SELECT_ALL_CUSTOMERS = "SELECT * FROM CUSTOMERS WITH(NOLOCK) ";
 
         // Update
         public const string UPDATE_CUSTOMER_NAME_AND_USERNAME_BY_ID = "UPDATE CUSTOMERS SET NAME = '{0}', USERNAME = '{1}' WHERE ID = {2}";
@@ -55,10 +60,18 @@ namespace BetterCallTaxi
         public const int ERROR_ = -1;
 
         // Column headers
+        // Query 3
         public const string ORDER_TIME = "Date and Time of Order";
         public const string CAR_REG_NUMBER = "Car Register Number";
         public const string MANUFACTURER_NAME = "Car Manufacturer";
         public const string TOTAL_ORDERS_COUNTS = "Total Orders";
+
+        // Customers
+        public const string FULL_NAME = "Full Name";
+        public const string USERNAME = "USERNAME";
+        public const string UCN = "UCN";
+        public const string ROLE = "Role";
+        public const string ORDERS_MADE = "Total Orders";
 
         public GlobalConstants()
         {
