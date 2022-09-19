@@ -94,13 +94,10 @@
     <Compile Include="Pages\ProfileDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\Customers\CustomersFilterDialog.cs">
+    <Compile Include="Filters\Customers\CustomersFilterDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\Ord_Bfr_Date\OrdBfrDateReport.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Reports\Ord_Bfr_Date\OrdersBeforeDateDialog.cs">
+    <Compile Include="Filters\Ord_Bfr_Date\OrdersBeforeDateFilterDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Models\OrdersBeforeDateResult.cs" />
@@ -127,14 +124,8 @@
     <EmbeddedResource Include="Pages\ProfileDialog.resx">
       <DependentUpon>ProfileDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Customers\CustomersFilterDialog.resx">
+    <EmbeddedResource Include="Filters\Customers\CustomersFilterDialog.resx">
       <DependentUpon>CustomersFilterDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Ord_Bfr_Date\OrdBfrDateReport.resx">
-      <DependentUpon>OrdBfrDateReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Ord_Bfr_Date\OrdersBeforeDateDialog.resx">
-      <DependentUpon>OrdersBeforeDateDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
