@@ -15,6 +15,10 @@ namespace BetterCallTaxi
         public const string ADMINISTRATOR = "Administrator";
         public const string DRIVER = "Driver";
         public const string USER = "User";
+        public const string DRIVER_AVAILABLE = "Available";
+        public const string DRIVER_BUSY = "Busy";
+        public const string YES = "Yes";
+        public const string NO = "No";
 
         // Queries
         // Select
@@ -34,6 +38,18 @@ namespace BetterCallTaxi
         public const string SELECT_CUSTOMER_BY_ID = "SELECT * FROM CUSTOMERS WITH(NOLOCK) WHERE ID = {0}";
         public const string SELECT_ALL_ROLES = "SELECT * FROM ROLES WITH(NOLOCK)";
         public const string SELECT_ALL_CUSTOMERS = "SELECT * FROM CUSTOMERS WITH(NOLOCK) ";
+        public const string SELECT_DRIVERS_AND_THEIR_NAMES = "SELECT D.ID, D.COMPLETED_ORDERS, D.CUSTOMER_ID, D.MONEY_MADE, D.STATUS, C.NAME\n"
+                                                             + " FROM DRIVERS AS D WITH(NOLOCK)\n" 
+                                                             + " INNER JOIN CUSTOMERS AS C WITH(NOLOCK)\n"
+                                                             + " ON C.ID = D.CUSTOMER_ID";
+        public const string SELECT_CARS_AND_OWNERS = "SELECT CAR.KOD_TAXI, CAR.REG_NOMER, M.NAME, CAR.SEATS, CAR.LUGGAGE, C.NAME\n"
+                                                    + "FROM CARS AS CAR WITH(NOLOCK)\n"
+                                                    + "INNER JOIN MANUFACTURERS AS M WITH(NOLOCK)\n"
+                                                    + "ON M.ID = CAR.MANUFACTURER_ID\n"
+                                                    + "INNER JOIN DRIVERS AS D WITH(NOLOCK)\n"
+                                                    + "ON D.ID = CAR.DRIVER_ID\n"
+                                                    + "INNER JOIN CUSTOMERS AS C WITH(NOLOCK)\n"
+                                                    + "ON C.ID = D.CUSTOMER_ID\n";
 
         // Update
         public const string UPDATE_CUSTOMER_NAME_AND_USERNAME_BY_ID = "UPDATE CUSTOMERS SET NAME = '{0}', USERNAME = '{1}' WHERE ID = {2}";
@@ -72,6 +88,18 @@ namespace BetterCallTaxi
         public const string UCN = "UCN";
         public const string ROLE = "Role";
         public const string ORDERS_MADE = "Total Orders";
+
+        // Drivers
+        public const string COMPLETED_ORDERS = "Total Orders Completed";
+        public const string MONEY_MADE = "Total Money Made";
+        public const string STATUS = "Driver status";
+
+        // Cars
+        public const string REG_NOMER = "Car ID";
+        public const string MANUFACTURER = "Manufacturer";
+        public const string SEATS = "Number of Free Seats";
+        public const string LUGAGE = "Lugage space";
+        public const string DRIVER_NAME = "";
 
         public GlobalConstants()
         {

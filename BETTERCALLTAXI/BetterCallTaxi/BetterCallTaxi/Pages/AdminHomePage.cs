@@ -1,4 +1,5 @@
-﻿using BetterCallTaxi.Pages;
+﻿using BetterCallTaxi.Models;
+using BetterCallTaxi.Pages;
 using BetterCallTaxi.Reports.Customers;
 using System;
 using System.Collections.Generic;
@@ -118,6 +119,7 @@ namespace BetterCallTaxi
             this.Admin_Cars_Button.TabIndex = 5;
             this.Admin_Cars_Button.Text = "Cars";
             this.Admin_Cars_Button.UseVisualStyleBackColor = true;
+            this.Admin_Cars_Button.Click += new System.EventHandler(this.Admin_Cars_Button_Click);
             // 
             // Admin_Orders_Button
             // 
@@ -136,6 +138,7 @@ namespace BetterCallTaxi
             this.Admin_Drivers_Button.TabIndex = 3;
             this.Admin_Drivers_Button.Text = "Drivers";
             this.Admin_Drivers_Button.UseVisualStyleBackColor = true;
+            this.Admin_Drivers_Button.Click += new System.EventHandler(this.Admin_Drivers_Button_Click);
             // 
             // Admin_Customers_Button
             // 
@@ -310,7 +313,73 @@ namespace BetterCallTaxi
             oHeaderCols[nCol].Width = 90;
             this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
         }
-        
+
+        private void PrepareListViewForDriversReport()
+        {
+            this.Admin_List_View.Clear();
+            int nCol = 0;
+            ColumnHeader[] oHeaderCols = new ColumnHeader[5];
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.FULL_NAME;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 130;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.COMPLETED_ORDERS;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 130;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.MONEY_MADE;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 130;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.STATUS;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 90;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+        }
+
+        private void PrepareListViewForCarsReport()
+        {
+            this.Admin_List_View.Clear();
+            int nCol = 0;
+            ColumnHeader[] oHeaderCols = new ColumnHeader[5];
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.REG_NOMER;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 70;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.MANUFACTURER;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 130;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.SEATS;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 130;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.LUGAGE;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 90;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.DRIVER_NAME;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 120;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+        }
+
         private void FillOrdBfrDateReportData(List<OrdersBeforeDateRow> oRows)
         {
             foreach(OrdersBeforeDateRow oRow in oRows)
@@ -340,6 +409,33 @@ namespace BetterCallTaxi
                       , recCust.strUcn
                       , strRole
                       , recCust.nOrdersMade.ToString()}));
+            }
+        }
+
+        private void FillDriversAndNamesView(List<DriversAndNames> oDriversAndNames)
+        {
+            foreach (DriversAndNames oDriverAndName in oDriversAndNames)
+            {
+                this.Admin_List_View.Items.Add(new ListViewItem(new string[]{
+                        oDriverAndName.strName
+                      , oDriverAndName.recDriver.nCompletedOrders.ToString()
+                      , oDriverAndName.recDriver.dMoneyMade.ToString()
+                      , oDriverAndName.recDriver.bStatus ? GlobalConstants.DRIVER_AVAILABLE : GlobalConstants.DRIVER_BUSY }
+                ));
+            }
+        }
+
+        private void FillCarsAndOnwersView(List<CarsAndOwners> oCarsAndOwnersList)
+        {
+            foreach (CarsAndOwners oCarAndOwner in oCarsAndOwnersList)
+            {
+                this.Admin_List_View.Items.Add(new ListViewItem(new string[]{
+                        oCarAndOwner.recCar.strRegNomer
+                      , oCarAndOwner.strManufacturer
+                      , oCarAndOwner.recCar.bySeats.ToString()
+                      , oCarAndOwner.recCar.bLugage ? GlobalConstants.YES : GlobalConstants.NO
+                      , oCarAndOwner.strDriver }
+                ));
             }
         }
 
@@ -387,5 +483,28 @@ namespace BetterCallTaxi
             oCustomersFilterDialog.Close();
         }
 
+        private void Admin_Drivers_Button_Click(object sender, EventArgs e)
+        {
+            this.PrepareListViewForDriversReport();
+
+            DatabaseManager oDatabaseManager = new DatabaseManager();
+            SqlDataReader oSqlDataReader = oDatabaseManager.ExecuteQuery(GlobalConstants.SELECT_DRIVERS_AND_THEIR_NAMES);
+            DriversAndNamesReader oDriversAndNamesReader = new DriversAndNamesReader(oSqlDataReader);
+            oSqlDataReader.Close();
+
+            this.FillDriversAndNamesView(oDriversAndNamesReader.oDriversAndNames);
+        }
+
+        private void Admin_Cars_Button_Click(object sender, EventArgs e)
+        {
+            this.PrepareListViewForCarsReport();
+
+            DatabaseManager oDatabaseManager = new DatabaseManager();
+            SqlDataReader oSqlDataReader = oDatabaseManager.ExecuteQuery(GlobalConstants.SELECT_CARS_AND_OWNERS);
+            CarsAndOwnersReader oCarsAndOwnersReader = new CarsAndOwnersReader(oSqlDataReader);
+            oSqlDataReader.Close();
+
+            this.FillCarsAndOnwersView(oCarsAndOwnersReader.oCarsAndOwnersList);
+        }
     }
 }

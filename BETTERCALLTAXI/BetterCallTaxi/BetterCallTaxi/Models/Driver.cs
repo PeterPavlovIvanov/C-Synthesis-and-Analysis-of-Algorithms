@@ -39,6 +39,15 @@ namespace BetterCallTaxi
             this.bStatus = false;
         }
 
+        public Driver(int nId, int nCompletedOrders, int nCustomerId, double dMoneyMade, bool bStatus)
+        {
+            this.nId = nId;
+            this.nCompletedOrders = nCompletedOrders;
+            this.nCustomerId = nCustomerId;
+            this.dMoneyMade = dMoneyMade;
+            this.bStatus = bStatus;
+        }
+
         public Driver(SqlDataReader oSqlDataReader)
         {
             this.b_Last_Operation_Status = Read_One_Driver(oSqlDataReader);
