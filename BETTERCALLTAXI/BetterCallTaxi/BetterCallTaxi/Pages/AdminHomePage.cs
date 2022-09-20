@@ -129,6 +129,7 @@ namespace BetterCallTaxi
             this.Admin_Orders_Button.TabIndex = 4;
             this.Admin_Orders_Button.Text = "Orders";
             this.Admin_Orders_Button.UseVisualStyleBackColor = true;
+            this.Admin_Orders_Button.Click += new System.EventHandler(this.Admin_Orders_Button_Click);
             // 
             // Admin_Drivers_Button
             // 
@@ -380,6 +381,72 @@ namespace BetterCallTaxi
             this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
         }
 
+        private void PrepareListViewForOrdersReport()
+        {
+            this.Admin_List_View.Clear();
+            int nCol = 0;
+            ColumnHeader[] oHeaderCols = new ColumnHeader[10];
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.REG_NOMER;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 70;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.MANUFACTURER;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 85;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.ADDRESS_FROM;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 130;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.ADDRESS_TO;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 130;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.ORD_TIME;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 120;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.DRIVING_TIME;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 120;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.DISTANCE;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 70;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.FARE;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 70;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.CUSTOMER_NAME;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 120;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+            nCol++;
+            oHeaderCols[nCol] = new ColumnHeader();
+            oHeaderCols[nCol].Text = GlobalConstants.IS_DONE;
+            oHeaderCols[nCol].TextAlign = HorizontalAlignment.Left;
+            oHeaderCols[nCol].Width = 70;
+            this.Admin_List_View.Columns.Add(oHeaderCols[nCol]);
+        }
+
         private void FillOrdBfrDateReportData(List<OrdersBeforeDateRow> oRows)
         {
             foreach(OrdersBeforeDateRow oRow in oRows)
@@ -439,6 +506,26 @@ namespace BetterCallTaxi
             }
         }
 
+        private void FillOrdersViewModelsInListView(List<OrdersViewModel> oOrderViewModels)
+        {
+            foreach (OrdersViewModel oOrderViewModel in oOrderViewModels)
+            {
+                this.Admin_List_View.Items.Add(new ListViewItem(new string[]{
+                        oOrderViewModel.strRegNomer
+                      , oOrderViewModel.strManufacturer
+                      , oOrderViewModel.recOrder.strAddressFrom
+                      , oOrderViewModel.recOrder.strAddressTo
+                      , oOrderViewModel.recOrder.dtOrdTime.ToString(GlobalConstants.DATE_FORMAT)
+                      //, oOrderViewModel.recOrder.tDrivingTime.ToString(GlobalConstants.TIME_FORMAT)
+                      , ""
+                      , oOrderViewModel.recOrder.dDistance.ToString()
+                      , oOrderViewModel.recOrder.dFare.ToString()
+                      , oOrderViewModel.strCustName
+                      , oOrderViewModel.recOrder.GetOrderStatus() }
+                ));
+            }
+        }
+        
         private void Orders_Before_Click(object sender, EventArgs e)
         {
             OrdersBeforeDateDialog oOrdBfrDateDlg = new OrdersBeforeDateDialog();
@@ -505,6 +592,18 @@ namespace BetterCallTaxi
             oSqlDataReader.Close();
 
             this.FillCarsAndOnwersView(oCarsAndOwnersReader.oCarsAndOwnersList);
+        }
+
+        private void Admin_Orders_Button_Click(object sender, EventArgs e)
+        {
+            this.PrepareListViewForOrdersReport();
+
+            DatabaseManager oDatabaseManager = new DatabaseManager();
+            SqlDataReader oSqlDataReader = oDatabaseManager.ExecuteQuery(GlobalConstants.SELECT_ORDERS_AND_ADD_DATA);
+            OrdersViewModelReader oOrdersViewModelReader = new OrdersViewModelReader(oSqlDataReader);
+            oSqlDataReader.Close();
+
+            this.FillOrdersViewModelsInListView(oOrdersViewModelReader.oOrderViewModels);
         }
     }
 }

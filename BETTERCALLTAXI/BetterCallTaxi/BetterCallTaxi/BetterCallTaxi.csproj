@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\DriversAndNames.cs" />
+    <Compile Include="Models\OrdersViewModel.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Pages\AdminHomePage.cs">
       <SubType>Form</SubType>
