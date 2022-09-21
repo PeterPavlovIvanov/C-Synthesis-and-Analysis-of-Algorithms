@@ -7,6 +7,7 @@ namespace BetterCallTaxi
     class GlobalConstants
     {
         public static Point START_POINT = new Point(100, 50);
+        public static Point START_POINT_LOGOUT = new Point(450, 300);
         public const string CONNECTION_STRING = "Data Source=DESKTOP-PFQL6JD;MultipleActiveResultSets=true;Database=BetterCallTaxi;Integrated Security=True";
         public const string DATE_FORMAT = "yyyy-MM-dd hh:mm:ss.FFF";
         public const string TIME_FORMAT = "hh':'mm':'ss.FFFFFFF";
@@ -22,6 +23,7 @@ namespace BetterCallTaxi
         public const string NO = "No";
         public const string ORDER_DONE = "Done";
         public const string ORDER_ACTIVE = "Active";
+        public const string SUCCESSFULLY_CALLED_TAXI_FROM_TO = "Successfully called taxi from {0} to {1}!\nPlease wait for your car.";
 
         // Queries
         // Select
@@ -61,6 +63,12 @@ namespace BetterCallTaxi
                                                         + "ON M.ID = CARS.MANUFACTURER_ID               \n"
                                                         + "INNER JOIN CUSTOMERS AS C WITH(NOLOCK)       \n"
                                                         + "ON C.ID = O.CUSTOMER_ID \n";
+        public static string SELECT_ALL_MANUFACTURERS = "SELECT * FROM MANUFACTURERS WITH(NOLOCK)";
+        public static string SELECT_ORDERS_REQUESTS_AND_CUST_NAMES = "SELECT O.ID, C.NAME, O.ADDRESS_FROM, O.ADDRESS_TO, O.ORD_TIME\n"
+                                                        + "FROM ORDER_REQUESTS AS O WITH(NOLOCK)        \n"
+                                                        + "INNER JOIN CUSTOMERS AS C WITH(NOLOCK)       \n"
+                                                        + "ON C.ID = O.CUSTOMER_ID                      \n";
+        public static string SELECT_ORDER_REQUESTS_BY_CUSTOMER = "SELECT * FROM ORDER_REQUESTS WITH(NOLOCK) WHERE CUSTOMER_ID = {0}";
 
         // Update
         public const string UPDATE_CUSTOMER_NAME_AND_USERNAME_BY_ID = "UPDATE CUSTOMERS SET NAME = '{0}', USERNAME = '{1}' WHERE ID = {2}";
@@ -68,6 +76,7 @@ namespace BetterCallTaxi
         // Insert
         public const string INSERT_CUSTOMER = "INSERT INTO CUSTOMERS VALUES('{0}', '{1}', {2}, {3}, '{4}', HASHBYTES('SHA2_512', '{5}'))";
         public const string INSERT_DRIVER = "INSERT INTO DRIVERS VALUES({0}, {1}, {2}, {3})";
+        public const string INSERT_ORDER_REQUEST = "INSERT INTO ORDER_REQUESTS VALUES({0}, '{1}', '{2}', GETDATE())";
 
         // Procedures
         public const string LOGIN_AUTHENTICATION = "LOGIN_AUTHENTICATION";
@@ -110,7 +119,7 @@ namespace BetterCallTaxi
         public const string MANUFACTURER = "Manufacturer";
         public const string SEATS = "Number of Free Seats";
         public const string LUGAGE = "Lugage space";
-        public const string DRIVER_NAME = "";
+        public const string DRIVER_NAME = "Driver";
 
         // Orders
         public const string ADDRESS_FROM = "Address from";

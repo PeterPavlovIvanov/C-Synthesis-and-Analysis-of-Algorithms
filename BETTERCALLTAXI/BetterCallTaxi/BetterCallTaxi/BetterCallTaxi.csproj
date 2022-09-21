@@ -72,7 +72,9 @@
   <ItemGroup>
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\DriversAndNames.cs" />
+    <Compile Include="Models\Manufacturer.cs" />
     <Compile Include="Models\OrdersViewModel.cs" />
+    <Compile Include="Models\OrdReqCustName.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Pages\AdminHomePage.cs">
       <SubType>Form</SubType>
@@ -92,6 +94,9 @@
     <Compile Include="GlobalConstants.cs" />
     <Compile Include="InputValidator.cs" />
     <Compile Include="Pages\LoginDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pages\LogoutPopUp.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Pages\ProfileDialog.cs">
@@ -123,6 +128,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\LoginDialog.resx">
       <DependentUpon>LoginDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\LogoutPopUp.resx">
+      <DependentUpon>LogoutPopUp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\ProfileDialog.resx">
       <DependentUpon>ProfileDialog.cs</DependentUpon>

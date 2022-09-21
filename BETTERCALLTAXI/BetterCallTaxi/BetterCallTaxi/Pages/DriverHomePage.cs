@@ -82,8 +82,13 @@ namespace BetterCallTaxi
 
         private void Logout_Driver_Button_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            LogoutPopUp oDlg = new LogoutPopUp();
+            DialogResult oDlgResult = oDlg.ShowDialog();
+            if (oDlgResult == DialogResult.OK)
+            {
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+            }
         }
 
         private void Profile_Driver_Button_Click(object sender, EventArgs e)
