@@ -70,6 +70,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BetterCallTaxi_Order_Requests.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BetterCallTaxi_Order_Requests.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\DriversAndNames.cs" />
     <Compile Include="Models\Manufacturer.cs" />
@@ -99,6 +104,9 @@
     <Compile Include="Pages\LogoutPopUp.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Pages\OrderRequestClaim.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pages\ProfileDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,7 +119,7 @@
     <Compile Include="Models\OrdersBeforeDateResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegisterDialog.cs">
+    <Compile Include="Pages\RegisterDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Pages\UserHomePage.cs">
@@ -132,6 +140,9 @@
     <EmbeddedResource Include="Pages\LogoutPopUp.resx">
       <DependentUpon>LogoutPopUp.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pages\OrderRequestClaim.resx">
+      <DependentUpon>OrderRequestClaim.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pages\ProfileDialog.resx">
       <DependentUpon>ProfileDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -147,12 +158,23 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="RegisterDialog.resx">
+    <EmbeddedResource Include="Pages\RegisterDialog.resx">
       <DependentUpon>RegisterDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\UserHomePage.resx">
       <DependentUpon>UserHomePage.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="BetterCallTaxi_Order_Requests.xsc">
+      <DependentUpon>BetterCallTaxi_Order_Requests.xsd</DependentUpon>
+    </None>
+    <None Include="BetterCallTaxi_Order_Requests.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>BetterCallTaxi_Order_Requests.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="BetterCallTaxi_Order_Requests.xss">
+      <DependentUpon>BetterCallTaxi_Order_Requests.xsd</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

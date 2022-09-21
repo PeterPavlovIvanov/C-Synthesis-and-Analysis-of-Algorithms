@@ -24,27 +24,28 @@ namespace BetterCallTaxi
         public const string ORDER_DONE = "Done";
         public const string ORDER_ACTIVE = "Active";
         public const string SUCCESSFULLY_CALLED_TAXI_FROM_TO = "Successfully called taxi from {0} to {1}!\nPlease wait for your car.";
+        public const string CAR_ALREADY_EXISTS = "A car with the given serial ID\nand Manufacturer already exists.";
 
         // Queries
         // Select
         public const string SELECT_CUSTOMER_BY_USERNAME = "SELECT * FROM CUSTOMERS WITH(NOLOCK) WHERE USERNAME = '{0}'";
         public const string SELECT_CUSTOMER_ID_BY_USERNAME = "SELECT ID FROM CUSTOMERS WITH(NOLOCK) WHERE USERNAME = '{0}'";
         public const string SELECT_ORDERS_BEFORE_DATE = "SELECT O.ORD_TIME AS ORD_TIME, C.REG_NOMER AS REG_NOMER, M.NAME AS NAME, ORDERS_COUNTS.COUNTS AS COUNTS\n"
-                                                        + "FROM ORDERS AS O WITH(NOLOCK)\n" 
-                                                        + "INNER JOIN CARS AS C WITH(NOLOCK) ON C.KOD_TAXI = O.KOD_TAXI\n" 
-                                                        + "INNER JOIN MANUFACTURERS AS M WITH(NOLOCK) ON M.ID = C.MANUFACTURER_ID\n" 
-                                                        + "INNER JOIN (SELECT KOD_TAXI, COUNT(KOD_TAXI) AS COUNTS\n" 
-                                                        + "            FROM ORDERS AS O WITH(NOLOCK)\n" 
-                                                        + "            WHERE O.ORD_TIME < CAST('{0}' AS DATETIME) \n" 
-                                                        + "            GROUP BY O.KOD_TAXI) AS ORDERS_COUNTS\n" 
-                                                        + "            ON C.KOD_TAXI = ORDERS_COUNTS.KOD_TAXI\n" 
+                                                        + "FROM ORDERS AS O WITH(NOLOCK)\n"
+                                                        + "INNER JOIN CARS AS C WITH(NOLOCK) ON C.KOD_TAXI = O.KOD_TAXI\n"
+                                                        + "INNER JOIN MANUFACTURERS AS M WITH(NOLOCK) ON M.ID = C.MANUFACTURER_ID\n"
+                                                        + "INNER JOIN (SELECT KOD_TAXI, COUNT(KOD_TAXI) AS COUNTS\n"
+                                                        + "            FROM ORDERS AS O WITH(NOLOCK)\n"
+                                                        + "            WHERE O.ORD_TIME < CAST('{0}' AS DATETIME) \n"
+                                                        + "            GROUP BY O.KOD_TAXI) AS ORDERS_COUNTS\n"
+                                                        + "            ON C.KOD_TAXI = ORDERS_COUNTS.KOD_TAXI\n"
                                                         + "WHERE O.ORD_TIME < CAST('{0}' AS DATETIME)\n"; // 3. qryTotalOrders
         public const string SELECT_DRIVER_BY_CUSTOMER_ID = "SELECT * FROM DRIVERS WITH(NOLOCK) WHERE CUSTOMER_ID = {0}";
         public const string SELECT_CUSTOMER_BY_ID = "SELECT * FROM CUSTOMERS WITH(NOLOCK) WHERE ID = {0}";
         public const string SELECT_ALL_ROLES = "SELECT * FROM ROLES WITH(NOLOCK)";
         public const string SELECT_ALL_CUSTOMERS = "SELECT * FROM CUSTOMERS WITH(NOLOCK) ";
         public const string SELECT_DRIVERS_AND_THEIR_NAMES = "SELECT D.ID, D.COMPLETED_ORDERS, D.CUSTOMER_ID, D.MONEY_MADE, D.STATUS, C.NAME\n"
-                                                             + " FROM DRIVERS AS D WITH(NOLOCK)\n" 
+                                                             + " FROM DRIVERS AS D WITH(NOLOCK)\n"
                                                              + " INNER JOIN CUSTOMERS AS C WITH(NOLOCK)\n"
                                                              + " ON C.ID = D.CUSTOMER_ID";
         public const string SELECT_CARS_AND_OWNERS = "SELECT CAR.KOD_TAXI, CAR.REG_NOMER, M.NAME, CAR.SEATS, CAR.LUGGAGE, C.NAME\n"
@@ -68,15 +69,34 @@ namespace BetterCallTaxi
                                                         + "FROM ORDER_REQUESTS AS O WITH(NOLOCK)        \n"
                                                         + "INNER JOIN CUSTOMERS AS C WITH(NOLOCK)       \n"
                                                         + "ON C.ID = O.CUSTOMER_ID                      \n";
+        public static string SELECT_ORDERS_REQUESTS_AND_CUST_NAME_BY_ORDER_REQUEST_ID = "SELECT O.ID, C.NAME , C.ID, O.ADDRESS_FROM, O.ADDRESS_TO, O.ORD_TIME\n"
+                                                + "FROM ORDER_REQUESTS AS O WITH(NOLOCK)        \n"
+                                                + "INNER JOIN CUSTOMERS AS C WITH(NOLOCK)       \n"
+                                                + "ON C.ID = O.CUSTOMER_ID                      \n"
+                                                + "WHERE O.ID = {0}                             \n";
         public static string SELECT_ORDER_REQUESTS_BY_CUSTOMER = "SELECT * FROM ORDER_REQUESTS WITH(NOLOCK) WHERE CUSTOMER_ID = {0}";
+        public static string SELECT_ALL_ORDER_REQUESTS = "SELECT * FROM ORDER_REQUESTS WITH(NOLOCK)";
+        public static string SELECT_CAR_KOD_TAXI_BY_DRIVER_ID = "SELECT KOD_TAXI FROM CARS WITH(NOLOCK) WHERE DRIVER_ID = {0}";
+        public static string SELECT_IF_EXISTS_CAR = "SELECT 1 FROM CARS WITH(NOLOCK) WHERE REG_NOMER = '{0}' AND MANUFACTURER_ID = {1}";
+        public static string SELECT_DRIVER_ID_BY_USERNAME = "SELECT D.ID FROM DRIVERS AS D WITH(NOLOCK)\n"
+                                                            + "INNER JOIN CUSTOMERS AS C WITH(NOLOCK)  \n"
+                                                            + "ON C.ID = D.CUSTOMER_ID                 \n"
+                                                            + "WHERE C.USERNAME = '{0}'                \n";
 
         // Update
         public const string UPDATE_CUSTOMER_NAME_AND_USERNAME_BY_ID = "UPDATE CUSTOMERS SET NAME = '{0}', USERNAME = '{1}' WHERE ID = {2}";
+        public const string UPDATE_INCREMENT_CUSTOMER_ORDERS_MADE_BY_ID = "UPDATE CUSTOMERS SET ORDERS_MADE = ORDERS_MADE + 1 WHERE ID = {0}";
+        public const string UPDATE_DRIVER_STATUS = "UPDATE DRIVERS SET STATUS = {0} WHERE ID = {1}";
 
         // Insert
         public const string INSERT_CUSTOMER = "INSERT INTO CUSTOMERS VALUES('{0}', '{1}', {2}, {3}, '{4}', HASHBYTES('SHA2_512', '{5}'))";
         public const string INSERT_DRIVER = "INSERT INTO DRIVERS VALUES({0}, {1}, {2}, {3})";
         public const string INSERT_ORDER_REQUEST = "INSERT INTO ORDER_REQUESTS VALUES({0}, '{1}', '{2}', GETDATE())";
+        public const string INSERT_ORDER = "INSERT INTO ORDERS VALUES({0}, '{1}', '{2}', '{3}', NULL, 0, 0, {4}, {5})";
+        public const string INSERT_CAR = "INSERT INTO CARS VALUES('{0}', {1}, {2}, {3}, {4})";
+
+        // Delete
+        public const string DELETE_ORDER_REQUEST = "DELETE FROM ORDER_REQUESTS WHERE ID = {0}";
 
         // Procedures
         public const string LOGIN_AUTHENTICATION = "LOGIN_AUTHENTICATION";
@@ -131,6 +151,10 @@ namespace BetterCallTaxi
         public const string IS_DONE = "Order Status";
         public const string CUSTOMER_NAME = "Customer Name";
 
+        // Order Requests
+        public const string DESTINATION_ADDRESS = "Destination Address";
+        public const string CUSTOMER_ID = "Customer Id";
+        public const string ID = "Id";
 
         public GlobalConstants()
         {

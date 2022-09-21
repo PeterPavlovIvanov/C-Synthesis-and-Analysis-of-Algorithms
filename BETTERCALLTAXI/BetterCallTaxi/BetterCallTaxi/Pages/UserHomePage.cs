@@ -333,26 +333,36 @@ namespace BetterCallTaxi
 
         private void Call_Taxi_Btn_Click(object sender, EventArgs e)
         {
+            // Взимаме адресите от диалога
             this.recOrderRequest.strAddressFrom = this.Address_From_Field.Text;
             this.recOrderRequest.strAddressTo = this.Address_To_Field.Text;
 
+            // добавяме заявката
             DatabaseManager oDatabaseManager = new DatabaseManager();
             oDatabaseManager.ExecuteQuery(
                 String.Format(GlobalConstants.INSERT_ORDER_REQUEST, this.recCustomer.nId, 
                 this.recOrderRequest.strAddressFrom, this.recOrderRequest.strAddressTo)
-            , false, true);
+            , true);
 
+            // крием формата за извикване на такси
             this.Call_A_Taxi_Grp_Box.Hide();
+            
+            // инкрементираме брояча на клиента за направени поръчки
+            oDatabaseManager.ExecuteQuery(
+                String.Format(GlobalConstants.UPDATE_INCREMENT_CUSTOMER_ORDERS_MADE_BY_ID, this.recCustomer.nId)
+                , true, true);
+            this.recCustomer.nOrdersMade += 1;
+
+            // даваме фийдбак на потребителя
             MessageBox.Show(String.Format(GlobalConstants.SUCCESSFULLY_CALLED_TAXI_FROM_TO
                 , this.recOrderRequest.strAddressFrom, this.recOrderRequest.strAddressTo));
         }
 
         private void Call_Taxi_Cancel_Btn_Click(object sender, EventArgs e)
         {
-            //this.timer1.Stop();
-            //this.Time_Of_Order_Field.Hide();
-            //this.Order_Time_Label.Hide();
-            //this.Call_A_Taxi_Grp_Box.Hide();
+            this.Address_From_Field.Text = "";
+            this.Address_To_Field.Text = "";
+            this.HideCallTaxiFields();
         }
 
         private void timer1_Tick(object sender, EventArgs e)

@@ -54,7 +54,7 @@ namespace BetterCallTaxi
 
             if (bCloseReader)
             {
-                oSqlConnection.Close();
+                //oSqlConnection.Close();
                 oSqlDataReader.Close();
             }
 

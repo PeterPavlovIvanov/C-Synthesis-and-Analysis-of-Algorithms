@@ -33,5 +33,16 @@ namespace BetterCallTaxi.Properties {
                 return ((string)(this["BetterCallTaxiConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-PFQL6JD;Initial Catalog=BetterCallTaxi;Integrated Security=Tr" +
+            "ue")]
+        public string BetterCallTaxiConnectionString1 {
+            get {
+                return ((string)(this["BetterCallTaxiConnectionString1"]));
+            }
+        }
     }
 }

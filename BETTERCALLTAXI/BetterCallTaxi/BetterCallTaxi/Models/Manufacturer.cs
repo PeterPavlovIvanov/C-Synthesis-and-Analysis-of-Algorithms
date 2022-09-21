@@ -14,8 +14,8 @@ namespace BetterCallTaxi.Models
         { ID = 0, NAME = 1 }
 
         // Fields in Database
-        public Int32 nId;
-        public string strName;
+        public Int32 nId { get; set; }
+        public string strName { get; set; }
 
         public Manufacturer()
         { }
