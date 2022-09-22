@@ -179,4 +179,58 @@ namespace BetterCallTaxi.Models
         }
     }
 
+    // за справката на driver home page-а за текущите му поръчки
+    class ActiveOrderData
+    {
+        //enums 
+        public enum Columns
+        {
+            NUM_ORD = 0, ADRESS_FROM = 1, ADRESS_TO = 2, ORD_TIME = 3, IS_DONE = 4
+        }
+
+        //Fields
+        public Int32 nNumOrd;
+        public string strAddressFrom;
+        public string strAddressTo;
+        public DateTime dtOrdTime;
+        public bool bIsDone;
+
+        public ActiveOrderData()
+        { }
+        
+        public ActiveOrderData(Int32 nNumOrd, string strAddressFrom, string strAddressTo, DateTime dtOrdTime, bool bIsDone)
+        {
+            this.nNumOrd = nNumOrd;
+            this.strAddressFrom = strAddressFrom;
+            this.strAddressTo = strAddressTo;
+            this.dtOrdTime = dtOrdTime;
+            this.bIsDone = bIsDone;
+        }
+
+    }
+
+    // четец за справката на driver home page-а за текущите му поръчки
+    class ActiveOrderDataReader
+    {
+        public List<ActiveOrderData> oActiveOrderDataList;
+
+        public ActiveOrderDataReader(SqlDataReader oSqlDataReader)
+        {
+            this.oActiveOrderDataList = new List<ActiveOrderData>();
+
+            while (oSqlDataReader.Read())
+            {
+                ActiveOrderData oActiveOrderData = new ActiveOrderData(
+                    (Int32)(oSqlDataReader.GetValue((int)ActiveOrderData.Columns.NUM_ORD))
+                    , (oSqlDataReader.GetValue((int)ActiveOrderData.Columns.ADRESS_FROM)).ToString()
+                    , (oSqlDataReader.GetValue((int)ActiveOrderData.Columns.ADRESS_TO)).ToString()
+                    , (DateTime)(oSqlDataReader.GetValue((int)ActiveOrderData.Columns.ORD_TIME))
+                    , (Boolean)(oSqlDataReader.GetValue((int)ActiveOrderData.Columns.IS_DONE))
+                );
+
+                this.oActiveOrderDataList.Add(oActiveOrderData);
+            }
+        }
+    }
+
 }

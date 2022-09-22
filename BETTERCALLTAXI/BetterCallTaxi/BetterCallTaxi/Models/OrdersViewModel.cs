@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace BetterCallTaxi.Models
 {
+    // database table ORDERS
     class Order
     {
         // Enums
@@ -47,12 +48,64 @@ namespace BetterCallTaxi.Models
             this.bIsDone = bIsDone;
         }
 
+        public Order(SqlDataReader oSqlDataReader)
+        {
+            if (!oSqlDataReader.Read())
+            {
+                this.b_Last_Operation_Status = false;
+                return;
+            }
+
+            TimeSpan oDrivingTime = new TimeSpan();
+            if (!DBNull.Value.Equals(oSqlDataReader.GetValue((int)Order.Columns.DRIVING_TIME)))
+                oDrivingTime = (TimeSpan)(oSqlDataReader.GetValue((int)Order.Columns.DRIVING_TIME));
+
+            this.nNumOrd = (Int32)(oSqlDataReader.GetValue((int)Order.Columns.NUM_ORD));
+            this.nKodTaxi = (Int32)(oSqlDataReader.GetValue((int)Order.Columns.KOD_TAXI));
+            this.strAddressFrom = (oSqlDataReader.GetValue((int)Order.Columns.ADDRESS_FROM)).ToString();
+            this.strAddressTo = (oSqlDataReader.GetValue((int)Order.Columns.ADDRESS_TO)).ToString();
+            this.dtOrdTime = (DateTime)(oSqlDataReader.GetValue((int)Order.Columns.ORD_TIME));
+            this.tDrivingTime = oDrivingTime;
+            this.dDistance = (Double)(oSqlDataReader.GetValue((int)Order.Columns.DISTANCE));
+            this.dFare = (Double)(oSqlDataReader.GetValue((int)Order.Columns.FARE));
+            this.nCustomerId = (Int32)(oSqlDataReader.GetValue((int)Order.Columns.CUSTOMER_ID));
+            this.bIsDone = (Boolean)(oSqlDataReader.GetValue((int)Order.Columns.IS_DONE));
+        }
+
         public string GetOrderStatus()
         {
-            return this.bIsDone ? GlobalConstants.ORDER_DONE : GlobalConstants.ORDER_ACTIVE ; 
+            return this.bIsDone ? GlobalConstants.ORDER_DONE : GlobalConstants.ORDER_ACTIVE;
         }
     }
 
+    // четец на ORDERS
+    class OrderReader
+    {
+        public List<Order> oOrdersList;
+
+        public OrderReader(SqlDataReader oSqlDataReader)
+        {
+            this.oOrdersList = new List<Order>();
+            while (oSqlDataReader.Read())
+            {
+                Order recOrder = new Order(
+                      (Int32)(oSqlDataReader.GetValue((int)Order.Columns.NUM_ORD))
+                      , (Int32)(oSqlDataReader.GetValue((int)Order.Columns.KOD_TAXI))
+                      , (oSqlDataReader.GetValue((int)Order.Columns.ADDRESS_FROM)).ToString()
+                      , (oSqlDataReader.GetValue((int)Order.Columns.ADDRESS_TO)).ToString()
+                      , (DateTime)(oSqlDataReader.GetValue((int)Order.Columns.ORD_TIME))
+                      , (TimeSpan)(oSqlDataReader.GetValue((int)Order.Columns.DRIVING_TIME))
+                      , (Double)(oSqlDataReader.GetValue((int)Order.Columns.DISTANCE))
+                      , (Double)(oSqlDataReader.GetValue((int)Order.Columns.FARE))
+                      , (Int32)(oSqlDataReader.GetValue((int)Order.Columns.CUSTOMER_ID))
+                      , (Boolean)(oSqlDataReader.GetValue((int)Order.Columns.IS_DONE))
+               );
+
+                this.oOrdersList.Add(recOrder);
+            }
+        }
+
+    }
 
     class OrdersViewModel
     {
@@ -95,17 +148,21 @@ namespace BetterCallTaxi.Models
         {
             while (oSqlDataReader.Read())
             {
+                TimeSpan oDrivingTime = new TimeSpan();
+                if (!DBNull.Value.Equals((oSqlDataReader.GetValue((int)OrdersViewModel.Columns.DRIVING_TIME))))
+                    oDrivingTime = (TimeSpan)(oSqlDataReader.GetValue((int)OrdersViewModel.Columns.DRIVING_TIME));
+
                 OrdersViewModel oOrdersViewModel = new OrdersViewModel(new Order(
                        (Int32)(oSqlDataReader.GetValue((int)OrdersViewModel.Columns.NUM_ORD))
                        , 0
                        , (oSqlDataReader.GetValue((int)OrdersViewModel.Columns.ADDRESS_FROM)).ToString()
                        , (oSqlDataReader.GetValue((int)OrdersViewModel.Columns.ADDRESS_TO)).ToString()
                        , (DateTime)(oSqlDataReader.GetValue((int)OrdersViewModel.Columns.ORD_TIME))
-                       , (TimeSpan)(oSqlDataReader.GetValue((int)OrdersViewModel.Columns.DRIVING_TIME))
+                       , oDrivingTime
                        , (Double)(oSqlDataReader.GetValue((int)OrdersViewModel.Columns.DISTANCE))
                        , (Double)(oSqlDataReader.GetValue((int)OrdersViewModel.Columns.FARE))
                        , 0
-                       , (Boolean)(oSqlDataReader.GetValue((int)OrdersViewModel.Columns.IS_DONE)) )
+                       , (Boolean)(oSqlDataReader.GetValue((int)OrdersViewModel.Columns.IS_DONE)))
                     , (oSqlDataReader.GetValue((int)OrdersViewModel.Columns.REG_NOMER)).ToString()
                     , (oSqlDataReader.GetValue((int)OrdersViewModel.Columns.MANUFACTURER)).ToString()
                     , (oSqlDataReader.GetValue((int)OrdersViewModel.Columns.CUSTOMER_NAME)).ToString()

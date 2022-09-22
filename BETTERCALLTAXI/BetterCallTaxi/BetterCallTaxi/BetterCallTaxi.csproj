@@ -104,6 +104,9 @@
     <Compile Include="Pages\LogoutPopUp.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Pages\MarkOrderAsCompleted.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pages\OrderRequestClaim.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\LogoutPopUp.resx">
       <DependentUpon>LogoutPopUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\MarkOrderAsCompleted.resx">
+      <DependentUpon>MarkOrderAsCompleted.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\OrderRequestClaim.resx">
       <DependentUpon>OrderRequestClaim.cs</DependentUpon>

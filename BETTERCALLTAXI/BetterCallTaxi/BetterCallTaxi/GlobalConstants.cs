@@ -25,6 +25,12 @@ namespace BetterCallTaxi
         public const string ORDER_ACTIVE = "Active";
         public const string SUCCESSFULLY_CALLED_TAXI_FROM_TO = "Successfully called taxi from {0} to {1}!\nPlease wait for your car.";
         public const string CAR_ALREADY_EXISTS = "A car with the given serial ID\nand Manufacturer already exists.";
+        public const string VIEW_MY_ORDERS = "View My Current Orders";
+        public const string VIEW_ORDER_REQUESTS = "View All Order Requests";
+        public const string COMPLETE_ORDER = "Mark Order as Complete";
+        public const string TAKE_ORDER = "Take Customer Order";
+        public const string ALL_ORDER_REQUESTS = "All Order Requests:";
+        public const string MY_CURRENT_ORDERS = "My Current Orders:";
 
         // Queries
         // Select
@@ -87,11 +93,23 @@ namespace BetterCallTaxi
                                                         + "INNER JOIN DRIVERS AS D WITH(NOLOCK)   \n"
                                                         + "ON D.ID = C.DRIVER_ID                  \n"
                                                         + "WHERE C.DRIVER_ID = {0}                \n";
+        public static string SELECT_ACTIVE_ORDERS_BY_DRIVER = "SELECT O.NUM_ORD, O.ADDRESS_FROM, O.ADDRESS_TO, ORD_TIME, O.IS_DONE    \n"
+                                                            + "FROM ORDERS AS O WITH(NOLOCK)                               \n"
+                                                            + "INNER JOIN CARS AS C WITH(NOLOCK) ON C.KOD_TAXI = O.KOD_TAXI\n"
+                                                            + "INNER JOIN DRIVERS AS D WITH(NOLOCK) ON D.ID = C.DRIVER_ID  \n"
+                                                            + "WHERE D.ID = {0} AND IS_DONE = 0                            \n";
+        public static string SELECT_ORDER = "SELECT * FROM ORDERS WITH(NOLOCK) WHERE NUM_ORD = {0}";
 
         // Update
         public const string UPDATE_CUSTOMER_NAME_AND_USERNAME_BY_ID = "UPDATE CUSTOMERS SET NAME = '{0}', USERNAME = '{1}' WHERE ID = {2}";
         public const string UPDATE_INCREMENT_CUSTOMER_ORDERS_MADE_BY_ID = "UPDATE CUSTOMERS SET ORDERS_MADE = ORDERS_MADE + 1 WHERE ID = {0}";
         public const string UPDATE_DRIVER_STATUS = "UPDATE DRIVERS SET STATUS = {0} WHERE ID = {1}";
+        public const string UPDATE_ORDER_MARK_COMPLETED = "UPDATE ORDERS \n"
+                                                        + "SET DRIVING_TIME = '{0}', DISTANCE = {1}, FARE = {2}, IS_DONE = 1\n"
+                                                        + "WHERE NUM_ORD = {3}\n";
+        public const string UPDATE_DRIVER_AFTER_ORDER_COMPLETION = "UPDATE DRIVERS "
+                                                                + "SET COMPLETED_ORDERS = COMPLETED_ORDERS + 1, MONEY_MADE = MONEY_MADE + {0} \n"
+                                                                + "WHERE ID = {1}\n";
 
         // Insert
         public const string INSERT_CUSTOMER = "INSERT INTO CUSTOMERS VALUES('{0}', '{1}', {2}, {3}, '{4}', HASHBYTES('SHA2_512', '{5}'))";
