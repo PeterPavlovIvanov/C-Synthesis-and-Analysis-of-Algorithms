@@ -82,6 +82,11 @@ namespace BetterCallTaxi
                                                             + "INNER JOIN CUSTOMERS AS C WITH(NOLOCK)  \n"
                                                             + "ON C.ID = D.CUSTOMER_ID                 \n"
                                                             + "WHERE C.USERNAME = '{0}'                \n";
+        public static string SELECT_CAR_BY_DRIVER_ID = "SELECT C.KOD_TAXI, C.REG_NOMER, C.MANUFACTURER_ID, C.SEATS, C.LUGGAGE, C.DRIVER_ID\n"
+                                                        + "FROM CARS AS C WITH(NOLOCK)            \n"
+                                                        + "INNER JOIN DRIVERS AS D WITH(NOLOCK)   \n"
+                                                        + "ON D.ID = C.DRIVER_ID                  \n"
+                                                        + "WHERE C.DRIVER_ID = {0}                \n";
 
         // Update
         public const string UPDATE_CUSTOMER_NAME_AND_USERNAME_BY_ID = "UPDATE CUSTOMERS SET NAME = '{0}', USERNAME = '{1}' WHERE ID = {2}";

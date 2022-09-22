@@ -44,6 +44,21 @@ namespace BetterCallTaxi.Models
             this.bLugage = bLugage;
             this.nDriverId = nDriverId;
         }
+
+        public Car(SqlDataReader oSqlDataReader)
+        {
+            if (oSqlDataReader.Read())
+            {
+                this.nKodTaxi = (Int32)(oSqlDataReader.GetValue((int)Car.Columns.KOD_TAXI));
+                this.strRegNomer = (oSqlDataReader.GetValue((int)Car.Columns.REG_NOMER)).ToString();
+                this.nManufacturerId = (Int32)(oSqlDataReader.GetValue((int)Car.Columns.MANUFACTURER_ID));
+                this.bySeats = (Byte)(oSqlDataReader.GetValue((int)Car.Columns.SEATS));
+                this.bLugage = (Boolean)(oSqlDataReader.GetValue((int)Car.Columns.LUGGAGE));
+                this.nDriverId = (Int32)(oSqlDataReader.GetValue((int)Car.Columns.DRIVER_ID));
+            }
+            else
+                this.b_Last_Operation_Status = false;
+        }
     }
 
     class CarsAndOwners

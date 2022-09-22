@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BetterCallTaxi.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -33,6 +34,15 @@ namespace BetterCallTaxi.Pages
         private Button Profile_Home_Button;
         private Button Profile_Cancel_Button;
         private Button Profile_Save_Button;
+        private GroupBox Profile_Car_Info_Grp_Box;
+        private CheckBox Prof_Car_Lugage_Chck;
+        private TextBox Prof_Car_Seats_Field;
+        private Label Prof_Car_Seats;
+        private ComboBox Prof_Car_Manufacturer_Cmb;
+        private Label Prof_Car_Manufacturer;
+        private TextBox Prof_Car_Reg_Nom_Field;
+        private Label Prof_Car_Reg_Nom;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private Driver recDriver;
 
         public ProfileDialog(Customer recCustomer)
@@ -45,20 +55,35 @@ namespace BetterCallTaxi.Pages
 
             switch (recCustomer.nRoleId)
             {
-                case (int)Customer.Roles.RoleAdministrator:
-                    
                 case (int)Customer.Roles.RoleDriver:
                     AccessDriver();
+                    FillManufacturersCombo();
                     FillDriverData();
 
-                    this.Profile_Grp_Box.Size = new System.Drawing.Size(213, 395);
+                    this.Profile_Car_Info_Grp_Box.Show();
                     this.Driver_Profile_Grp_Box.Show();
+                    this.Profile_Grp_Box.Size = new System.Drawing.Size(213, 395);
                     break;
+                case (int)Customer.Roles.RoleAdministrator:
+                    
                 case (int)Customer.Roles.RoleUser:
                     this.Driver_Profile_Grp_Box.Hide();
+                    this.Profile_Car_Info_Grp_Box.Hide();
                     this.Profile_Grp_Box.Size = new System.Drawing.Size(213, 225);
                     break;
             }
+        }
+
+        private void FillManufacturersCombo()
+        {
+            DatabaseManager oDatabaseManager = new DatabaseManager();
+            SqlDataReader oSqlDataReader = oDatabaseManager.ExecuteQuery(GlobalConstants.SELECT_ALL_MANUFACTURERS);
+            ManufacturersReader oManufacturersReader = new ManufacturersReader(oSqlDataReader);
+            oSqlDataReader.Close();
+
+            this.Prof_Car_Manufacturer_Cmb.DataSource = oManufacturersReader.oManufacturersList;
+            this.Prof_Car_Manufacturer_Cmb.DisplayMember = "strName";
+            this.Prof_Car_Manufacturer_Cmb.ValueMember = "nId";
         }
 
         private void SetControlsState(bool bEnabled = false)
@@ -74,15 +99,15 @@ namespace BetterCallTaxi.Pages
 
             if (bEnabled)
             {
-                if (this.recCustomer.nRoleId == (int)Customer.Roles.RoleUser)
-                {
-                    this.Profile_Save_Button.Location = new System.Drawing.Point(13, 250);
-                    this.Profile_Cancel_Button.Location = new System.Drawing.Point(127, 250);
-                }
-                else
+                if (this.recCustomer.nRoleId == (int)Customer.Roles.RoleDriver)
                 {
                     this.Profile_Save_Button.Location = new System.Drawing.Point(13, 420);
                     this.Profile_Cancel_Button.Location = new System.Drawing.Point(127, 420);
+                }
+                else
+                {
+                    this.Profile_Save_Button.Location = new System.Drawing.Point(13, 250);
+                    this.Profile_Cancel_Button.Location = new System.Drawing.Point(127, 250);
                 }
 
 
@@ -115,17 +140,32 @@ namespace BetterCallTaxi.Pages
                 oDatabaseManager.ExecuteQuery(String.Format(
                     GlobalConstants.SELECT_DRIVER_BY_CUSTOMER_ID, this.recCustomer.nId));
 
-            oSqlDataReader.Read();
             this.recDriver = new Driver(oSqlDataReader);
             oSqlDataReader.Close();
         }
 
         private void FillDriverData()
         {
+            this.FillCarData();
+
             this.Driver_Profile_Completed_Orders_Field.Text = this.recDriver.nCompletedOrders.ToString();
             this.Driver_Profile_Money_Made_Field.Text = this.recDriver.dMoneyMade.ToString();
             this.Driver_Profile_Available.Checked = this.recDriver.bStatus;
             this.Driver_Profile_Busy.Checked = !(this.recDriver.bStatus);
+        }
+
+        private void FillCarData()
+        {
+            DatabaseManager oDatabaseManager = new DatabaseManager();
+            SqlDataReader oSqlDataReader = oDatabaseManager.ExecuteQuery(
+                String.Format(GlobalConstants.SELECT_CAR_BY_DRIVER_ID, this.recDriver.nId));
+            Car recCar = new Car(oSqlDataReader);
+            oSqlDataReader.Close();
+
+            this.Prof_Car_Reg_Nom_Field.Text = recCar.strRegNomer;
+            this.Prof_Car_Manufacturer_Cmb.SelectedValue = recCar.nManufacturerId;
+            this.Prof_Car_Seats_Field.Text = recCar.bySeats.ToString();
+            this.Prof_Car_Lugage_Chck.Checked = recCar.bLugage;
         }
 
         private void FillBasicData()
@@ -141,25 +181,25 @@ namespace BetterCallTaxi.Pages
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProfileDialog));
             this.Profile_Grp_Box = new System.Windows.Forms.GroupBox();
             this.Driver_Profile_Grp_Box = new System.Windows.Forms.GroupBox();
-            if (this.Driver_Profile_Money_Made_Field == null)
+            if(this.Driver_Profile_Money_Made_Field == null)
                 this.Driver_Profile_Money_Made_Field = new System.Windows.Forms.TextBox();
             this.Driver_Profile_Money_Made = new System.Windows.Forms.Label();
-            if (this.Driver_Profile_Completed_Orders_Field == null)
+            if(this.Driver_Profile_Completed_Orders_Field == null)
                 this.Driver_Profile_Completed_Orders_Field = new System.Windows.Forms.TextBox();
             this.Driver_Profile_Complete_Orders = new System.Windows.Forms.Label();
             this.Driver_Profile_Busy = new System.Windows.Forms.RadioButton();
             this.Driver_Profile_Available = new System.Windows.Forms.RadioButton();
-            if (this.Orders_Made_Profile_Field == null)
+            if(this.Orders_Made_Profile_Field == null)
                 this.Orders_Made_Profile_Field = new System.Windows.Forms.TextBox();
             this.Orders_Made_Profile = new System.Windows.Forms.Label();
-            if (this.Username_Profile_Field == null)
+            if(this.Username_Profile_Field == null)
                 this.Username_Profile_Field = new System.Windows.Forms.TextBox();
             this.Username_Profile = new System.Windows.Forms.Label();
-            if (this.Ucn_Profile_Field == null)
+            if(this.Ucn_Profile_Field == null)
                 this.Ucn_Profile_Field = new System.Windows.Forms.TextBox();
             this.Ucn_Profile = new System.Windows.Forms.Label();
             this.Full_Name_Profile = new System.Windows.Forms.Label();
-            if (this.Full_Name_Profile_Field == null)
+            if(this.Full_Name_Profile_Field == null)
                 this.Full_Name_Profile_Field = new System.Windows.Forms.TextBox();
             this.Profile_Cancel_Button = new System.Windows.Forms.Button();
             this.Profile_Save_Button = new System.Windows.Forms.Button();
@@ -167,9 +207,22 @@ namespace BetterCallTaxi.Pages
             this.Profile_Home_Button = new System.Windows.Forms.Button();
             this.Change_Password_Profile_Button = new System.Windows.Forms.Button();
             this.Edit_Profile_Button = new System.Windows.Forms.Button();
+            this.Profile_Car_Info_Grp_Box = new System.Windows.Forms.GroupBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.Prof_Car_Reg_Nom = new System.Windows.Forms.Label();
+            if(this.Prof_Car_Reg_Nom_Field == null)
+                this.Prof_Car_Reg_Nom_Field = new System.Windows.Forms.TextBox();
+            this.Prof_Car_Manufacturer = new System.Windows.Forms.Label();
+            if(this.Prof_Car_Manufacturer_Cmb == null)
+                this.Prof_Car_Manufacturer_Cmb = new System.Windows.Forms.ComboBox();
+            this.Prof_Car_Seats = new System.Windows.Forms.Label();
+            if(this.Prof_Car_Seats_Field == null)
+                this.Prof_Car_Seats_Field = new System.Windows.Forms.TextBox();
+            this.Prof_Car_Lugage_Chck = new System.Windows.Forms.CheckBox();
             this.Profile_Grp_Box.SuspendLayout();
             this.Driver_Profile_Grp_Box.SuspendLayout();
             this.Profile_Actions_Grp_Box.SuspendLayout();
+            this.Profile_Car_Info_Grp_Box.SuspendLayout();
             this.SuspendLayout();
             // 
             // Profile_Grp_Box
@@ -388,10 +441,92 @@ namespace BetterCallTaxi.Pages
             this.Edit_Profile_Button.UseVisualStyleBackColor = true;
             this.Edit_Profile_Button.Click += new System.EventHandler(this.Edit_Profile_Button_Click);
             // 
+            // Profile_Car_Info_Grp_Box
+            // 
+            this.Profile_Car_Info_Grp_Box.BackColor = System.Drawing.Color.Transparent;
+            this.Profile_Car_Info_Grp_Box.Controls.Add(this.Prof_Car_Lugage_Chck);
+            this.Profile_Car_Info_Grp_Box.Controls.Add(this.Prof_Car_Seats_Field);
+            this.Profile_Car_Info_Grp_Box.Controls.Add(this.Prof_Car_Seats);
+            this.Profile_Car_Info_Grp_Box.Controls.Add(this.Prof_Car_Manufacturer_Cmb);
+            this.Profile_Car_Info_Grp_Box.Controls.Add(this.Prof_Car_Manufacturer);
+            this.Profile_Car_Info_Grp_Box.Controls.Add(this.Prof_Car_Reg_Nom_Field);
+            this.Profile_Car_Info_Grp_Box.Controls.Add(this.Prof_Car_Reg_Nom);
+            this.Profile_Car_Info_Grp_Box.Location = new System.Drawing.Point(748, 163);
+            this.Profile_Car_Info_Grp_Box.Name = "Profile_Car_Info_Grp_Box";
+            this.Profile_Car_Info_Grp_Box.Size = new System.Drawing.Size(200, 234);
+            this.Profile_Car_Info_Grp_Box.TabIndex = 10;
+            this.Profile_Car_Info_Grp_Box.TabStop = false;
+            this.Profile_Car_Info_Grp_Box.Text = "Car Info";
+            // 
+            // Prof_Car_Reg_Nom
+            // 
+            this.Prof_Car_Reg_Nom.AutoSize = true;
+            this.Prof_Car_Reg_Nom.Location = new System.Drawing.Point(4, 27);
+            this.Prof_Car_Reg_Nom.Name = "Prof_Car_Reg_Nom";
+            this.Prof_Car_Reg_Nom.Size = new System.Drawing.Size(65, 17);
+            this.Prof_Car_Reg_Nom.TabIndex = 0;
+            this.Prof_Car_Reg_Nom.Text = "Serial ID:";
+            // 
+            // Prof_Car_Reg_Nom_Field
+            // 
+            this.Prof_Car_Reg_Nom_Field.Enabled = false;
+            this.Prof_Car_Reg_Nom_Field.Location = new System.Drawing.Point(7, 48);
+            this.Prof_Car_Reg_Nom_Field.Name = "Prof_Car_Reg_Nom_Field";
+            this.Prof_Car_Reg_Nom_Field.Size = new System.Drawing.Size(187, 22);
+            this.Prof_Car_Reg_Nom_Field.TabIndex = 1;
+            // 
+            // Prof_Car_Manufacturer
+            // 
+            this.Prof_Car_Manufacturer.AutoSize = true;
+            this.Prof_Car_Manufacturer.Location = new System.Drawing.Point(7, 77);
+            this.Prof_Car_Manufacturer.Name = "Prof_Car_Manufacturer";
+            this.Prof_Car_Manufacturer.Size = new System.Drawing.Size(96, 17);
+            this.Prof_Car_Manufacturer.TabIndex = 2;
+            this.Prof_Car_Manufacturer.Text = "Manufacturer:";
+            // 
+            // Prof_Car_Manufacturer_Cmb
+            // 
+            this.Prof_Car_Manufacturer_Cmb.Enabled = false;
+            this.Prof_Car_Manufacturer_Cmb.FormattingEnabled = true;
+            this.Prof_Car_Manufacturer_Cmb.Location = new System.Drawing.Point(6, 97);
+            this.Prof_Car_Manufacturer_Cmb.Name = "Prof_Car_Manufacturer_Cmb";
+            this.Prof_Car_Manufacturer_Cmb.Size = new System.Drawing.Size(188, 24);
+            this.Prof_Car_Manufacturer_Cmb.TabIndex = 3;
+            // 
+            // Prof_Car_Seats
+            // 
+            this.Prof_Car_Seats.AutoSize = true;
+            this.Prof_Car_Seats.Location = new System.Drawing.Point(7, 150);
+            this.Prof_Car_Seats.Name = "Prof_Car_Seats";
+            this.Prof_Car_Seats.Size = new System.Drawing.Size(118, 17);
+            this.Prof_Car_Seats.TabIndex = 4;
+            this.Prof_Car_Seats.Text = "Number of Seats:";
+            // 
+            // Prof_Car_Seats_Field
+            // 
+            this.Prof_Car_Seats_Field.Enabled = false;
+            this.Prof_Car_Seats_Field.Location = new System.Drawing.Point(131, 148);
+            this.Prof_Car_Seats_Field.Name = "Prof_Car_Seats_Field";
+            this.Prof_Car_Seats_Field.Size = new System.Drawing.Size(62, 22);
+            this.Prof_Car_Seats_Field.TabIndex = 5;
+            // 
+            // Prof_Car_Lugage_Chck
+            // 
+            this.Prof_Car_Lugage_Chck.AutoSize = true;
+            this.Prof_Car_Lugage_Chck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Prof_Car_Lugage_Chck.Enabled = false;
+            this.Prof_Car_Lugage_Chck.Location = new System.Drawing.Point(6, 194);
+            this.Prof_Car_Lugage_Chck.Name = "Prof_Car_Lugage_Chck";
+            this.Prof_Car_Lugage_Chck.Size = new System.Drawing.Size(139, 21);
+            this.Prof_Car_Lugage_Chck.TabIndex = 6;
+            this.Prof_Car_Lugage_Chck.Text = "Supports Lugage";
+            this.Prof_Car_Lugage_Chck.UseVisualStyleBackColor = true;
+            // 
             // ProfileDialog
             // 
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(960, 644);
+            this.Controls.Add(this.Profile_Car_Info_Grp_Box);
             this.Controls.Add(this.Profile_Cancel_Button);
             this.Controls.Add(this.Profile_Actions_Grp_Box);
             this.Controls.Add(this.Profile_Save_Button);
@@ -404,6 +539,8 @@ namespace BetterCallTaxi.Pages
             this.Driver_Profile_Grp_Box.ResumeLayout(false);
             this.Driver_Profile_Grp_Box.PerformLayout();
             this.Profile_Actions_Grp_Box.ResumeLayout(false);
+            this.Profile_Car_Info_Grp_Box.ResumeLayout(false);
+            this.Profile_Car_Info_Grp_Box.PerformLayout();
             this.ResumeLayout(false);
 
         }
