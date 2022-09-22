@@ -212,7 +212,10 @@ namespace BetterCallTaxi.Reports.Customers
 
                 if (this.Cust_Filt_Ucn_Chk.Checked)
                 {
+                    if (bPutAnd)
+                        strQuery += " AND ";
                     strQuery += " UCN LIKE '" + this.Cust_Filt_Ucn_Field.Text + "%' ";
+                    bPutAnd = true;
                 }
             }
 
